@@ -1,0 +1,34 @@
+<%- include("partials/header", { bot, user, path, title: `Settings | ${guild.name}` }) %>
+
+
+
+<div style="background-color: #202020;>
+<div class="container-sm center" style="margin-top: 30px;">
+  <div class="d-grid gap-2 col-4 mx-auto">
+    <% if (alert) { %>
+      <div class="alert alert-success" role="alert">
+        <%= alert %>
+      </div>
+    <% } %>
+    <h1><%= guild.name %></h1>
+    <hr>
+    <form method="POST">
+      <p class="h5" style="margin-bottom: 0.5rem; margin-top: 10px; color: #fff;">Prefix:</p>
+      <p style="font-style: italic; color: #fff;" class="disabled">The prefix that is added to discord messages in order to invoke commands.</p>
+      <input type="text" class="form-control" name="prefixe" placeholder="Your prefix.">
+      <br><button type="submit" class="btn btn-secondary">Save Settings</button>
+    </form>
+
+    <form method="POST">
+      <p class="h5" style="margin-bottom: 0.5rem; margin-top: 10px; color: #fff;">Mensaje:</p>
+      <p style="font-style: italic; color: #fff;" class="disabled">Ingresa el mensaje para el sistema de niveles.</p>
+      <textarea class="form-control bg-dark" style="color: #fff; font-weight: 600;" name="message" rows="10" cols="40" placeholder="¡Bienvenido {membermt} a {servername}!"></textarea>
+      <br><button type="submit" class="btn btn-success">Guardar cambios</button>
+    </form>
+
+  </div>
+</div>
+</div>
+
+
+<%- include("partials/footer") %>

@@ -1,0 +1,9 @@
+{
+  "prefix": "?",
+  "main_token": "ODI2MTIwMDY5NjgzNDc4NTM5.YGH2RQ.5MEvwQBFKeiXbER0-rL-kZzX7ec",
+  "description": "ae",
+  "mongodb_url": "mongodb+srv://aikoadmin2021:MbNr66Ddjcvb89Xn@cluster0.xvbcj.mongodb.net/Pruebas?retryWrites=true&w=majority",
+  "developers": ["694981019228438658"], 
+  "bot_name":"Prueba",
+  "dashboard": "true"
+}

@@ -1,0 +1,55 @@
+{
+  "name": "reaction-roles",
+  "version": "1.0.0",
+  "description": "A similar bot to the reaction roles discord bot, but free! ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peterhanania/reaction-roles.git"
+  },
+  "keywords": [
+    "reaction-roles"
+  ],
+  "author": "Peter Hanania",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/peterhanania/reaction-roles/issues"
+  },
+  "homepage": "https://github.com/peterhanania/reaction-roles#readme",
+  "dependencies": {
+    "@discordjs/opus": "^0.5.0",
+    "@distube/spotify": "^0.3.1",
+    "@iamtraction/google-translate": "^1.1.2",
+    "aikoapi": "^1.3.9",
+    "canvas": "^2.8.0",
+    "discord-buttons": "^2.4.1",
+    "discord.js": "^12.5.3",
+    "discord.js-menu": "^2.3.1",
+    "distube": "^3.0.0-beta.30",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "ffmpeg-static": "^4.3.0",
+    "gifencoder": "^2.0.1",
+    "jikanjs": "^0.7.0",
+    "jimp": "^0.16.1",
+    "mal-scraper": "^2.11.3",
+    "memorystore": "^1.6.6",
+    "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
+    "mongoose": "^5.12.4",
+    "nodemon": "^2.0.7",
+    "passport": "^0.4.1",
+    "passport-discord": "^0.1.4",
+    "randostrings": "^0.1.6",
+    "shortid": "^2.2.16",
+    "twemoji-parser": "^13.1.0",
+    "uninstall": "0.0.0",
+    "weky": "^1.9.3",
+    "wtf_wikipedia": "^9.0.0"
+  }
+}

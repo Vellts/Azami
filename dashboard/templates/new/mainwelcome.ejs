@@ -1,0 +1,62 @@
+<%- include("../partials/header", { bot, user, path, title: "Azami - Bot Multiusos" }) %>
+
+<section class="bg-dark" style="height: 80rem;">
+<form role="form" action="/dashboard/<%= guild.id %>/welcome" method="POST">
+	<div class="container p-5">
+		<!-- buttons -->
+		<% if (welcome.welcomeToggle == "true") { %>
+			<div class="d-grid gap-2 d-md-block">
+  				<a class="btn btn-primary" href="/dashboard/<%- guild.id %>" type="button">Volver</a>
+  				<a class="btn btn-success" type="button">Deshabilitar</a>
+			</div>
+		<% } else { %>
+			<div class="d-grid gap-2 d-md-block">
+  			<a class="btn btn-primary" href="/dashboard/<%- guild.id %>" type="button">Volver</a>
+  			<a class="btn btn-success" type="button">Habilitar</a>
+			</div>
+		<% } %>
+
+	<div class="p-5">
+		<h1 style="color: #fff;">BIENVENIDAS</h1
+	</div>
+
+	<div class="pt-5">
+		<h1 class="fw-bold" style="color: #fff;">Establece un canal</h1>
+		<select name="welcomeChannel" class="form-select form-select-sm">
+  		<% if(bot.channels.cache.has(welcome.welcomeChannel)){ %>
+            <option selected="selected">#<%= bot.channels.cache.get(welcome.welcomeChannel).name %></option>
+            	<% guild.channels.cache.filter((ch) => ch.id !== welcome.welcomeChannel).forEach((ch) => { %>
+                	<% if (ch.type === "text") { %>
+                    	<option><b style="color: white;">#</b>   <%= ch.name %></option>
+                    <% } else { %>
+                    <% } %>                   
+                <% }); %>
+            <option>Ningúna.</option>
+        <% } else { %>
+            <% guild.channels.cache.filter((ch) => ch.id !== guild.channels.cache.first().id).forEach((ch) => { %>
+                <% if (ch.type === "text") { %>
+                    <option><b style="color: white;">#</b>   <%= ch.name %></option>
+                <% } else { %>
+				<% } %>                                     
+            <% }); %>
+   		<option selected>Ningúna.</option>
+        <% } %>
+		</select>
+	<div class="pt-2">
+		<button type="submit" name="welcomeSave" class="btn btn-success">Guardar</button>
+    </div>
+
+	<div class="pt-5">
+		<h1 class="fw-bold" style="color: #fff;">Establece el mensaje de bienvenida.</h1>
+		<div>
+			<div class="form-floating">
+  				<textarea style="height: 250px" class="form-control"  name="welcomeMessage" id="myInput" value="<%= welcome.welcomeMessage %>" placeholder="Welcome Message" rows="5" wrap="soft" class="col-12 form-control" maxlength="1024" type="text"><%= (welcome.welcomeMessage || `Welcome {user} to {guild}! Hope you enjoy your stay!`) %></textarea>
+</textarea>
+			</div>
+		</div>
+	</div>
+
+
+	</div>
+</form>
+</section>

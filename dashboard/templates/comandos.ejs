@@ -1,0 +1,65 @@
+
+<%- include("partials/header", { bot, user, path, title: "Azami - Comandos" }) %>
+      
+      <!-- Command Menu -->
+<div class="bg-dark p-4">
+  <div class="container">
+    <h1 style="color: #fff;">Comandos de Azami</h1>
+    <p class="fw-bold" style="color: #fff;">Descubre las funciones y como ejecutar los diferentes comandos que ofrece Azami.
+  </div>
+</div>
+ <select class="select" name="role">
+    <option>a</option>
+  </select>
+
+
+  <div class="p-5 bg-dark">
+
+  <div class="container px-lg-5 " id="commands_menu">
+      <div class="row">
+  <div class="col-sm-3" id="category">
+    <div class="list-group" id="myList" role="tablist">
+  <% Object.keys(commands).forEach((category, i) => { %>
+      <a class="list-group-item list-group-item-action <%= i==0 ? 'active' : '' %>"  data-bs-toggle="list" href="#<%= category %>" role="tab" aria-controls="<%= category %>"><%= category %></a>
+    <% }) %>
+    </div>
+  </div>
+  <div class="col-sm-9">
+    <div class="tab-content">
+  <% Object.keys(commands).forEach((category, k) => { %>
+      <div class="tab-pane fade show <%= k==0 ? 'active' : '' %>" id="<%= category %>" role="tabpanel" aria-labelledby="list-home-list">
+      <div class="accordion" id="acc_<%= category %>">
+  <% commands[category].forEach((cmd, i) => { %>
+    <div class="accordion-item">
+    <h2 class="accordion-header" id="h_<%= cmd.name %>">
+      <button class="d-flex accordion-button <%= i==0 ? '' : 'collapsed' %>" type="button" data-bs-toggle="collapse" data-bs-target="#c_<%= cmd.name %>" aria-expanded="<%= i==0 ? 'true' : 'false' %>" aria-controls="<%= cmd.name %>">
+        <%= cmd.name %><br>
+      </button>
+    </h2>
+    <div id="c_<%= cmd.name %>" class="accordion-collapse collapse <%= i==0 ? 'show' : ''%>" aria-labelledby="h_<%= cmd.name %>" data-bs-parent="#acc_<%= category %>">
+      <div class="accordion-body">
+      <a class="fw-bold" style="color: #9E9E9E; text-decoration: none;">Descripción: </a><%= cmd.description %> <br>
+      <a class="fw-bold" style="color: #9E9E9E; text-decoration: none;">Permisos: </a><% cmd.permissions.forEach(p => { %>
+      <kbd><%= p %></kbd>
+      <% }) %><br>
+      <a class="fw-bold" style="color: #9E9E9E; text-decoration: none;">Alias: </a><% cmd.aliases.forEach(a => { %>
+      <small class="text-muted">[<%= a %>]</small>
+      <% }) %><br>
+      <a class="fw-bold" style="color: #9E9E9E; text-decoration: none;">Uso: </a><small><kbd><%= cmd.usage %></kbd></small><br>
+      </div>
+    </div>
+  </div>
+ <% }) %>
+</div>
+      
+        
+      </div>
+    <% }) %>
+    </div>
+  </div>
+</div>
+</div>
+
+</div>
+
+<%- include("partials/footer") %>
