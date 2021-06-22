@@ -161,13 +161,19 @@ ${message.author}, he removido tu estado afk.
         if(disabledCommands.includes(command.name || command)) return message.channel.send('Comando deshabilitado.');
     
       await this.runCommand(message, cmd, args).catch(error => {
-      console.log(error)
+      this.client.channels.cache.get('856714305029013525').send(new MessageEmbed()
+          .setTitle(`Nuevo error ejecutando la función de los comandos.`)
+          .setDescription(`\`\`\`${error}\`\`\``))
+      //console.log(error)
       return message.channel.send(`Ha ocurrido un error. Contacta con los desarrolladores. https://azami.xyz/contact`)
         })
       }
     }
     } catch(error) {
-      console.log(error)
+      this.client.channels.cache.get('856714305029013525').send(new MessageEmbed()
+          .setTitle(`Nuevo error para un comando.`)
+          .setDescription(`\`\`\`${error}\`\`\``))
+      //console.log(error)
       return message.channel.send(`Ha ocurrido un error. Contacta con los desarrolladores. https://azami.xyz/contact`)
     }
   } 
@@ -200,7 +206,9 @@ ${message.author}, he removido tu estado afk.
           return true;
         }
       } catch(e) {
-        console.log(e)
+        this.client.channels.cache.get('856714305029013525').send(new MessageEmbed()
+          .setTitle(`Nuevo error para el ratelimit.`)
+          .setDescription(`\`\`\`${e}\`\`\``))
         message.channel.send(`Ha ocurrido un error. Contacta con los desarrolladores. https://azami.xyz/contact`)
       }
     }

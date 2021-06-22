@@ -7,7 +7,7 @@ module.exports = class extends Event {
 
   async run(guild) {
 
-    console.log(`--| I just left ${guild.name} |--`)
+    this.client.channels.cache.get('856720235364483123').send(`¡He salido de un servidor llamado \`${guild.name}\`!`)
 
     Guild.findOneAndDelete({
       guildId: guild.id,
@@ -15,7 +15,7 @@ module.exports = class extends Event {
 
 
     const conditional = {
-      guildid: message.guild.id
+      guildid: guild.id
    }
    const results = await ReactionRole.find(conditional)
    

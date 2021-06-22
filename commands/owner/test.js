@@ -5,6 +5,7 @@ const { MessageButton } = require('discord-buttons')
 const animeList = require('../../models/animelist')
 const malScraper = require('mal-scraper');
 const translate = require('@iamtraction/google-translate');
+const os = require('node-os-utils')
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -45,11 +46,11 @@ module.exports = class extends Command {
         message.lineReplyNoMention('El anime no existe en nuestra base de datos.')
     }*/
 
-    let content = args.join(" ")
-    if(!content) return
+    let mem = os.mem
 
-    message.channel.send(content)
-    message.delete()
+    mem.info().then(info => {
+    message.channel.send(info)
+    })
 
     }
 };
