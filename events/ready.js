@@ -25,6 +25,8 @@ module.exports = class extends Event {
       i++
     }, 30000)
 
+    this.client.manager.init(this.client.user.id);
+
     let v;
     if(config.dashboard === "true"){
         v = `La dashboard está activa en el puerto ${dash.port}.`

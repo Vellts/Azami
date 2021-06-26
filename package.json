@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/peterhanania/reaction-roles.git"
+    "url": "git+https://github.com/LyricalDv/azami.git"
   },
   "keywords": [
-    "reaction-roles"
+    "a"
   ],
-  "author": "Peter Hanania",
+  "author": "Lyrical Fruit",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/peterhanania/reaction-roles/issues"
@@ -31,6 +31,10 @@
     "discord.js-menu": "^2.3.1",
     "distube": "^3.0.0-beta.30",
     "ejs": "^3.1.6",
+    "erela.js": "^2.3.3",
+    "erela.js-deezer": "^1.0.5",
+    "erela.js-facebook": "^1.0.4",
+    "erela.js-spotify": "^1.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "ffmpeg-static": "^4.3.0",
