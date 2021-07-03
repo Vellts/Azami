@@ -26,7 +26,7 @@ module.exports = class extends Command {
   const settings = await Guild.findOne({ guildId: message.guild.id });
   const lang = require(`../../data/language/${settings.language}.js`)
 
-  let channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[0]) || message.guild.channels.cache.find(ch => ch.name === args[0])
+  let channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[0]) || message.guild.channels.cache.find(ch => ch.name === args[0]) || message.channel
   if (!channel) return message.channel.send(`${client.emote.bunnyconfused} ${lang.errorRL}`);
     
   let ID = args[1]

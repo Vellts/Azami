@@ -28,11 +28,12 @@ module.exports = class extends Command {
     let cantidad = Math.floor(Math.random() * 12)
     let size = "=".repeat(cantidad)
 
-    message.channel.send(new MessageEmbed()
+    message.channel.send({embeds: [new MessageEmbed()
         .setTitle(`${lang.sizePP.replace('{member}', mention.username)} :banana:`)
         .setDescription(`8${size}D`)
         .setFooter(`${message.author.username}`)
         .setTimestamp()
+        ]}
     )
 
     }

@@ -1,12 +1,11 @@
 const { Client, Collection } = require("discord.js")
 require('./structures/inlineReply')
-require('discord-buttons')
 const Util = require('./structures/Util');
 const config = require('./config.json');
 const token  = config.main_token
 const mongoose = require('mongoose')
 
-module.exports = class botClient extends Client {
+module.exports = class azamiClient extends Client {
 	constructor(options = {}, sentry) {
 	  super({
       partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER', 'USER'],
@@ -21,17 +20,16 @@ module.exports = class botClient extends Client {
       messageCacheMaxSize: 25,
       messageCacheLifetime: 10000, 
       messageSweepInterval: 12000,
-      ws: {
-        intents: [
-        "GUILDS",
-        "GUILD_MEMBERS",
-        "GUILD_MESSAGES",
-        "GUILD_EMOJIS",
-        "GUILD_MESSAGE_REACTIONS",
-        "GUILD_VOICE_STATES",
-        "GUILD_PRESENCES"
-        ],
-      },
+      intents: [
+        'GUILDS', 
+        'GUILD_MEMBERS', 
+        'GUILD_MESSAGES', 
+        'GUILD_EMOJIS',
+        'GUILD_MESSAGE_REACTIONS', 
+        'GUILD_VOICE_STATES', 
+        'GUILD_INVITES',
+        'GUILD_PRESENCES'
+      ],
     });
     
     this.validate(options);
@@ -41,6 +39,9 @@ module.exports = class botClient extends Client {
     this.aliases = new Collection();
     this.utils = new Util(this);
     this.config = require('./config.json');
+    this.commandCount = 0
+    this.slashCommands = new Collection();
+    this.delay = ms => new Promise(res => setTimeout(res, ms));
   }
   
   validate(options) {
@@ -59,8 +60,8 @@ module.exports = class botClient extends Client {
   async start(token = this.token) {
     this.utils.loadCommands()
     this.utils.loadEvents()
-
-
+    this.utils.loadSlashCommands()
+ 
     const connect = {
       keepAlive: true,
       useNewUrlParser: true,

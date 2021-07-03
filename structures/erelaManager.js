@@ -28,7 +28,7 @@ module.exports = (client) => {
 		},
 	})
 	.on('nodeConnect', node => {
-		client.channels.cache.get('856714305029013525').send(`Lavalink encendido en ${node.options.identifier}.`)
+		hook.send(`Lavalink encendido en ${node.options.identifier}.`)
 		console.log(`Lavalink en ${node.options.identifier}.`)
 	})
 	.on('nodeDisconnect', (node, reason) => client.channels.cache.get('856714305029013525').send(`Lavalink node: ${node.options.identifier} fue desconectado.\nRazón: ${(reason.reason) ? reason.reason : 'nosejajaxd'}.`))
@@ -43,9 +43,9 @@ module.exports = (client) => {
 	const embed = new Discord.MessageEmbed() // When a song starts
 	.setColor('RANDOM')
 	.setTitle('nueva cancion xde')
-	.setDescription(`[${track.title}](${track.uri}) [${client.guilds.cache.get(player.guild).member(track.requester)}]`);
+	.setDescription(`[${track.title}](${track.uri}) [${client.guilds.cache.get(player.guild).members.cache.get(track.requester.id)}]`);
 	const channel = client.channels.cache.get(player.textChannel);
-	if (channel) channel.send(embed).then(m => m.delete({ timeout: (track.duration < 6.048e+8) ? track.duration : 60000 }));
+	if (channel) channel.send({embeds: [embed]})
 	if (player.timeout != null) return clearTimeout(player.timeout);// clear timeout (for queueEnd event)
 	})
 	.on('trackEnd', (player, track) => {
@@ -58,16 +58,16 @@ module.exports = (client) => {
 		.setColor(15158332)
 		.setDescription(`Se ha producido un error en la reproducción: \`${payload.error}\``);
 		const channel = client.channels.cache.get(player.textChannel);
-		if (channel) channel.send(embed).then(m => m.delete({ timeout: 15000 }));
+		if (channel) channel.send({embeds: [embed]}).then(m => m.delete({ timeout: 15000 }));
 	})
 	.on('queueEnd', (player) => {
 		player.timeout = setTimeout(() => { // When the queue has finished
 		if (player.twentyFourSeven) return; // Don't leave channel if 24/7 mode is active
-		const vcName = client.channels.cache.get(player.voiceChannel) ? client.channels.cache.get(player.voiceChannel).name : 'unknown';
+		const vcName = client.channels.cache.get(player.voiceChannel)?.name ?? 'desconocido'
 		const embed = new Discord.MessageEmbed()
 			.setDescription('He salido del canal de voz debido a que estuve 3 minutos sin reproducir nada.');
 			const channel = client.channels.cache.get(player.textChannel);
-			if (channel) channel.send(embed);
+			if (channel) channel.send({embeds: [embed]});
 			player.destroy();
 		}, 180000);
 	})
@@ -76,7 +76,7 @@ module.exports = (client) => {
 			const embed = new Discord.MessageEmbed()
 			.setDescription('Musica terminada debido a que me sacaron del canal de voz.');
 			const channel = client.channels.cache.get(player.textChannel);
-			if (channel) channel.send(embed);
+			if (channel) channel.send({embeds: [embed]});
 			player.destroy();
 		} else {
 			player.voiceChannel = client.channels.cache.get(newChannel);

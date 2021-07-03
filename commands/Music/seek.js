@@ -1,7 +1,7 @@
 const Command = require('../../structures/Command');
 const Guild = require('../../database/schemas/Guild');
 const { MessageEmbed } = require('discord.js')
-const { read24hrFormat }  = require('../../structures/Functions')
+const { read24hrFormat }  = require('../../structures/Timer')
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -12,7 +12,6 @@ module.exports = class extends Command {
         usage: [ '<mensaje>'],
         examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
         cooldown: 3,
-        guildOnly: true
       });
     }
 
@@ -33,7 +32,7 @@ module.exports = class extends Command {
       const embed = new MessageEmbed()
         .setColor(message.member.displayHexColor)
         .setDescription('duracion cambiada a'+ new Date(time).toISOString().slice(14, 19));
-      message.channel.send(embed);
+      message.channel.send({embeds: [embed]});
     }
 
     }

@@ -12,7 +12,6 @@ module.exports = class extends Command {
         usage: [ '<mensaje opcional>'],
         examples: [ 'afk timin' ],
         cooldown: 3,
-        guildOnly: true
       });
     }
 
@@ -43,7 +42,7 @@ module.exports = class extends Command {
             .setColor('RANDOM')
             .setFooter(lang.footerAFK)
             .setTimestamp()
-            message.channel.send(embed)
+            message.channel.send({embeds: [embed]})
         }
     })
 

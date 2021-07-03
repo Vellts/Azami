@@ -25,4 +25,8 @@ module.exports = class extends Command {
     player.queue.unshift(player.queue.previous);
     player.stop();
     }
+
+    async callback(interaction, guild, args) {
+      console.log('asdasdasd')
+  }
 };

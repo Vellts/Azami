@@ -9,9 +9,8 @@ module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
       name: 'rank',
-      aliases: ["ping", "latency"],
-      description: `Display\'s ${config.bot_name || 'Bot'}\'s Ping Latency.`,
-      category: 'info',
+      description: ``,
+      category: 'Levels',
       cooldown: 3,
     });
   }

@@ -9,6 +9,7 @@ module.exports = class extends Command {
         description: `Obten la latencia de ${config.bot_name || 'Bot'}.`,
         category: 'Información',
         cooldown: 3,
+        slash: true,
       });
     }
 
@@ -31,4 +32,11 @@ module.exports = class extends Command {
 
 
       }
+
+    async callback(interaction, guild, args){
+      const embed = new MessageEmbed()
+      .setDescription('a')
+      this.client.send(interaction, embed
+        )
+    }
 };

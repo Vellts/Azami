@@ -1,7 +1,6 @@
-module.exports.swap_pages = swap_pages;
 module.exports.swap_pages2 = swap_pages2;
 
-async function swap_pages(client, message, description, TITLE) {
+/*async function swap_pages(client, message, description, TITLE) {
 	this.client = client;
   let currentPage = 0;
   //GET ALL EMBEDS
@@ -38,11 +37,11 @@ async function swap_pages(client, message, description, TITLE) {
       embeds;
     } catch {}
   }
-  if (embeds.length === 1) return message.channel.send(embeds[0])
-  const queueEmbed = await message.channel.send(
+  if (embeds.length === 1) return message.channel.send({embeds: [embeds[0]] })
+  const queueEmbed = await message.channel.send({embeds: [
     `**Current Page - ${currentPage + 1}/${embeds.length}**`,
     embeds[currentPage]
-  );
+  ]});
   let reactionemojis = ["⬅️", "⏹", "➡️"];
   try {
     for (const emoji of reactionemojis)
@@ -81,16 +80,16 @@ async function swap_pages(client, message, description, TITLE) {
     } catch {}
   });
 
-}
+}*/
 
 async function swap_pages2(client, message, embeds) {
 	this.client = client;
   let currentPage = 0;
-  if (embeds.length === 1) return message.channel.send(embeds[0])
-  queueEmbed = await message.channel.send(
-    `**Current Page - ${currentPage + 1}/${embeds.length}**`,
-    embeds[currentPage]
-  );
+  if (embeds.length === 1) return message.channel.send({embeds: [embeds[0]]})
+  queueEmbed = await message.channel.send({
+    content: `**Current Page - ${currentPage + 1}/${embeds.length}**`,
+    embeds: [embeds[currentPage]]}
+).catch(e => console.log(e))
   let reactionemojis = ["⬅️", "⏹", "➡️"];
   try {
     for (const emoji of reactionemojis)
@@ -108,24 +107,26 @@ async function swap_pages2(client, message, embeds) {
       if (reaction.emoji.name === reactionemojis[2] || reaction.emoji.id === reactionemojis[2]) {
         if (currentPage < embeds.length - 1) {
           currentPage++;
-          queueEmbed.edit(`**Current Page - ${currentPage + 1}/${embeds.length}**`, embeds[currentPage]);
+          queueEmbed.edit({content: `**Página - ${currentPage + 1}/${embeds.length}**`, embeds: [embeds[currentPage]]});
         } else {
           currentPage = 0
-          queueEmbed.edit(`**Current Page - ${currentPage + 1}/${embeds.length}**`, embeds[currentPage]);
+          queueEmbed.edit({content: `**Página - ${currentPage + 1}/${embeds.length}**`, embeds: [embeds[currentPage]]});
         }
       } else if (reaction.emoji.name === reactionemojis[0] || reaction.emoji.id === reactionemojis[0]) {
         if (currentPage !== 0) {
           --currentPage;
-          queueEmbed.edit(`**Current Page - ${currentPage + 1}/${embeds.length}**`, embeds[currentPage]);
+          queueEmbed.edit({content: `**Página - ${currentPage + 1}/${embeds.length}**`, embeds: [embeds[currentPage]]});
         } else {
           currentPage = embeds.length - 1
-          queueEmbed.edit(`**Current Page - ${currentPage + 1}/${embeds.length}**`, embeds[currentPage]);
+          queueEmbed.edit({content: `**Página - ${currentPage + 1}/${embeds.length}**`, embeds: [embeds[currentPage]]});
         }
       } else {
         collector.stop();
         reaction.message.reactions.removeAll();
       }
       await reaction.users.remove(message.author.id);
-    } catch {}
+    } catch (e){
+      console.log(e)
+    }
   });
 }

@@ -11,7 +11,6 @@ module.exports = class extends Command {
         usage: [ '<usuario opcional>'],
         examples: ['avatar @Azami'],
         cooldown: 3,
-        guildOnly: true
       });
     }
 
@@ -33,7 +32,7 @@ module.exports = class extends Command {
         .setImage(avatar)
         .setColor('RANDOM')
         .setFooter(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))
-        message.channel.send(embed)  
+        message.channel.send({embeds: [embed]})  
 
     }
 };

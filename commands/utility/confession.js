@@ -12,7 +12,6 @@ module.exports = class extends Command {
         usage: [ '<mensaje>'],
         examples: [ 'confession ¿Los jugadores de LoL son humanos?' ],
         cooldown: 3,
-        guildOnly: true
       });
     }
 
@@ -51,7 +50,7 @@ module.exports = class extends Command {
         .setColor('RANDOM')
         .setTimestamp()
 
-        message.guild.channels.cache.get(settings.confessionId).send(content)
+        message.guild.channels.cache.get(settings.confessionId).send({embeds: [content]})
         message.delete()
     }
     }catch(e){

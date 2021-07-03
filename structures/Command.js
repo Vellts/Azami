@@ -14,10 +14,14 @@ module.exports = class Command {
         this.ownerOnly = options.ownerOnly || false;
         this.guildOnly = options.guildOnly || false;
         this.nsfwOnly = options.nsfwOnly || false;
+        this.erelaCheck = options.erelaCheck || false;
+        this.voiceOnly = options.voiceOnly || false;
         this.botPermission = options.botPermission || ['SEND_MESSAGES', 'EMBED_LINKS'];
         this.userPermission = options.userPermission  || null;
-        
-    }
+        this.slash = options.slash || false;
+        this.options = options.options || [];
+    } 
+
 
     // eslint-disable-next-line no-unused-vars
     async run(message, args) {

@@ -5,6 +5,27 @@ const dash = require('../config.js')
 module.exports = class extends Event {
     async run() {
 
+    /*if(this.client.application?.owner) await this.client.application?.fetch()
+    let slash = []
+    this.client.slashCommands.forEach(e => {
+        slash.push({
+            name: e.name,
+            description: e.description,
+            options: e.options
+        })
+    })
+    this.client.guilds.cache.forEach(async guild => {
+        await this.client.guilds.cache.get(guild.id)?.commands.set(slash).catch(err => console.log(err))
+    })*/
+    /*this.client.slashCommands.forEach(e => {
+        slash.push({
+            name: e.name,
+            description: e.description,
+            options: e.options
+        })
+        this.client.application?.commands.set(slash).catch(err => console.log(err))
+    })*/
+
     // ready interval 
     let servers = this.client.guilds.cache.size;
     let usersCount = this.client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)

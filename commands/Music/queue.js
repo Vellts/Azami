@@ -1,7 +1,7 @@
 const Command = require('../../structures/Command');
 const Guild = require('../../database/schemas/Guild');
 const { MessageEmbed } = require('discord.js')
-const { getReadableTime  }  = require('../../structures/Functions')
+const { getReadableTime  }  = require('../../structures/Timer')
 const { swap_pages, swap_pages2 } = require(`../../structures/EmbedPaginator`);
 
 module.exports = class extends Command {

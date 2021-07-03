@@ -11,13 +11,14 @@ module.exports = class extends Command {
         usage: [ '<mensaje>'],
         examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
         cooldown: 3,
-        guildOnly: true
+        voiceOnly: true,
+        //erelaCheck: true,
       });
     }
 
     async run(message, args) {
 
-    if (!message.member.voice.channel) return message.channel.send({embed:{color: 'RANDOM', description: `No estás en ningún canal de voz.`}});
+    //if (!message.member.voice.channel) return message.channel.send('nostas en voz');
 
     let player;
     try {
@@ -40,10 +41,10 @@ module.exports = class extends Command {
         const url = message.attachments.first().url;
         for (let i = 0; i < fileTypes.length; i++) {
           if (url.endsWith(fileTypes[i])) {
-            message.args.push(url);
+            args.push(url);
           }
         }
-        if (!message.args[0]) return message.channel.send('archivo no soportado').then(m => m.delete({ timeout: 10000 }));
+        if (!args[0]) return message.channel.send('archivo no soportado').then(m => m.delete({ timeout: 10000 }));
       } else {
         return message.channel.send('ingresa algo pes').then(m => m.delete({ timeout: 10000 }));
       }
@@ -74,7 +75,7 @@ module.exports = class extends Command {
       const embed = new MessageEmbed()
         .setColor(message.member.displayHexColor)
         .setDescription('cancion agregada a la queue #'+ res.tracks.length);
-      message.channel.send(embed);
+      message.channel.send({embeds: [embed]});
 
       // Add songs to queue and then pLay the song(s) if not already
       player.queue.add(res.tracks);
@@ -89,7 +90,7 @@ module.exports = class extends Command {
         const embed = new MessageEmbed()
           .setColor(message.member.displayHexColor)
           .setDescription('Cancion agregada. (Titulo: '+res.tracks[0].title+ ')[Url:'+res.tracks[0].uri+']');
-        message.channel.send(embed);
+        message.channel.send({embeds: [embed]});
       }
     }
 

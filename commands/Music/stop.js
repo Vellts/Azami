@@ -11,7 +11,6 @@ module.exports = class extends Command {
         usage: [ '<mensaje>'],
         examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
         cooldown: 3,
-        guildOnly: true
       });
     }
 

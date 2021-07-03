@@ -36,13 +36,14 @@ module.exports = class extends Command {
         const edit = new Discord.MessageEmbed()
         .setDescription(":stopwatch: Evaluando...")
         .setColor("#7289DA")
-        message.channel.send(edit).then(async msg => { 
+        message.channel.send({embeds: [edit]}).then(async msg => { 
             try {
               let code = args.join(" ");
               let evalued = await eval(code);
               let tipo = typeof evalued || "Tipo no encontrado."
               if (typeof evalued !== 'string') evalued = require('util').inspect(evalued, { depth: 0, maxStringLength: 2000});
               let txt = "" + evalued;
+              //let classe = evalued && evalued.constructor.name ? evalued.constructor.name || "Sin clase" ? "Sin clase"
     
     // Si el texto es mas grande que 1500 (ajustarlo a medida), el bot enviara un link con el codigo posteado en hastebin para que pueda ser del tamano que sea
     
@@ -53,12 +54,12 @@ module.exports = class extends Command {
                 const embed = new Discord.MessageEmbed()
                 .addField(":inbox_tray: Entrada", `\`\`\`js\n${code}\n\`\`\``)
                 .addField(":outbox_tray: Salida", `\`El codigo es muy largo, link:\` ${link.url}`)
-                .addField(":file_folder: Tipo", `\`\`\`js\n${mayuscula(tipo)}\n\`\`\``, true)
-                .addField(":stopwatch: Tiempo", `\`\`\`fix\n${Date.now() - tiempo1}ms\n\`\`\``, true)
+                .addField("📟 Tipo", `\`\`\`js\n${mayuscula(tipo)}\n\`\`\``, true)
+                //.addField("🗄 Clase", classe, true)
                 .setColor("#7289DA")
-                msg.edit(embed);
+                msg.edit({embeds: [embed]});
                 
-        
+        //res_evalued && res_evalued.constructor && res_evalued.constructor.name) ? res_evalued.constructor.name || 'NO CLASS' : 'NO CLASS'
               } else { 
     
     // Si el texto es de una longitud normal hace el eval normal
@@ -67,10 +68,10 @@ module.exports = class extends Command {
                 const embed = new Discord.MessageEmbed()
                 .addField(":inbox_tray: Entrada", `\`\`\`js\n${code}\n\`\`\``)
                 .addField(":outbox_tray: Salida", `\`\`\`js\n${txt.replace(client.token, "No quieres saber eso.")}\n\`\`\``)
-                .addField(":file_folder: Tipo", `\`\`\`js\n${mayuscula(tipo)}\n\`\`\``, true)
-                .addField(":stopwatch: Tiempo", `\`\`\`fix\n${Date.now() - tiempo1}ms\n\`\`\``, true)
+                .addField("📟 Tipo", `\`\`\`js\n${mayuscula(tipo)}\n\`\`\``, true)
+                //.addField("🗄: Clase", `\`\`\`fix\n${Date.now() - tiempo1}ms\n\`\`\``, true)
                 .setColor("#7289DA")
-                msg.edit(embed);
+                msg.edit({embeds: [embed]}); 
               }
             } catch (err) {          
               let code = args.join(" ")
@@ -78,9 +79,9 @@ module.exports = class extends Command {
               .setAuthor("Error en el eval", client.user.displayAvatarURL({dynamic : true}))
               .addField(":inbox_tray: Entrada", `\`\`\`js\n${code}\n\`\`\``)
               .addField(":outbox_tray: Salida", `\`\`\`js\n${err}\n\`\`\``)
-              .addField(":file_folder: Tipo", `\`\`\`js\nError\n\`\`\``)
+              .addField("📟 Tipo", `\`\`\`js\nError\n\`\`\``)
               .setColor("RED")
-              msg.edit(embed);
+              msg.edit({embeds: [embed]});
           }
         })
 

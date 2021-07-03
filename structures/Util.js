@@ -2,6 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const Command = require('./Command.js');
 const Event = require('./Event.js');
+const SlashCommand = require('./SlashCommand.js')
 const fetch = require('node-fetch');
 
 
@@ -64,14 +65,26 @@ module.exports = class Util {
 			const File = require(commandFile)
 			if (!this.isClass(File)) throw new TypeError(`Command ${name} doesn't export a class.`);
 			const command = new File(this.client, name.toLowerCase());
-			if (!(command instanceof Command)) throw new TypeError(`Comamnd ${name} doesnt belong in Commands.`);
+			if (!(command instanceof Command)) throw new TypeError(`Comando ${name} no está en Commandos.`);
 			this.client.commands.set(command.name, command)
-
+			//console.log(command)
 			if (command.aliases.length) {
 				for (const alias of command.aliases) {
 					this.client.aliases.set(alias, command.name);
 				}
 			}
+		} 
+	}
+
+	async loadSlashCommands(){
+		for await (const slashFile of this.loadFiles(`${this.directory}commandsSlash`)){
+			delete require.cache[slashFile];
+			const { name } = path.parse(slashFile)
+			const File = require(slashFile)
+			if(!this.isClass(File)) throw new TypeError(`Command ${name} doesn't export a class.`);
+			const command = new File(this.client, name.toLowerCase());
+			if (!(command instanceof SlashCommand)) throw new TypeError(`Comando ${name} no está en slashCommands.`);
+			this.client.slashCommands.set(command.name, command)
 		}
 	}
 

@@ -89,7 +89,6 @@ Tiempo afk: ${moment(userAfk.timestamp).locale("es-co").fromNow()}
         }
         }
         
-        
         const userAfk = await afkM.findOne({ userId: message.author.id, guildId: message.guild.id});
         
         
@@ -133,7 +132,7 @@ ${message.author}, he removido tu estado afk.
           .replace(/{member_createdAt}/g, `${moment(message.author.createdAt).format('MMMM Do YYYY, h:mm:ss a')}`)
         )
       }
-
+  
       if (command) {
 
     
@@ -156,6 +155,11 @@ ${message.author}, he removido tu estado afk.
         if (command.ownerOnly) {
           if (!this.client.config.developers.includes(message.author.id)) return message.channel.send(`Comando sólo para owners.`)
         }
+
+        if(command.voiceOnly){
+          if(!message.member.voice.channel) return message.channel.send('nostas en voz')
+        }
+
         if (command.disabled) return message.channel.send(`El comando ha sido deshabilitado por los owners.`)
 
         if(disabledCommands.includes(command.name || command)) return message.channel.send('Comando deshabilitado.');
@@ -164,7 +168,7 @@ ${message.author}, he removido tu estado afk.
       this.client.channels.cache.get('856714305029013525').send(new MessageEmbed()
           .setTitle(`Nuevo error ejecutando la función de los comandos.`)
           .setDescription(`\`\`\`${error}\`\`\``))
-      //console.log(error)
+      console.log(error)
       return message.channel.send(`Ha ocurrido un error. Contacta con los desarrolladores. https://azami.xyz/contact`)
         })
       }
@@ -173,10 +177,10 @@ ${message.author}, he removido tu estado afk.
       this.client.channels.cache.get('856714305029013525').send(new MessageEmbed()
           .setTitle(`Nuevo error para un comando.`)
           .setDescription(`\`\`\`${error}\`\`\``))
-      //console.log(error)
+      console.log(error)
       return message.channel.send(`Ha ocurrido un error. Contacta con los desarrolladores. https://azami.xyz/contact`)
     }
-  } 
+  }
 
     async runCommand(message, cmd, args) {
 
@@ -185,7 +189,7 @@ ${message.author}, he removido tu estado afk.
 
         const command = this.client.commands.get(cmd.toLowerCase()) || this.client.commands.get(this.client.aliases.get(cmd.toLowerCase()));
 
-      
+        this.client.commandCount++;
         await command.run(message, args)
     }
 
@@ -210,6 +214,7 @@ ${message.author}, he removido tu estado afk.
           .setTitle(`Nuevo error para el ratelimit.`)
           .setDescription(`\`\`\`${e}\`\`\``))
         message.channel.send(`Ha ocurrido un error. Contacta con los desarrolladores. https://azami.xyz/contact`)
+        console.log(e)
       }
     }
 }

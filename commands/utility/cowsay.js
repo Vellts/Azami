@@ -11,7 +11,6 @@ module.exports = class extends Command {
         usage: [ '<mensaje>'],
         examples: ['cowsay Muouou'],
         cooldown: 3,
-        guildOnly: true
       });
     }
 

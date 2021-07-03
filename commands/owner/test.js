@@ -1,11 +1,10 @@
 const Command = require('../../structures/Command');
 const Guild = require('../../database/schemas/Guild');
-const { MessageEmbed } = require('discord.js')
-const { MessageButton } = require('discord-buttons')
+const Discord = require('discord.js')
 const animeList = require('../../models/animelist')
-const malScraper = require('mal-scraper');
-const translate = require('@iamtraction/google-translate');
-const os = require('node-os-utils')
+const Canvas = require('canvas')
+const fetch = require('node-fetch')
+const path = require('path')
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -20,37 +19,27 @@ module.exports = class extends Command {
       });
     }
 
-    async run(message, args, client = message.client) {
+    async run(message, args) {
 
-    const settings = await Guild.findOne({
-        guildId: message.guild.id,
-    }, (err, guild) => {
-        if (err) console.log(err)
-    });
+    const canvas = Canvas.createCanvas(600, 260) //Creamos el lienzo
+    const ctx = canvas.getContext('2d') //Definimos el parametro para lienzos 2d
 
-    /*let search = args.join(" ").toLowerCase()
-    let data = await animeList.findOne({ anime: search })
-    if(data && data.statusAnime !== 'false'){
-        malScraper.getInfoFromName(data.anime).then(r => {
-            translate(r.synopsis, { from: 'en', to: 'es' }).then(res => {
-                message.lineReplyNoMention(new MessageEmbed()
-                .addField('Titulo', r.title)
-                .addField('Sinopsis', `${res.text.slice(0, 534)}...`)
-                .addField('popularidad', r.score)
-                .addField('estudio', r.studios)
-                .setImage(data.image)
-                )
-            })
-        })
-    } else {
-        message.lineReplyNoMention('El anime no existe en nuestra base de datos.')
-    }*/
+    const image = await Canvas.loadImage('https://p4.wallpaperbetter.com/wallpaper/715/830/515/simple-background-white-texture-white-background-web-design-wallpaper-preview.jpg') //Requerimos la imagen, si usaran imagen local deberán usar la libreria Path.
+    ctx.drawImage(image, 0, 0)//Definimos el tamaño, en este caso (image, 0, 0) será el default para utilizar todo el tamaño del lienzo
 
-    let mem = os.mem
+    ////// texto //////
 
-    mem.info().then(info => {
-    message.channel.send(info)
+    ctx.font = '18px Arial' //Definimos el tamaño y la fuente de la letra
+    ctx.textAlign = 'center'
+    ctx.fillText(message.author.username, 600/2, 260/2)//Definimos el contenido que habra en el texto, en este caso el nombre del autor del mensaje, y la posición en al que estará.
+
+    message.channel.send({
+      files: [
+        {
+          attachment: canvas.toBuffer(),
+          name: 'canvas.png'
+        }
+      ]
     })
-
     }
 };

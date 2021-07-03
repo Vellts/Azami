@@ -11,6 +11,7 @@ module.exports = class extends Command {
         category: 'Utilidad',
         usage: [ ''],
         cooldown: 3,
+        slash: true,
       });
     }
 
@@ -29,7 +30,6 @@ module.exports = class extends Command {
     .setDescription(`[Link](${server.iconURL({size: 2048, dynamic: true})})`)
     .setImage(server.iconURL({size: 2048, dynamic: true}))
     .setColor("RANDOM");
-    message.channel.send(embed)
-
+    message.channel.send({embeds: [embed]})
     }
 };
