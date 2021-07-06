@@ -135,7 +135,12 @@ ${message.author}, he removido tu estado afk.
   
       if (command) {
 
-    
+      function timedDelete(ms) {
+        new Promise(res => 
+          setTimeout(() => {
+            this.delete()
+          }, ms || 3000));
+      }
 
         const disabledCommands = guildDB.disabledCommands;
         if (typeof(disabledCommands) === 'string') disabledCommands = disabledCommands.split(' ');
@@ -157,7 +162,7 @@ ${message.author}, he removido tu estado afk.
         }
 
         if(command.voiceOnly){
-          if(!message.member.voice.channel) return message.channel.send('nostas en voz')
+          if(!message.member.voice.channel) return message.channel.send('nostas en voz').then(m => m.timedDelete(5000));
         }
 
         if (command.disabled) return message.channel.send(`El comando ha sido deshabilitado por los owners.`)

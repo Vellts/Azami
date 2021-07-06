@@ -26,7 +26,7 @@
 <div style="background: #2C2C2C;">
 <div style="display: flex; flex-wrap: wrap; justify-content: center;">
   <% user.guilds.forEach(guild => {
-      const permsOnGuild = new perms(guild.permissions);
+      const permsOnGuild = new perms(BigInt(parseInt(guild.permissions)));
       if(!permsOnGuild.has("MANAGE_GUILD")) return;
   %>
     <div class="card bg-dark" style="max-width: 18rem; margin: 2rem; min-width: 12em;">

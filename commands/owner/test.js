@@ -21,10 +21,34 @@ module.exports = class extends Command {
 
     async run(message, args) {
 
-    const canvas = Canvas.createCanvas(600, 260) //Creamos el lienzo
+    let msg = await message.channel.send({content: 'asdasd', components: 
+        [
+        new Discord.MessageActionRow()
+        .addComponents(
+            new Discord.MessageButton()
+            .setCustomId('a')
+            .setLabel('a')
+            .setStyle('PRIMARY')
+            )
+        ]
+    })
+
+    const filter = (interaction) => interaction.customId === 'a' && interaction.user.id === message.author.id;
+    const collector = msg.createMessageComponentCollector({ filter, time: 15000 });
+    collector.on("collect", async (collected) => {
+        if (collected.customID === "a"){
+           await msg.edit({content: 'jajant'})
+           collected.deferUpdate({
+    fetchReply: true,
+  });
+        }
+
+    });
+
+ /* const canvas = Canvas.createCanvas(600, 260) //Creamos el lienzo
     const ctx = canvas.getContext('2d') //Definimos el parametro para lienzos 2d
 
-    const image = await Canvas.loadImage('https://p4.wallpaperbetter.com/wallpaper/715/830/515/simple-background-white-texture-white-background-web-design-wallpaper-preview.jpg') //Requerimos la imagen, si usaran imagen local deberán usar la libreria Path.
+    const image = await Canvas.loadImage(path.join(__dirname, '../../assets/images/frame1.png')) //Requerimos la imagen, si usaran imagen local deberán usar la libreria Path.
     ctx.drawImage(image, 0, 0)//Definimos el tamaño, en este caso (image, 0, 0) será el default para utilizar todo el tamaño del lienzo
 
     ////// texto //////
@@ -40,6 +64,6 @@ module.exports = class extends Command {
           name: 'canvas.png'
         }
       ]
-    })
+    })*/
     }
 };

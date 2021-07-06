@@ -95,8 +95,14 @@ module.exports = class extends Command {
   const barraxp = await Canvas.loadImage(path.join(__dirname, '../../assets/images/barraxp.png'))
   ctx.drawImage(barraxp, 0, 205, progreso, 15)
 
-  let att = new Discord.MessageAttachment(canvas.toBuffer(), `rank_${message.author.id}.png`)
-  message.channel.send(att)
+  message.channel.send({
+      files: [
+        {
+          attachment: canvas.toBuffer(),
+          name: `rank_${message.author.id}.png`
+        }
+      ]
+    })
 
   }
 };

@@ -80,7 +80,7 @@ module.exports = async message => {
             embed.setTimestamp(data.timestamp ? message.createdAt : false)
             embed.setColor(data.color ? data.color : '#71A1DF')
           if(levelUp){
-            message.channel.send(embed)
+            message.channel.send({embeds: [embed]})
           }
         } else {
           if(levelUp){
@@ -163,7 +163,7 @@ module.exports = async message => {
             embed.setTimestamp(data.timestamp ? message.createdAt : false)
             embed.setColor(data.color ? data.color : '#71A1DF')
           if(levelUp){
-            message.channel.send(embed)
+            message.channel.send({embeds: [embed]})
           }
         } else {
           if(levelUp){

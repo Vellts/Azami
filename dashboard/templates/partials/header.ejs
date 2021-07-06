@@ -16,11 +16,13 @@
 <body>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
   
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<div style="background-color: #202020;">
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Azami</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -41,12 +43,12 @@
         <ul class="navbar-nav">
           <% if (user) { %>
             <% if (user.avatar) {
-              avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=128";
+              avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar +"?size=128";
             } else {
               avatar = "https://cdn.glitch.com/82fe990a-7942-42e3-9790-39807ccdb9f6%2Ficon-404.png?v=1602412158188";
             }
             %>
-            <li class="nav-item dropdown bg-dark">
+            <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" style = "font-weight: 700;" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <img style="width: 16%; border-radius: 50%;" src="<%= avatar %>"/>
                 <%= user.username %>#<%= user.discriminator %>
@@ -60,10 +62,11 @@
             </li>
             </li>
           <% } else { %>
-            <li class="nav-item"><a style = "font-weight: 700; display: inline-block; padding: 10px 20px; background: rgb(5, 100, 224); text-decoration: none; color: #ffffff; border-radius: 12px;" href="/login" class="nav-link">Ingresar</a></li>
+            <li class="nav-item"><a href="/login" class="nav-link botonxd">Ingresar</a></li>
           <% } %>
         </ul>
       </div>
     </div>
   </nav>
-
+</div>
+</div>

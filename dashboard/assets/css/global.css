@@ -7,13 +7,8 @@ h6 {
   font-weight: 700;
 }
 
-a {
-  color: var(--primary);
-}
 
-a:hover {
-  color: var(--secondary);
-}
+
 
 .title {
   text-transform: uppercase;

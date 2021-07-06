@@ -14,10 +14,10 @@ if(config.dashboard === "true"){
     Dashboard(bot); 
 }
 
-bot.on('message', async message => {
+bot.on('messageCreate', async message => {
     if(!bot.application?.owner) await bot.application?.fetch()
 
-    if(message.content.toLowerCase() === `${bot.prefix}globalcommand` && message.author.id === bot.application?.owner.id){
+    if(message.content.toLowerCase() === `${bot.prefix}gcc` && message.author.id === bot.application?.owner.id){
         let slash = []
     bot.slashCommands.filter(x => x.guildOnly).forEach(e => {
         slash.push({

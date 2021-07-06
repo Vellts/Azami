@@ -46,8 +46,8 @@ module.exports = async (client) => {
   if (config.usingCustomDomain) {
     callbackUrl =  `${domain.protocol}//${domain.host}/callback`
   } else {
-    callbackUrl = `${domain.protocol}//${domain.host}${config.port == 80 ? "" : `:${config.port}`}/callback`;
-  }
+    callbackUrl = `${domain.protocol}//${domain.host}${config.port == 3000 ? "" : `:${config.port}`}/callback`;
+  } 
   
   /*console.log("===");
   console.log(`Info: Make sure you have added the following url to the discord's OAuth callback url section in the developer portal:\n${callbackUrl}`);

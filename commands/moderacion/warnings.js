@@ -63,7 +63,7 @@ module.exports = class extends Command {
       .setFooter(`${message.author.username} [${current} - ${max}]`, message.author.displayAvatarURL({ dynamic: true }))
     };
 
-    if (count < 4) return message.channel.send(buildEmbed(0, embed));
+    if (count < 4) return message.channel.send({embeds: [buildEmbed(0, embed)]});
       else {
         let n = 0;
         const json = embed.setFooter(

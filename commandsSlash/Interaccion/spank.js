@@ -5,7 +5,7 @@ const Discord = require('discord.js')
 module.exports = class extends SlashCommand {
     constructor(...args) {
       super(...args, {
-        name: 'slap',
+        name: 'spank',
         description: `cachetada unu`,
         options: [
           {
@@ -25,11 +25,11 @@ module.exports = class extends SlashCommand {
       try{  //const user = guild.members.cache.get(args.get('prueba')?.value ?? interaction.user.id);
       const user = guild.members.cache.get(args.get('usuario')?.value);
       const author = guild.members.cache.get(interaction.user.id)
-      const slap = await azami.Slap()
+      const slap = await azami.Spank()
       interaction.reply({
         embeds: [
           new Discord.MessageEmbed()
-          .setDescription(`**${author.user.username}** le dió una dura bofetada a **${user.user.username}**`)
+          .setDescription(`**${author.user.username}** le dió una nalgada a **${user.user.username}**`)
           .setImage(slap)
         ]
       })
