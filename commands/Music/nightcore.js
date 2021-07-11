@@ -7,12 +7,11 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'nightcore',
-        description: 'Adivina adivinador, que saldrá hoy.',
-        category: 'Utilidad',
-        usage: [ '<mensaje>'],
-        examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+        description: 'Agregale un filtro para que tus canciones favoritas se escuchen al doble de velocidad.',
+        category: 'Music',
+        usage: [ ''],
+        examples: [ 'nightcore' ],
         cooldown: 3,
-        guildOnly: true
       });
     }
 

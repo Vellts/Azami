@@ -6,10 +6,10 @@ module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
       name: 'pitch',
-      description: 'Adivina adivinador, que saldrá hoy.',
-      category: 'Utilidad',
-      usage: [ '<mensaje>'],
-      examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+      description: 'Establece el pitch de la canción.',
+      category: 'Music',
+      usage: [ '<Opcional default>'],
+      examples: [ 'piych', 'pitch default', 'pitch off' ],
       cooldown: 3,
     });
   }

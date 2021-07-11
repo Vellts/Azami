@@ -6,12 +6,11 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'move',
-        description: 'Adivina adivinador, que saldrá hoy.',
-        category: 'Utilidad',
-        usage: [ '<mensaje>'],
-        examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+        description: 'Ordena la lista de canciones a tu manera. Haz que suene antes la canción que tú quieras.',
+        category: 'Music',
+        usage: [ '<Posición actual> <Nueva posición>'],
+        examples: [ 'move 21 64' ],
         cooldown: 3,
-        guildOnly: true
       });
     }
 

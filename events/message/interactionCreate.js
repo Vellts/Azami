@@ -24,15 +24,17 @@ module.exports = class Interaction extends Event {
 	async run(interaction) {
 		if(interaction.isCommand()){
 			await this.client.application?.commands.fetch()
-			const guild = this.client.guilds.cache.get(interaction.guildID)
+			const guild = this.client.guilds.cache.get(interaction.guildId)
 			const cmd = this.client.slashCommands.get(interaction.commandName)
-			const channel = this.client.channels.cache.get(interaction.channelID)
+			const channel = this.client.channels.cache.get(interaction.channelId)
 			const member = this.client.users.cache.get(interaction.user.id)
-			const guildMember = guild.members.cache.get(interaction.user.id)
+			const guildMember = await guild.members.fetch(interaction.user.id);
+
+			console.log(member); // the guild member object
 
 			//////////////////
 			console.log(interaction.id)
-			console.log(interaction.applicationID)
+			console.log(interaction.applicationId)
 			/////////////////
 
 			if(cmd.nsfwOnly){
@@ -44,7 +46,7 @@ module.exports = class Interaction extends Event {
 			}
 
 			if(cmd.botPermission){
-				const missingPermissions = channel.permissionsFor(interaction.applicationID).missing(cmd.botPermission).map(p => permissions[p]);
+				const missingPermissions = channel.permissionsFor(interaction.applicationId).missing(cmd.botPermission).map(p => permissions[p]);
           		if (missingPermissions.length !== 0) return interaction.reply({content: `No tengo permiso:)\n\nRequiere los siguientes permisos: **${missingPermissions.map(p => `${p}`).join('\n')}**`, ephemeral: true})
 			}
 

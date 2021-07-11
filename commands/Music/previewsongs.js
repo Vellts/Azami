@@ -7,11 +7,11 @@ const { swap_pages2 } = require(`../../structures/EmbedPaginator`);
 module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
-      name: 'previwesongs',
-      description: 'Adivina adivinador, que saldrá hoy.',
-      category: 'Utilidad',
-      usage: [ '<mensaje>'],
-      examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+      name: 'previewsongs',
+      description: 'Obtén la lista de canciones que han sonado antes de la actual.',
+      category: 'Music',
+      usage: [ ''],
+      examples: [ 'previewsongs' ],
       cooldown: 3,
     });
   }

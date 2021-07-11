@@ -6,12 +6,11 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'back',
-        description: 'Adivina adivinador, que saldrá hoy.',
-        category: 'Utilidad',
-        usage: [ '<mensaje>'],
-        examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+        description: 'Regresa a una canción anterior, por si la quieres escuchar otra vez.',
+        category: 'Music',
+        usage: [ ' '],
+        examples: [ 'back' ],
         cooldown: 3,
-        guildOnly: true
       });
     }
 

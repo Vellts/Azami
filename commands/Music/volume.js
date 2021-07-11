@@ -6,10 +6,10 @@ module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
       name: 'volume',
-      description: 'Adivina adivinador, que saldrá hoy.',
-      category: 'Utilidad',
-      usage: [ '<mensaje>'],
-      examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+      description: 'Ajusta el volumen a tú gusto, con un limite de 200 gratuitamente.',
+      category: 'Music',
+      usage: [ '<Cantidad>'],
+      examples: [ 'volume 160', 'volume 600' ],
       cooldown: 3,
     });
   }

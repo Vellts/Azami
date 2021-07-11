@@ -8,7 +8,7 @@ module.exports = class extends Command {
         name: 'simp',
         aliases: ["simprate"],
         description: `Display\'s ${config.bot_name || 'Bot'}\'s Ping Latency.`,
-        category: 'info',
+        category: 'Fun',
         cooldown: 3,
       });
     }

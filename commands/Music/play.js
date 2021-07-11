@@ -6,10 +6,10 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'play',
-        description: 'Adivina adivinador, que saldrá hoy.',
-        category: 'Utilidad',
-        usage: [ '<mensaje>'],
-        examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+        description: 'Reproduce las canciones que quieras escuchar en el momento. Ya sea a través de playlist o nombres de canciones.',
+        category: 'Music',
+        usage: [ '<Canción/playlist>'],
+        examples: [ 'play Eminem - Godzilla', 'play <Playlist de spotify/facebook/soundcloud/youtube>' ],
         cooldown: 3,
         voiceOnly: true,
         //erelaCheck: true,

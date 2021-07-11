@@ -7,12 +7,11 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'bassboost',
-        description: 'Adivina adivinador, que saldrá hoy.',
-        category: 'Utilidad',
-        usage: [ '<mensaje>'],
-        examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+        description: 'Activa el filtro bassboost, y pon a retumbar esos bajos. Ajua.',
+        category: 'Music',
+        usage: [ '<Cantidad>'],
+        examples: [ 'bassboost', 'bassboost 50' ],
         cooldown: 3,
-        guildOnly: true
       });
     }
 

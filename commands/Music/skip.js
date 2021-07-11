@@ -6,10 +6,10 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'skip',
-        description: 'Adivina adivinador, que saldrá hoy.',
-        category: 'Utilidad',
-        usage: [ '<mensaje>'],
-        examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+        description: 'Salta la canción que estás escuchando.',
+        category: 'Music',
+        usage: [ '<Número de canciones opcionales)'],
+        examples: [ 'skip', 'skip 10' ],
         cooldown: 3,
         guildOnly: true
       });

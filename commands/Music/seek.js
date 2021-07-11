@@ -7,10 +7,10 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'seek',
-        description: 'Adivina adivinador, que saldrá hoy.',
-        category: 'Utilidad',
-        usage: [ '<mensaje>'],
-        examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+        description: 'Salta a la duración de la canción que quieras.',
+        category: 'Music',
+        usage: [ '<0:00>'],
+        examples: [ 'seek 1:20' ],
         cooldown: 3,
       });
     }

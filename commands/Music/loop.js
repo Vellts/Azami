@@ -6,12 +6,11 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'loop',
-        description: 'Adivina adivinador, que saldrá hoy.',
-        category: 'Utilidad',
-        usage: [ '<mensaje>'],
-        examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+        description: 'Tú canción favorita, o bien tu lista de canciones favoritas en un loop infinito. Disfrutalo gratuitamente.',
+        category: 'Music',
+        usage: [ '<queue/song>'],
+        examples: [ 'loop queue', 'loop song' ],
         cooldown: 3,
-        guildOnly: true
       });
     }
 

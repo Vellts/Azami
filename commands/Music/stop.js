@@ -6,10 +6,10 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'stop',
-        description: 'Adivina adivinador, que saldrá hoy.',
-        category: 'Utilidad',
-        usage: [ '<mensaje>'],
-        examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+        description: '¿Te cansaste de escuchar música? Para toda la reproducción de música.',
+        category: 'Music',
+        usage: [ ' '],
+        examples: [ 'stop' ],
         cooldown: 3,
       });
     }

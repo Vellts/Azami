@@ -8,10 +8,10 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'queue',
-        description: 'Adivina adivinador, que saldrá hoy.',
-        category: 'Utilidad',
-        usage: [ '<mensaje>'],
-        examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+        description: 'Mira la lista de canciones que estarán próximas a sonar.',
+        category: 'Music',
+        usage: [ ''],
+        examples: [ 'queue' ],
         cooldown: 3,
       });
     }

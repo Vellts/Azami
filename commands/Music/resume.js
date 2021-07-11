@@ -6,10 +6,10 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'resume',
-        description: 'Adivina adivinador, que saldrá hoy.',
-        category: 'Utilidad',
-        usage: [ '<mensaje>'],
-        examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+        description: '¿Tenías una canción pausada? Resumela.',
+        category: 'Music',
+        usage: [ ''],
+        examples: [ 'resume' ],
         cooldown: 3,
         guildOnly: true
       });

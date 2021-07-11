@@ -6,10 +6,10 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'pause',
-        description: 'Adivina adivinador, que saldrá hoy.',
-        category: 'Utilidad',
-        usage: [ '<mensaje>'],
-        examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+        description: 'Pausa la canción que te encuentras escuchando al momento, y vuelve a reproducirla cuando quieras.',
+        category: 'Music',
+        usage: [ ''],
+        examples: [ 'pause' ],
         cooldown: 3,
         guildOnly: true
       });

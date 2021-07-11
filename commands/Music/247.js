@@ -6,12 +6,11 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: '24/7',
-        description: 'Adivina adivinador, que saldrá hoy.',
-        category: 'Utilidad',
-        usage: [ '<mensaje>'],
-        examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+        description: 'Establece el modo 24/7, así no me saldré del canal.',
+        category: 'Music',
+        usage: [' '],
+        examples: ['24/7'],
         cooldown: 3,
-        guildOnly: true
       });
     }
 

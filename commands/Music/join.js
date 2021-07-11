@@ -7,12 +7,11 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'join',
-        description: 'Adivina adivinador, que saldrá hoy.',
-        category: 'Utilidad',
-        usage: [ '<mensaje>'],
-        examples: [ '8ball ¿Los jugadores de LoL son humanos?' ],
+        description: 'Has que ingrese al canal de voz en el que te encuentras actualmente.',
+        category: 'Music',
+        usage: [ ' '],
+        examples: [ 'join' ],
         cooldown: 3,
-        guildOnly: true
       });
     }
 

@@ -1,5 +1,6 @@
 const { Client, Collection } = require("discord.js")
 const Util = require('./structures/Util');
+const Guild = require('./database/schemas/Guild')
 const config = require('./config.json');
 const token  = config.main_token
 const mongoose = require('mongoose')

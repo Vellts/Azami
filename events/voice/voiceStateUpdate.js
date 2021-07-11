@@ -4,14 +4,14 @@ const Event = require('../../structures/Event'),
 module.exports = class voiceStateUpdate extends Event {
 	async run(oldState, newState){
 		const newMember = newState.guild.members.cache.get(newState.id);
-		const channel = newState.channelID ? newState.guild.channels.cache.get(newState.channelID.id || newState.channelID) : null;
+		const channel = newState.channelId ? newState.guild.channels.cache.get(newState.channelId.id || newState.channelId) : null;
 
 		const player = this.client.manager.players.get(newState.guild.id)
 		if(!player) return;
-		if (!newState.guild.members.cache.get(this.client.user.id).voice.channelID) player.destroy();
+		if (!newState.guild.members.cache.get(this.client.user.id).voice.channelId) player.destroy();
 
-		if (newState.id == this.client.user.id && newState.channelID.type == 'stage') {
-			if (!oldState.channelID) {
+		if (newState.id == this.client.user.id && newState.channelId.type == 'stage') {
+			if (!oldState.channelId) {
 				try {
 					await newState.guild.me.voice.setSuppressed(false).then(() => console.log(null));
 				} catch (err) {
@@ -22,9 +22,9 @@ module.exports = class voiceStateUpdate extends Event {
 			}
 		}
 		if (oldState.id === this.client.user.id) return;
-		if (!oldState.guild.members.cache.get(this.client.user.id).voice.channelID) return;
+		if (!oldState.guild.members.cache.get(this.client.user.id).voice.channelId) return;
 		if (player.twentyFourSeven) return;
-		if (oldState.guild.members.cache.get(this.client.user.id).voice.channelID === oldState.channelID) {
+		if (oldState.guild.members.cache.get(this.client.user.id).voice.channelId === oldState.channelId) {
 			if (oldState.guild.voice?.channel && oldState.guild.voice.channel.members.filter(m => !m.user.bot).size === 0) {
 				const vcName = oldState.guild.me.voice.channel.name;
 				await delay(180000);

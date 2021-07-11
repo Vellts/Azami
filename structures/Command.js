@@ -7,7 +7,7 @@ module.exports = class Command {
         this.aliases = options.aliases || [];
         this.description = options.description || "Sin descripción.";
         this.category = options.category || "Fun";
-        this.usage = `${this.name} ${options.usage || ''}` || "No se ha proporcionado un uso..";
+        this.usage = `${this.name} ${options.usage || ''}` || "No se ha proporcionado un uso.";
         this.examples = options.examples || [];
         this.disabled = options.disabled || false;
         this.cooldown = "cooldown" in options ? options.cooldown : 5 || 5;
@@ -16,10 +16,8 @@ module.exports = class Command {
         this.nsfwOnly = options.nsfwOnly || false;
         this.erelaCheck = options.erelaCheck || false;
         this.voiceOnly = options.voiceOnly || false;
-        this.botPermission = options.botPermission || ['SEND_MESSAGES', 'EMBED_LINKS'];
-        this.userPermission = options.userPermission  || null;
-        this.slash = options.slash || false;
-        this.options = options.options || [];
+        this.botPermission = options.botPermission || ['ATTACH_FILES', 'EMBED_LINKS'];
+        this.userPermission = options.userPermission  || [];
     } 
 
 

@@ -2,7 +2,6 @@ module.exports = {
 
 	// EMOTES DE UTILIDAD
  
-	"success": "https://discord.js.org/static/attachment-example2.png",
   	"error": "<a:checkn:803432098156642337>",
   	"stars1": "<a:Az_starsmoon:838959297677099028>",
   	"stars2": "<a:Az_stars:838959220329414686>",
@@ -35,5 +34,11 @@ module.exports = {
   	"kawaiiPig": "<a:Az_kawaiiPig:840354778306707469>",
   	"interdasting": "<a:Az_interdasting:840355845282988053>",
   	"woohooraff": "<a:Az_woohooraff:840356643694313482>",
-  	"sakurahana": "<a:Az_Sakurahana:840355229245374484>"
+  	"sakurahana": "<a:Az_Sakurahana:840355229245374484>",
+  	"cuteRabbit": "<a:Az_cuteRabbit:862766266616250369>",
+  	"bunnyPompom": "<a:Az_bunnyPompom:862767530824957972>",
+  	"bunnyPoke": "<a:Az_bunnyPoke:862769206315843634>",
+  	"bunnyRainbow": "<a:Az_bunnyRainbow:862770934385606686>",
+  	"bunnyDance": "<a:Az_bunnyDance:862771423226363934>",
+  	"bunnyhappy": "<a:Az_bunnyhappy:862771692124110889>"
 }
