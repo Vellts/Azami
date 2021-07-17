@@ -8,9 +8,8 @@ module.exports = class extends Command {
         name: 'lisapresentation',
         aliases: ['lisap'],
         description: `Lisa presentando tus palabras..`,
-        category: 'memes',
-        examples: ['lisapresentation <texto>', 'lisap <texto>'],
-        botPermissions: ['ATTACH_FILES'],
+        category: 'Memes',
+        examples: ['lisapresentation Woh', 'lisap Cool'],
         cooldown: 3,
       });
     }
@@ -21,8 +20,14 @@ module.exports = class extends Command {
     if (!text) return message.channel.send(`${client.emote.bunnyconfused} ***¿Se te ha olvido agregar texto sir?***`)
 
     let img = await new DIG.LisaPresentation().getImage(text)
-    let att = new Discord.MessageAttachment(img, 'lisap.png')
-    message.channel.send(att)
+    message.channel.send({
+      files: [
+        {
+          attachment: img,
+          name: `lisap.png`
+        }
+      ]
+    })
 
 
       }

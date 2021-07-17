@@ -36,7 +36,7 @@ module.exports = class extends Command {
     if (memberPotision <= mentionedPotision) return message.channel.send(`${client.emote.rabbitShocket} ${lang.highestRoleRW}`)
 
     let reason = args.slice(2).join(' ');
-    if (!reason) reason = 'None';
+    if (!reason) reason = 'Sin razón.';
     if (reason.length > 1024) reason = reason.slice(0, 1021) + '...';
 
     const warnDoc = await warnModel.findOne({ guildID: message.guild.id, memberID: mention.id }).catch(err => console.log(err))
@@ -50,7 +50,7 @@ module.exports = class extends Command {
         date: [],
     })
 
-    message.channel.send(`${client.emote.pinkBunny} ${lang.removeUserWarnsRW.replace("{username}", mention.user.username)}\`.*** ${logging && logging.moderation.include_reason === "true" ?`\n\n${lang.reasonRW} ${reason}`:``}`)
+    message.channel.send(`${client.emote.pinkBunny} ${lang.removeUserWarnsRW.replace("{username}", mention.user.username)}.`)
 
 
   }

@@ -17,11 +17,11 @@ module.exports = class extends Command {
     async run(message, args, client = message.client) {
 
     const player = this.client.manager.players.get(message.guild.id);
-    if (!player) return message.channel.send('nao')
+    if (!player) return message.channel.send(`${this.client.emote.badunu} ***No se está reproduciendo ningúna canción en el servidor. u.u***`)
 
-    if (message.member.voice.channel.id !== player.voiceChannel) return message.channel.send('nao voz')
+    if (message.member.voice.channel.id !== player.voiceChannel) return message.channel.send(`${this.client.emote.jumpjump} ***¡Este canal no es el apropiado para manejar mis notas músicales!***`)
     player.twentyFourSeven = !player.twentyFourSeven;
-    message.channel.send('27/4🤑 '+ player.twentyFourSeven);
+    message.channel.send(`${this.client.emote.cuteRabbit} ***Sistema 24/7: ${player.twentyFourSeven ? "`Activado`" : "`Desactivado`"}.***`);
 
     }
 };

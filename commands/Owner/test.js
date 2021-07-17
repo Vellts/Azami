@@ -8,12 +8,11 @@ const fetch = require('node-fetch')
 module.exports = class extends Command {
     constructor(...args) {
           super(...args, {
-               name: 'help',
-               description: 'Has que no vuelvan los malechores.',
-               category: 'Moderacion',
-               usage: ['<miembro>'],
-               example: ['ban @Azami'],
+               name: 'test',
+               description: 'Comando de pruebas.',
+               category: 'Information',
                cooldown: 3,
+               ownerOnly: true,
           }); 
      }
 

@@ -8,6 +8,8 @@ module.exports = class extends Command {
         name: 'punch',
         description: `¡Propina un fuerte golpe! Que nadie se salve.`,
         category: 'Interaction',
+        usage: ['<Miembro opcional>'],
+        examples: ['punch', 'punch @Nero'],
         cooldown: 3,
       });
     } 
@@ -16,21 +18,15 @@ module.exports = class extends Command {
 
     let img = await azami.Punch()
 
-    let miembro = message.mentions.users.first() || this.client.users.cache.find(user => user.username.toLowerCase() == args.join(' ').toLowerCase()) || this.client.users.cache.find(user => user.tag.toLowerCase() == args.join(' ').toLowerCase())
-    if(miembro === message.author) return message.channel.send('No te puedes golpear tu mismo/a. >:(')
-
-    if(!miembro){
-      message.channel.send('Menciona al que quieras golpear. :c').then(msg => msg.delete({timeout: 8000}))
-      } else {
-        const msg = [`**${message.author.username}** ha dejado sin oportunidades a **${miembro.username}**. D:`]
-        let random = msg[Math.floor(Math.random() * msg.length)]
-        message.channel.send({embed: 
-        {color:'RANDOM', 
-        description: random, 
-        image: {url: img}
-      }})
-    }
-
-
-      }
+    let miembro = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.user.tag.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.displayName.toLowerCase() === args.join(" ").toLowerCase())
+    if(miembro === message.author || !miembro) return
+    if(miembro.user.bot) return
+    const msg = [`**${message.author.username}** ha dejado sin oportunidades a **${miembro.user.username}**. D:`]
+    let random = msg[Math.floor(Math.random() * msg.length)]
+    message.channel.send({embeds: 
+      [{color:'RANDOM', 
+      description: random, 
+      image: {url: img}
+    }]})
+  }
 };

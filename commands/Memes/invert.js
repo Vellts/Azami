@@ -7,8 +7,9 @@ module.exports = class extends Command {
       super(...args, {
         name: 'invert',
         description: `Imagen que desees, pero invertida.`,
-        category: 'memes',
-        examples: ['invert', 'invert <@user>'],
+        category: 'Memes',
+        usage: ['<Miembro opcional>'],
+        examples: ['invert', 'invert @Nero.'],
         botPermissions: ['ATTACH_FILES'],
         cooldown: 3,
       });
@@ -16,12 +17,15 @@ module.exports = class extends Command {
 
     async run(message, args, client = message.client) {
 
-    let user = message.mentions.users.first() || this.client.users.cache.find(user => user.username.toLowerCase() == args.join(' ').toLowerCase()) || this.client.users.cache.find(user => user.tag.toLowerCase() == args.join(' ').toLowerCase()) || message.author
-
-    let img = await new DIG.Invert().getImage(user.displayAvatarURL({ format: 'png', size: 1024}))
-    let att = new Discord.MessageAttachment(img, 'invert.png')
-    message.channel.send(att)
-
-
-      }
+    let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.user.tag.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.displayName.toLowerCase() === args.join(" ").toLowerCase()) || message.member
+    let img = await new DIG.Invert().getImage(user.user.displayAvatarURL({ format: 'png', size: 1024}))
+    message.channel.send({
+      files: [
+        {
+          attachment: img,
+          name: `invert.png`
+        }
+      ]
+    })
+  }
 };

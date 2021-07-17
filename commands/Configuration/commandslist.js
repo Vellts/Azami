@@ -25,7 +25,7 @@ module.exports = class extends Command {
     await customCommand.find({
       guildId: message.guild.id,
     }, (err, data) => {
-      if (!data && !data.name) return message.lineReplyNoMention(`${message.client.emoji.fail} ${language.cc5}`);
+      if (!data && !data.name) return message.channel.send({content: `${message.client.emoji.fail} ${language.cc5}`, reply: { messageReference: message.id }, allowedMentions: { repliedUser: false }})
       let array =[]
       data.map((d, i) => array.push(d.name));
 
@@ -41,7 +41,7 @@ module.exports = class extends Command {
       } else {
         embed.setDescription(`\`${(array).join(", ")}\``)
       }
-      message.lineReplyNoMention(embed)
+      message.channel.send({embeds: [embed], reply: { messageReference: message.id }, allowedMentions: { repliedUser: false }})
     });
   }
 };

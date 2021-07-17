@@ -11,7 +11,7 @@ module.exports = class extends Command {
         userPermission: ['BAN_MEMBERS'],
         botPermission: ['BAN_MEMBERS'],
         usage: ['<miembro>'],
-        examples: ['ban @Azami'],
+        examples: ['ban @Nero.'],
         cooldown: 3,
       });
     }
@@ -25,60 +25,48 @@ module.exports = class extends Command {
     });
     const lang = require(`../../data/language/${settings.language}.js`)
 
-    let banMember = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(r => r.user.username.toLowerCase() === args[0].toLocaleLowerCase()) || message.guild.members.cache.find(ro => ro.displayName.toLowerCase() === args[0].toLocaleLowerCase())
-    if (!banMember) return message.lineReplyNoMention(`${this.client.emote.bunnyconfused} ${lang.userNotFoundBan}`)
-    if (banMember === message.member) return message.lineReplyNoMention(`${this.client.emote.bunnyconfused} ${lang.sameMemberBan}`)
-    if (!banMember.bannable) return message.lineReplyNoMention(`${this.client.emote.bunnyconfused} ${lang.highestMemberBan}`)
+    const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === args.join(" ").toLowerCase())
+    if(!member) return message.channel.send(`${this.client.emote.bunnyPoke} ***No has introducido algún miembro. u.u***`)
+    if(member.id === message.author.id) return message.channel.send(`${this.client.emote.bunnyHmm} ***¿Por qué te banearías?***`)
+    if(!member.bannable || member.roles.highest.comparePositionTo(message.guild.me.roles.highest) >= 0) return message.channel.send(`${this.client.emote.bunnyPoke} ***Parece que intentas banear a un rango superior. u.u***`)
 
-    var reason = args.slice(1).join(" ")
+    let reason = args.slice(1).join(" ") || "Sin razón"
 
-    message.react('✅').then(() => message.react('❎'))
+    let msg = await message.channel.send(`${this.client.emote.puppySlap} ***¿Deseas banear a ${member.user.tag}? Esta desición implicaría que no estará más en el servidor, a menos que lo revoques.***`)
+    await msg.react('✅')
+    await msg.react('❎')
 
-    const filter = (reaction, user) => {
-        return ['✅', '❎'].includes(reaction.emoji.name) && user.id === message.author.id
-    }
+    const filter = (reaction, user) => ['✅', '❎'].includes(reaction.emoji.name) && user.id === message.author.id
 
-    message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
-        .then(collected => {
-    const reaction = collected.first()
+    msg.awaitReactions({ filter, max: 1, time: 5000, errors: ['time'] })
+    .then(async (cc) => {
+        const rr = cc.first()
+        if(rr.emoji.name === '✅'){
+            try{
+                let s = lang.memberSendBan.replace("{servername}", message.guild.name).replace("{reason}", reason)
+                const sembed2 = new Discord.MessageEmbed() 
+                .setColor("RED")
+                .setDescription(`${s}`)
+                .setFooter(message.guild.name, message.guild.iconURL())
+                .setTimestamp()
+                member.send(sembed2).catch(() => {})
 
-    if (reaction.emoji.name === '✅') {
-        try {
-            let s = lang.memberSendBan.replace("{servername}", message.guild.name).replace("{reason}", reason || '')
-            const sembed2 = new Discord.MessageEmbed() 
-            .setColor("RED")
-            .setDescription(`${s}`)
-            .setFooter(message.guild.name, message.guild.iconURL())
-            .setTimestamp()
-            banMember.send(sembed2).then(() =>
-            message.guild.members.ban(banMember, { reason: reason })).catch(() => null)
-        } catch {
-            message.guild.members.ban(banMember, { reason: reason })
-        }
-        if (reason) {
-            var sembed = new MessageEmbed()
-            .setColor("GREEN")
-            .setAuthor(message.guild.name, message.guild.iconURL())
-            .setDescription(`**${banMember.user.username}** ${lang.memberBannedBan} ${reason}`)
-            .setFooter(`${lang.bannedByBan} ${message.author.username}`)
-            .setTimestamp()
-            message.channel.send(sembed)
-        } else {
-            var sembed2 = new MessageEmbed()
-            .setColor("GREEN")
-            .setAuthor(message.guild.name, message.guild.iconURL())
-            .setDescription(`**${banMember.user.username}** ${lang.memberBannedWithoutReaseonBan}`)
-            .setFooter(`${lang.bannedByBan} ${message.author.username}`)
-            .setTimestamp()
-            message.channel.send(sembed2)
-        }
-        } else {
-            message.channel.send(`${this.client.emote.rabbitFrustrated} ${lag.noBan}`);
+                member.ban({ reason: reason })
+                await msg.edit(`${this.client.emote.cuteRabbit} ***¡Naisu! Se ha baneado exitosamente.***`)
+                await msg.reactions.removeAll()
+            } catch(e){
+                await msg.edit(`${this.client.emote.bunnyconfused} ***Oops! Algo salió mal. Si el problema consiste envía un reporte. u.u`)
+                await msg.reactions.removeAll()
+            }
+            //message.channel.send('xd')
+        } else if(rr.emoji.name === '❎') {
+            await msg.edit(`${this.client.emote.cuteRabbit} ***Una misteriosa fuerza ha decidio que el miembro no fuera baneado.***`)
+            await msg.reactions.removeAll()
         }
     })
-    .catch(collected => {
-        message.channel.send(`${this.client.emote.rabbitShocket} ${lang.errorBan}`);
+    .catch(async () => {
+        await msg.edit(`${this.client.emote.rabbitSleeping} ***Parece que se ha acabado el tiempo, asegurate de ejecutar la acción antes de los 15 segundos.***`)
+        await msg.reactions.removeAll()
     })
-
     }
 };

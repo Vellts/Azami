@@ -8,6 +8,8 @@ module.exports = class extends Command {
         name: 'twerk',
         description: `Demuestra tu gran don en el baile a travez de esta danza. u.u`,
         category: 'Interaction',
+        usage: ['<Miembro opcional>'],
+        examples: ['twerk', 'twerk @Nero'],
         cooldown: 3,
       });
     } 
@@ -16,23 +18,24 @@ module.exports = class extends Command {
 
     let img = await azami.Twerk()
 
-    let miembro = message.mentions.users.first() || this.client.users.cache.find(user => user.username.toLowerCase() == args.join(' ').toLowerCase()) || this.client.users.cache.find(user => user.tag.toLowerCase() == args.join(' ').toLowerCase())
+    let miembro = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.user.tag.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.displayName.toLowerCase() === args.join(" ").toLowerCase())
     if(miembro === message.author) return
 
     if(!miembro){
-      message.channel.send({embed: 
-        {color:'RANDOM', 
+      message.channel.send({embeds: 
+        [{color:'RANDOM', 
         description: `**${message.author.username}** está moviendo el bote.`, 
         image: {url: img}
-      }})
+      }]})
       } else {
-        const msg = [`**${message.author.username}** le hace un baile extravagante a **${miembro.username}**.`]
+        if(miembro.user.bot)return
+        const msg = [`**${message.author.username}** le hace un baile extravagante a **${miembro.user.username}**.`]
         let random = msg[Math.floor(Math.random() * msg.length)]
-        message.channel.send({embed: 
-        {color:'RANDOM', 
+        message.channel.send({embeds: 
+        [{color:'RANDOM', 
         description: random, 
         image: {url: img}
-      }})
+      }]})
     }
 
 

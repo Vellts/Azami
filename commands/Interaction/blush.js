@@ -8,6 +8,8 @@ module.exports = class extends Command {
         name: 'blush',
         description: `¡Uy! Que ha pasado...`,
         category: 'Interaction',
+        usage: ['<Miembro opcional>'],
+        examples: ['blush', 'blush @Nero'],
         cooldown: 3,
       });
     }
@@ -18,21 +20,22 @@ module.exports = class extends Command {
 
     let img = await azami.Blush()
 
-    let miembro = message.mentions.users.first() || this.client.users.cache.find(user => user.username.toLowerCase() == args.join(' ').toLowerCase()) || this.client.users.cache.find(user => user.tag.toLowerCase() == args.join(' ').toLowerCase())
-    if(miembro === message.author) return message.channel.send('¿Estás molesto/a contigo? unu')
+    let miembro = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.user.tag.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.displayName.toLowerCase() === args.join(" ").toLowerCase()) 
+    if(miembro === message.author) return
 
     if(!miembro){
-      message.channel.send({embed: 
-        {color:'RANDOM', 
+      message.channel.send({embeds: 
+        [{color:'RANDOM', 
         description:`El color rojo inunda el rostro de **${message.author.username}**. >w<`, 
         image: {url: img}
-      }})
+      }]})
       } else {
-        message.channel.send({embed: 
-        {color:'RANDOM', 
-        description:`**${message.author.username}** se encuentra como un tomate por **${miembro.username}**. >u<`, 
+        if(miembro.user.bot) return
+        message.channel.send({embeds: 
+        [{color:'RANDOM', 
+        description:`**${message.author.username}** se encuentra como un tomate por **${miembro.user.username}**. >u<`, 
         image: {url: img}
-      }})
+      }]})
     }
 
 

@@ -26,16 +26,16 @@ module.exports = class extends Command {
     const lang = require(`../../data/language/${settings.language}.js`)
 
     const emoji = args[0]
-    if (!emoji) return message.lineReplyNoMention(`${this.client.emote.bunnyconfused} ${lang.missArgsEM}`)
+    if (!emoji) return message.channel.send(`${this.client.emote.bunnyconfused} ${lang.missArgsEM}`)
 
     let custom = Discord.Util.parseEmoji(emoji)
     if (custom.id) {
         let emj = `https://cdn.discordapp.com/emojis/${custom.id}.${custom.animated ? "gif" : "png"}`
-        let att = new Discord.MessageAttachment(emj, `${custom.name}.${custom.animated ? "gif" : "png"} `)
-        return message.lineReplyNoMention(att)
+        //let att = new Discord.MessageAttachment(emj, `${custom.name}.${custom.animated ? "gif" : "png"} `)
+        return message.channel.send({files: [{attachment: emj, name: `${custom.name}.${custom.animated ? "gif" : "png"}`}]})
     } else {
         let parsed = parse(emoji, { assetType: "png" || "gif" });
-        if (!parsed[0]) return message.lineReplyNoMention(`${client.emote.rabbitSleeping} ${lang.invalidEmojiEM}`);
+        if (!parsed[0]) return message.channel.send(`${client.emote.rabbitSleeping} ${lang.invalidEmojiEM}`);
         return;
     }
 

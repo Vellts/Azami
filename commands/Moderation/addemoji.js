@@ -27,27 +27,22 @@ module.exports = class extends Command {
     const lang = require(`../../data/language/${settings.language}.js`)
 
     let url = message.attachments.first() ? message.attachments.first().url : undefined || args[1]
-    if (!url || url === undefined) return message.lineReplyNoMention(`${this.client.emote.rabbitMad} ${lang.missLinkEmojiAE}`)
+    if (!url || url === undefined) return message.channel.send(`${this.client.emote.rabbitMad} ${lang.missLinkEmojiAE}`)
     let name = args[0]
-    if (!name) return message.lineReplyNoMention(`${this.client.emote.rabbitMad} ${lang.missNameEmojiAE}`)
+    if (!name) return message.channel.send(`${this.client.emote.rabbitMad} ${lang.missNameEmojiAE}`)
 
     if (!message.attachments.first()) {
         message.guild.emojis.create(url, name).then(emoji => {
-            message.channel.send(`${emoji} **|** ${lang.addedEmojiAE}`).then(r => {
-                r.react('✅')
-            })
+            message.channel.send(`${emoji} **|** ${lang.addedEmojiAE}`)
         }).catch(() => {
-                message.channel.send(`${this.client.emote.bunnyconfused} ${lang.errorEmojiAE}`)
-            })
+            message.channel.send(`${this.client.emote.bunnyconfused} ${lang.errorEmojiAE}`)
+        })
     } else {
         message.guild.emojis.create(url, name).then(emoji => {
-            message.channel.send(`${emoji} **|** ${lang.addedEmojiAE}`).then(r => {
-                r.react('✅')
-            })
+            message.channel.send(`${emoji} **|** ${lang.addedEmojiAE}`)
         }).catch(() => {
             message.channel.send(`${this.client.emote.bunnyconfused} ${lang.errorEmojiAE}`)
         })
     }
-
     }
 };

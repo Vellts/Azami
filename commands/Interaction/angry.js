@@ -8,6 +8,8 @@ module.exports = class extends Command {
         name: 'angry',
         description: `¿Te molesta alguien? Esta emoción es perfecta para la ocasión.`,
         category: 'Interaction',
+        usage: ['<Miembro opcional>'],
+        examples: ['angry', 'angry @Nero.'],
         cooldown: 3,
       });
     }
@@ -18,23 +20,26 @@ module.exports = class extends Command {
 
     let img = await azami.Angry()
 
-    let miembro = message.mentions.users.first() || this.client.users.cache.find(user => user.username.toLowerCase() == args.join(' ').toLowerCase()) || this.client.users.cache.find(user => user.tag.toLowerCase() == args.join(' ').toLowerCase())
-    if(miembro === message.author) return message.channel.send('¿Estás molesto/a contigo? unu')
+    let miembro = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.user.tag.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.displayName.toLowerCase() === args.join(" ").toLowerCase())
+    if(miembro === message.author) return
 
     if(!miembro){
-      message.channel.send({embed: 
+      message.channel.send({embeds:
+      [ 
         {color:'RANDOM', 
         description:`**${message.author.username}** por algún motivo está furioso/a. D:`, 
         image: {url: img}
-      }})
+
+      }]})
       } else {
-        const msg = [`**${message.author.username}** está muy molesto/a con **${miembro.username}**.`]
+        if(miembro.user.bot) return
+        const msg = [`**${message.author.username}** está muy molesto/a con **${miembro.user.username}**.`]
         let random = msg[Math.floor(Math.random() * msg.length)]
-        message.channel.send({embed: 
-        {color:'RANDOM', 
+        message.channel.send({embeds: 
+        [{color:'RANDOM', 
         description: random, 
         image: {url: img}
-      }})
+      }]})
     }
 
 

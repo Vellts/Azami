@@ -7,14 +7,14 @@ module.exports = {
 	"ccmaxResLength": "***La respuesta tiene más de 2000 carácteres.***",
 	"ccCommandExist": "***Oups! Ese comando ya existe en Azami.***",
 	"ccNotPremium": "¡Hey, hey! Has alcanzado el limite gratuito de comandos personalizados [10].***\n\n[Adquiere premium](https://azamibot.xyz/premium)",
-	"ccSaveCommand": "¡Comando cargado en la nube con el nombre",
+	"ccSaveCommand": "*¡Comando cargado en la nube con el nombre",
 	"ccDeleteCommand": "Puedes eliminar el comando con \`{prefix}deletecommand <command>\`",
-	"ccDeletingCommand": "¡Comando bajado de la nube con el nombre",
+	"ccDeletingCommand": "***¡Comando bajado de la nube con el nombre `{nombre}`!***",
 	"ccNotFound": "***¡Oups! Ese comando no está en mi nube. u.u***",
 	// Set prefix - me
 	"missPrefix": "***Oups! No has introducido el nuevo prefix. u.u***",
 	"maxLengthPrefix": "***El prefix no puede tener más de 4 carácteres. u.u***",
-	"newPrefix": "***¡Genial! Ahora el nuevo prefix es***",
+	"newPrefix": "***¡Genial! Ahora el nuevo prefix es `{prefix}`***",
 	// Set allies - - cpo
 	"missArgsAllies": "***Oops! No has escrito ningún argumento, escribe \`channel\`, \`status\` o \`role\`.***",
 	"validUseAllies": "Ingresa \`${prefix}help allies\` para mas ayuda.*",
@@ -56,7 +56,7 @@ module.exports = {
 	"enableCommandTCC": "El comando \`{commands}\` ha sido **habilitado**.",
 	"disableCommandTCC": "Ningúno.",
 	// Simprate - cpo
-	"IsSIMP": "es",
+	"IsSIMP": "*{username} es `{per}%` simp.*",
 	// Help - me
 	"titleFirstEmbedHelp": "¡Hey! ¿En qué te puedo ayudar?",
 	"descriptionFirstEmbedHelp": "Averigua las caracteristicas, comandos y categorías que contiene Azami.",
@@ -128,9 +128,9 @@ module.exports = {
 	"emptyWarnsRW": "***El usuario {username} no tiene advertencias >.<***",
 	"missWarnKeyRW": "***Oups! Se te ha pasado introducir la ID de la advertencia.***",
 	"keyNotFoundRW": "***La ID introducida no fue encontrada en la nube >.<.***",
-	"warnDeletedRW": "***Se le ha removido la advertencia #\`{keyWarn}\` a {username}.***",
+	"warnDeletedRW": "***Se le ha removido la advertencia \`#{keyWarn}\` a {username}.***",
 	//warnings - me
-	"emptyWarnsWN": "***El usuario {username} no tiene advertencias >.<***",
+	"emptyWarnsWN": "***El usuario `{username}` no tiene advertencias >.<***",
 	"moderatorWN": "**Moderador:**",
 	"reasonWN": "**Razón:**",
 	"dateWN": "**Fecha:**",

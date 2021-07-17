@@ -12,7 +12,7 @@ module.exports = class extends Command {
       super(...args, {
         name: 'editreaction',
         aliases: ["editreactionrole", "err"],
-        description: 'Edit the role which a certain reaction given',
+        description: 'edita la reaction role',
         category: 'Reaction Role',
         cooldown: 3,
         usage: '<channel> <messageID> <newRoleID> <emoji>',
@@ -30,66 +30,38 @@ module.exports = class extends Command {
 
       
  
-      let fail = message.client.emoji.fail
+      /*let fail = message.client.emoji.fail
       let success = message.client.emoji.success
   const missingPermEmbed = new MessageEmbed()
   .setAuthor(`Missing User Permissions`, message.author.displayAvatarURL())
   .setDescription(`${fail} The following command the **Administrator** Permission`)
   .setFooter(`https://github.com/peterhanania/reaction-roles`)
-   .setColor(client.color.red)
+   .setColor(client.color.red)*/
 
 
-       let channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[0]) || message.guild.channels.cache.find(ch => ch.name === args[0])
-    if (!channel) return message.channel.send(new MessageEmbed()
-     .setAuthor(message.author.tag, message.author.displayAvatarURL())
-  .setDescription(`${fail} Provide me with a valid Channel`)
-  .setFooter(`https://github.com/peterhanania/reaction-roles`)
-   .setColor(client.color.red)
-    );
+        let channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[0]) || message.guild.channels.cache.find(ch => ch.name === args[0])
+        if (!channel) return message.channel.send('menciona canal pues')
     
     let ID = args[1]
-    if(!ID) return message.channel.send(new MessageEmbed()
-     .setAuthor(message.author.tag, message.author.displayAvatarURL())
-  .setDescription(`${fail} Provide me with a valid message ID`)
-  .setFooter(`https://github.com/peterhanania/reaction-roles`)
-    );
-    let messageID = await channel.messages.fetch(ID).catch(() => { return message.channel.send(new MessageEmbed()
-     .setAuthor(message.author.tag, message.author.displayAvatarURL())
-  .setDescription(`${fail} I could not find the following ID`)
-  .setFooter(`https://github.com/peterhanania/reaction-roles`)
-   .setColor(client.color.red)
-    ); })
+    if(!ID) return message.channel.send('menciona la id del mensaje');
+    let messageID = await channel.messages.fetch(ID).catch(() => { return message.channel.send('mensaje no valido'); })
 
 
-       let role = message.mentions.roles.first() || message.guild.roles.cache.get(args[2]) || message.guild.roles.cache.find(rl => rl.name === args[2])
-    if (!role) return message.channel.send(new MessageEmbed()
-     .setAuthor(message.author.tag, message.author.displayAvatarURL())
-  .setDescription(`${fail} Provide me with a valid Role`)
-  .setFooter(`https://github.com/peterhanania/reaction-roles`)
-   .setColor(client.color.red)
-    );
+    let role = message.mentions.roles.first() || message.guild.roles.cache.get(args[2]) || message.guild.roles.cache.find(rl => rl.name === args[2])
+    if (!role) return message.channel.send('menciona run rol valido');
 
         if(role.managed){
-      return message.channel.send(`${message.client.emoji.fail} Please do not use a integration role.`)
+      return message.channel.send(`no puedes usar eso`)
     }
 
       
-     let emoji = message.guild.emojis.cache.find(emoji => emoji.name.toLowerCase() === args[3].toLowerCase());
+     let emoji = args[3]
 
 
 
     await react.reactionEdit(client, message.guild.id , ID, role.id, emoji);
     
-                message.channel.send(new MessageEmbed()
-                .setAuthor('Reaction Roles Edit', message.guild.iconURL(),messageID.url)
-                .setColor(client.color.green)
-                .addField('Channel', channel, true)
-                .addField('Emoji', emoji, true)
-                .addField('Type', option, true)
-                .addField('Message ID', ID, true)
-                .addField('Message', `[Jump To Message](${messageID.url})`, true)
-                .addField('Role', role, true)
-                .setFooter('https://github.com/peterhanania/reaction-roles'))
+                message.channel.send('reaccion editada')
 
 
         function isCustomEmoji(emoji) {

@@ -40,7 +40,7 @@ module.exports = class extends Command {
     if (reason.length > 1024) reason = reason.slice(0, 1021) + '...';
 
     const warnDoc = await warnModel.findOne({ guildID: message.guild.id, memberID: mention.id }).catch(err => console.log(err))
-    if (!warnDoc || !warnDoc.warnings.length) return message.channel.send({embed: {color: 'RANDOM', description: `${lang.emptyWarnsRW.replace("{username}", "")}`}})
+    if (!warnDoc || !warnDoc.warnings.length) return message.channel.send({embeds: [{color: 'RANDOM', description: `${lang.emptyWarnsRW.replace("{username}", "")}`}]})
 
     let warningID = args[1]
     if(!warningID) return message.channel.send(`${client.emote.rabbitMad} ${lang.missWarnKeyRW}`)

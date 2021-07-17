@@ -27,12 +27,13 @@ module.exports = class extends Command {
 
     let mention = message.mentions.members.first() || message.guild.members.cache.get(args[0])
     if(!mention) return message.channel.send(`${client.emote.rabbitMad} ${lang.missUserWR}`)
+    if(mention.user.bot) return message.channel.send('no puedes advertir a bots.')
 
     const mentionedPotision = mention.roles.highest.position
     const memberPotision = message.member.roles.highest.position
 
     if (memberPotision <= mentionedPotision) return message.channel.send(`${client.emote.rabbitShocket} ${lang.highestRoleWR}`)
-    let razon = args.slice(1).join(' ') || 'None'
+    let razon = args.slice(1).join(' ') || 'Sin razón.'
 
     let warnID = random.password({
       length: 14,
@@ -71,7 +72,7 @@ module.exports = class extends Command {
     let dmEmbed = `${this.client.emote.BananaCat} ${lang.sendUserWanrWR.replace("{servername}", message.guild.name).replace("{author_username}", message.author.username).replace("{razon}", razon)}`
     mention.send({embed: {description: dmEmbed, color: 'RANDOM', author: {name: message.guild.name, icon_url: message.guild.iconURL({dynamic: true})}}}).catch(()=>{})
 
-    message.channel.send({embed: {color: 'RANDOM', description: `${client.emote.cuteBee} ${lang.sendWarnWR.replace("{username}", mention.user.username).replace("{razon}", razon)}`}}).catch(()=>{});
+    message.channel.send({embeds: [{color: 'RANDOM', description: `${client.emote.cuteBee} ${lang.sendWarnWR.replace("{username}", mention.user.username).replace("{razon}", razon)}`}]}).catch(()=>{});
 
     if(logging && logging.moderation.auto_punish.toggle === "true"){
       if(Number(logging.moderation.auto_punish.amount) <= Number(warnDoc.warnings.length)){
@@ -97,7 +98,7 @@ module.exports = class extends Command {
           } else if(auto.dm === "3"){
             dmEmbed = `${client.emote.cuteBee} Has sido ${action} de **${message.guild.name}**\n\n**Advertencias:** ${warnDoc.warnings.length}`
           }
-          mention.send({embed: {color: 'RANDOM', description: dmEmbed, author: {name: message.guild.name, icon_url: message.guild.iconURL({dynamic: true})}}})
+          mention.send({embeds: [{color: 'RANDOM', description: dmEmbed, author: {name: message.guild.name, icon_url: message.guild.iconURL({dynamic: true})}}]})
           }
         }
       }
@@ -126,7 +127,7 @@ module.exports = class extends Command {
                 .setFooter(`ID: ${mention.id} | Warn ID: ${warnID}`)
                 .setTimestamp()
                 .setColor(color)
-                channel.send(logEmbed).catch((e)=>{console.log(e)})
+                channel.send({embeds: [logEmbed]}).catch((e)=>{console.log(e)})
 
       logging.moderation.caseN = logcase + 1
 await logging.save().catch(()=>{})

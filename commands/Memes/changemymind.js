@@ -5,11 +5,11 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'changemymind',
-        aliases: ['ccm'],
+        aliases: ['cmm'],
         description: `Desafía a los otros, con tus palabras.`,
-        category: 'memes',
-        examples: ['changemymind <texto>'],
-        botPermissions: ['ATTACH_FILES'],
+        category: 'Memes',
+        usage: ['<Texto>'],
+        examples: ['changemymind Primero va la leche y después el cereal.'],
         cooldown: 3,
       });
     }
@@ -17,10 +17,15 @@ module.exports = class extends Command {
     async run(message, args, client = message.client) {
 
     const text = args.join("+")
-    if (!text) return message.channel.send(`${client.emote.bunnyconfused} ***¿Se te ha olvido agregar texto sir?***`)
+    if (!text) return message.channel.send(`${client.emote.bunnyconfused} ***¿Se te ha olvido agregar texto?***`)
 
-    message.channel.send({ files: [{ attachment: `https://vacefron.nl/api/changemymind?text=${text}`, name: "changemymind.png"}]})
-
-
-      }
+    message.channel.send({
+      files: [
+        {
+          attachment: `https://vacefron.nl/api/changemymind?text=${text}`,
+          name: `changemymind.png`
+        }
+      ]
+    })
+  }
 };

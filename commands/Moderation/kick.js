@@ -26,61 +26,47 @@ module.exports = class extends Command {
     });
     const lang = require(`../../data/language/${settings.language}.js`)
 
-    if (!args[0]) return message.lineReplyNoMention(`${this.client.emote.rabbitReally} ${lang.missArgsKick}`)
+     const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === args.join(" ").toLowerCase())
+    if(!member) return message.channel.send(`${this.client.emote.bunnyPoke} ***No has introducido algún miembro. u.u***`)
+    if(member.id === message.author.id) return message.channel.send(`${this.client.emote.bunnyHmm} ***¿Por qué te expulsarías?***`)
+    if(!member.kickable || member.roles.highest.comparePositionTo(message.guild.me.roles.highest) >= 0) return message.channel.send(`${this.client.emote.bunnyPoke} ***Parece que intentas expulsar a un rango superior. u.u***`)
 
-    let kickMember = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(r => r.user.username.toLowerCase() === args[0].toLocaleLowerCase()) || message.guild.members.cache.find(ro => ro.displayName.toLowerCase() === args[0].toLocaleLowerCase());
-    if (!kickMember) return message.lineReplyNoMention(`${this.client.emote.rabbitConfused} ${lang.missMentionKick}`);
-    if (kickMember.id === message.member.id) return message.lineReplyNoMention(`${this.client.emote.rabbitConfused} ${lang.sameMemberKick}`)
-    if (!kickMember.kickable) return message.lineReplyNoMention(`${this.client.emote.bunnyconfused} ${lang.highestMemberKick}`)
+    let reason = args.slice(1).join(" ") || "Sin razón"
 
-    var reason = args.slice(1).join(" ")
+    let msg = await message.channel.send(`${this.client.emote.puppySlap} ***¿Deseas expulsar a ${member.user.tag}? Podrá regresar al servidor cuando quiera.***`)
+    await msg.react('✅')
+    await msg.react('❎')
 
-    message.react('✅').then(() => message.react('❎'))
+    const filter = (reaction, user) => ['✅', '❎'].includes(reaction.emoji.name) && user.id === message.author.id
 
-    const filter = (reaction, user) => {
-        return ['✅', '❎'].includes(reaction.emoji.name) && user.id === message.author.id;
-    }
+    msg.awaitReactions({ filter, max: 1, time: 5000, errors: ['time'] })
+    .then(async (cc) => {
+        const rr = cc.first()
+        if(rr.emoji.name === '✅'){
+            try{
+                let s = lang.memberSendKick.replace("{servername}", message.guild.name).replace("{reason}", reason)
+                const sembed2 = new Discord.MessageEmbed() 
+                .setColor("RED")
+                .setDescription(`${s}`)
+                .setFooter(message.guild.name, message.guild.iconURL())
+                .setTimestamp()
+                member.send(sembed2).catch(() => {})
 
-    message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
-    .then(collected => {
-    const reaction = collected.first();
-
-   if (reaction.emoji.name === '✅') {
-        try {
-            const sembed2 = new Discord.MessageEmbed()
-            .setColor("RED")
-            .setDescription(lang.memberSendKick.repalce("{servername}", message.guild.name).replace("{reason}", reason || ''))
-            .setFooter(message.guild.name, message.guild.iconURL())
-            .setTimestamp()
-            kickMember.send(sembed2).then(() =>
-            kickMember.kick()).catch(() => null)
-        } catch {
-            kickMember.kick()
-        }
-        if (reason) {
-            var sembed = new MessageEmbed() 
-            .setColor("RANDOM")
-            .setAuthor(message.guild.name, message.guild.iconURL())
-            .setDescription(`**${kickMember.user.username}** ${lang.memberKickkedKick} **${reason}.**`)
-            .setFooter(`${lang.kickedByBan} ${message.author.username}`)
-            .setTimestamp()
-            message.lineReplyNoMention(sembed);
-        } else {
-            var sembed2 = new MessageEmbed()
-            .setColor("RANDOM")
-            .setAuthor(message.guild.name, message.guild.iconURL())
-            .setDescription(`**${kickMember.user.username}** ${lang.memberKickeddWithoutReaseonKick}`)
-            .setFooter(`${lang.kickedByBan} ${message.author.username}`)
-            .setTimestamp()
-            message.lineReplyNoMention(sembed2) 
-        }
-        } else {
-            message.lineReplyNoMention(`${this.client.emote.BananaCat} ${lang.noKick}`);
+                member.kick({ reason: reason })
+                await msg.edit(`${this.client.emote.cuteRabbit} ***¡Naisu! Se ha expulsado exitosamente.***`)
+                await msg.reactions.removeAll()
+            } catch(e){
+                await msg.edit(`${this.client.emote.bunnyconfused} ***Oops! Algo salió mal. Si el problema consiste envía un reporte. u.u`)
+                await msg.reactions.removeAll()
+            }
+        } else if(rr.emoji.name === '❎') {
+            await msg.edit(`${this.client.emote.cuteRabbit} ***Una misteriosa fuerza ha decidio que el miembro no fuera expulsado.***`)
+            await msg.reactions.removeAll()
         }
     })
-    .catch(collected => {
-        message.lineReplyNoMention(`${this.client.emote.BananaCat} ${lang.errorKick}`);
+    .catch(async () => {
+        await msg.edit(`${this.client.emote.rabbitSleeping} ***Parece que se ha acabado el tiempo, asegurate de ejecutar la acción antes de los 15 segundos.***`)
+        await msg.reactions.removeAll()
     })
-
     }
 };

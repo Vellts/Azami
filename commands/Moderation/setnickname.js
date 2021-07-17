@@ -12,7 +12,7 @@ module.exports = class extends Command {
         category: 'Moderation',
         usage: '<user> <razon>',
         examples: [ 'setnickname @Azami Supremacy', 'nickname @Azami Nero' ],
-        botPermission: ['SEND_MESSAGES', 'EMBED_LINKS', 'MANAGE_NICKNAMES'],
+        botPermission: ['MANAGE_NICKNAMES'],
         userPermission: ['MANAGE_NICKNAMES'],
       });
     }
@@ -36,7 +36,6 @@ module.exports = class extends Command {
 
     try {
       const oldNickname = user.username;
-      const nicknameStatus = `${oldNickname} ➔ ${nickname}`;
       await user.setNickname(nickname);
       message.channel.send(`*${client.emote.cuteBee} ${lang.setNicknameSN.replace("{username}", user.user.username).replace("{nickname}", nickname)}`)
 

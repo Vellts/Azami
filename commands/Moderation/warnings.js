@@ -27,7 +27,7 @@ module.exports = class extends Command {
 
     let mention = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member
     const warnDoc = await warnModel.findOne({ guildID: message.guild.id, memberID: mention.id }).catch(err => console.log(err))
-    if (!warnDoc || !warnDoc.warnings.length) return message.channel.send({embed: {color: 'RANDOM', description: `${lang.emptyWarnsWN}`}})
+    if (!warnDoc || !warnDoc.warnings.length) return message.channel.send({embeds: [{color: 'RANDOM', description: `${lang.emptyWarnsWN.replace("{username}", mention.user.username)}`}]})
 
     const data = []
     for (let i = 0; warnDoc.warnings.length > i; i++) {
@@ -50,7 +50,7 @@ module.exports = class extends Command {
         if (warnDoc.warnings[i].length > 1000) warnDoc.warnings[i] = warnDoc.warnings[i].slice(0, 1000) + '...';
           embed // Build warning list
             .addField('\u200b', `${lang.warnTitleWN.replace("{i + 1}", i + 1)}`)
-            .addField(`Warning ID` || `${lang.emptyWN}`, `${warnDoc.warningID[i]}`, true)
+            .addField(`ID Advertencia` || `${lang.emptyWN}`, `${warnDoc.warningID[i]}`, true)
             .addField(`${lang.moderatorWN}` || `${lang.emptyWN}`, message.guild.members.cache.get(warnDoc.moderator[i]).user.tag, true)
             //.addField(`Acción` || 'Desconocido', warnDoc.modType[i], true) //it says if its mute or warn or ban etc
             .addField(`${lang.reasonWN}` || `${lang.emptyWN}`, warnDoc.warnings[i], true)
@@ -60,7 +60,7 @@ module.exports = class extends Command {
     return embed
       .setTitle(`${lang.titleWarnsWN}`)
       .setDescription(`${lang.descriptionWarnsWN.replace("{user_tag}", mention.user.tag).replace("{count}", count)}`)
-      .setFooter(`${message.author.username} [${current} - ${max}]`, message.author.displayAvatarURL({ dynamic: true }))
+      .setFooter(message.guild.name, message.author.displayAvatarURL({ dynamic: true }))
     };
 
     if (count < 4) return message.channel.send({embeds: [buildEmbed(0, embed)]});

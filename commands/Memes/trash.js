@@ -7,21 +7,24 @@ module.exports = class extends Command {
       super(...args, {
         name: 'trash',
         description: `Parece ser que la basura... te tiene un parecido.`,
-        category: 'memes',
-        examples: ['trash', 'trash <@user>'],
-        botPermissions: ['ATTACH_FILES'],
+        category: 'Memes',
+        usage: ['<Miembro opcional>'],
+        examples: ['trash', 'trash Nero.'],
         cooldown: 3,
       });
     }
 
     async run(message, args, client = message.client) {
 
-    let user = message.mentions.users.first() || this.client.users.cache.find(user => user.username.toLowerCase() == args.join(' ').toLowerCase()) || this.client.users.cache.find(user => user.tag.toLowerCase() == args.join(' ').toLowerCase()) || message.author
-
-    let img = await new DIG.Trash().getImage(user.displayAvatarURL({ format: 'png', size: 1024}))
-    let att = new Discord.MessageAttachment(img, 'trash.png')
-    message.channel.send(att)
-
-
-      }
+    let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.user.tag.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.displayName.toLowerCase() === args.join(" ").toLowerCase()) || message.member
+    let img = await new DIG.Trash().getImage(user.user.displayAvatarURL({ format: 'png', size: 1024}))
+    message.channel.send({
+      files: [
+        {
+          attachment: img,
+          name: `trash.png`
+        }
+      ]
+    })
+  }
 };

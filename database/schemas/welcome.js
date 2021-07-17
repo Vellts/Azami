@@ -20,7 +20,7 @@ const guildConfigSchema = mongoose.Schema({
   },
   welcomeMessage:{
     type: mongoose.SchemaTypes.String,
-    default: `Welcome {user} to {guild}! We now have {memberCount} Members!`,
+    default: `Bienvenid@ {user}. Ahora tenemos {memberCount} miembros!`,
   },
   welcomeEmbed:{
     type: mongoose.SchemaTypes.String,

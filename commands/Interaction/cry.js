@@ -6,9 +6,10 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'cry',
-        aliases: ["ping", "latency"],
         description: `Expresa tu llanto con los demás.`,
         category: 'Interaction',
+        usage: ['<Miembro opcional>'],
+        examples: ['cry', 'cry @Nero'],
         cooldown: 3,
       });
     } 
@@ -17,23 +18,24 @@ module.exports = class extends Command {
 
     let img = await azami.Cry()
 
-    let miembro = message.mentions.users.first() || this.client.users.cache.find(user => user.username.toLowerCase() == args.join(' ').toLowerCase()) || this.client.users.cache.find(user => user.tag.toLowerCase() == args.join(' ').toLowerCase())
-    if(miembro === message.author) return message.channel.send('¿Por qué te aburres contigo? u.u')
+    let miembro = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.user.tag.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.displayName.toLowerCase() === args.join(" ").toLowerCase())
+    if(miembro === message.author) return
 
     if(!miembro){
-      message.channel.send({embed: 
-        {color:'RANDOM', 
+      message.channel.send({embeds: 
+        [{color:'RANDOM', 
         description: `**${message.author.username}** ha soltado unas lagrimas... :(`, 
         image: {url: img}
-      }})
+      }]})
       } else {
-        const msg = [`**${message.author.username}** comienza a llorar con **${miembro.username}**. u.u`]
+        if(miembro.user.bot) return
+        const msg = [`**${message.author.username}** comienza a llorar con **${miembro.user.username}**. u.u`]
         let random = msg[Math.floor(Math.random() * msg.length)]
-        message.channel.send({embed: 
-        {color:'RANDOM', 
+        message.channel.send({embeds: 
+        [{color:'RANDOM', 
         description: random, 
         image: {url: img}
-      }})
+      }]})
     }
 
 

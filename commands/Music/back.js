@@ -17,15 +17,13 @@ module.exports = class extends Command {
     async run(message, args) {
 
     const player = this.client.manager.players.get(message.guild.id);
-    if (!player) return message.channel.send('nao nao')
+    if (!player) return message.channel.send(`${this.client.emote.badunu} ***No se está reproduciendo ningúna canción en el servidor. u.u***`)
 
-    if (message.member.voice.channel.id !== player.voiceChannel) return message.channel.send('nao voz')
-    if (player.queue.previous == null) return message.channel.send('sin cancion previa');
+    if (message.member.voice.channel.id !== player.voiceChannel) return message.channel.send(`${this.client.emote.jumpjump} ***¡Este canal no es el apropiado para manejar mis notas músicales!***`)
+    if (player.queue.previous == null) return message.channel.send(`${this.client.emote.interdasting} ***No se ha reproducido una canción previamente.***`);
+    message.channel.send(`${this.client.emote.bunnyPompom} ***Cargando canción...***`).then(x => x.deleteTimed({ timeout: 2000 }))
+    await this.client.delay(2000)
     player.queue.unshift(player.queue.previous);
     player.stop();
-    }
-
-    async callback(interaction, guild, args) {
-      console.log('asdasdasd')
   }
 };

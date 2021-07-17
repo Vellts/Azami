@@ -8,6 +8,8 @@ module.exports = class extends Command {
         name: 'laugh',
         description: `Ríete de algo, o de alguien.`,
         category: 'Interaction',
+        usage: ['<Miembro opcional>'],
+        examples: ['laugh', 'laugh @Nero'],
         cooldown: 3,
       });
     } 
@@ -18,23 +20,24 @@ module.exports = class extends Command {
 
     let img = await azami.Laugh()
 
-    let miembro = message.mentions.users.first() || this.client.users.cache.find(user => user.username.toLowerCase() == args.join(' ').toLowerCase()) || this.client.users.cache.find(user => user.tag.toLowerCase() == args.join(' ').toLowerCase())
-    if(miembro === message.author) return message.channel.send('Riete de alguien más. u.u')
+    let miembro = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.user.tag.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.displayName.toLowerCase() === args.join(" ").toLowerCase())
+    if(miembro === message.author) return 
 
     if(!miembro){
-      message.channel.send({embed: 
-        {color:'RANDOM', 
+      message.channel.send({embeds: 
+        [{color:'RANDOM', 
         description: `**${message.author.username}** parece que se ríe de algo... o alguien.`, 
         image: {url: img}
-      }})
+      }]})
       } else {
-        const msg = [`**${message.author.username}** se está riendo de **${miembro.username}**.`]
+        if(miembro.user.bot) return
+        const msg = [`**${message.author.username}** se está riendo de **${miembro.user.username}**.`]
         let random = msg[Math.floor(Math.random() * msg.length)]
-        message.channel.send({embed: 
-        {color:'RANDOM', 
+        message.channel.send({embeds: 
+        [{color:'RANDOM', 
         description: random, 
         image: {url: img}
-      }})
+      }]})
     }
 
 

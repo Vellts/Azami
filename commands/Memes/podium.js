@@ -7,9 +7,9 @@ module.exports = class extends Command {
       super(...args, {
         name: 'podium',
         description: `Imagen que desees, pero invertida.`,
-        category: 'memes',
-        examples: ['invert', 'invert <@user>'],
-        botPermissions: ['ATTACH_FILES'],
+        category: 'Memes',
+        usage: ['<Miembro opcional>'],
+        examples: ['invert', 'invert @Nero.'],
         cooldown: 3,
       });
     }
@@ -25,8 +25,14 @@ module.exports = class extends Command {
     if(!user3) user3 = message.author
 
     let img = await new DIG.Podium().getImage(user.displayAvatarURL({ format: 'png'}), user2.displayAvatarURL({ format: 'png' }), user3.displayAvatarURL({ format: 'png'}), user.username, user2.username, user3.username)
-    let att = new Discord.MessageAttachment(img, 'podium.png')
-    message.channel.send(att)
+    message.channel.send({
+      files: [
+        {
+          attachment: img,
+          name: `podium.png`
+        }
+      ]
+    })
 
 
       }

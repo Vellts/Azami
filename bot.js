@@ -1,4 +1,5 @@
 const { Client, Collection } = require("discord.js")
+require('./structures');
 const Util = require('./structures/Util');
 const Guild = require('./database/schemas/Guild')
 const config = require('./config.json');

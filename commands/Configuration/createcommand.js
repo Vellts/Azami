@@ -24,11 +24,11 @@ module.exports = class extends Command {
     const lang = require(`../../data/language/${guildDB.language}.js`)
 
     let namee = args[0]
-    if(!namee) return message.lineReplyNoMention(`${client.emote.bunnyconfused} ${lang.ccmissContent.replace('{prefix}', guildDB.prefix)}.`)
+    if(!namee) return message.channel.send({content: `${client.emote.bunnyconfused} ${lang.ccmissContent.replace('{prefix}', guildDB.prefix)}.`, reply: { messageReference: message.id }, allowedMentions: { repliedUser: false }})
     let content = args.slice(1).join(" ")
     let name = namee.toLowerCase()
 
-    if (!content) return message.lineReplyNoMention(`${client.emote.bunnyconfused} ${lang.ccmissContent.replace('{prefix}', guildDB.prefix)}.`)
+    if (!content) return message.channel.send({content: `${client.emote.bunnyconfused} ${lang.ccmissContent.replace('{prefix}', guildDB.prefix)}.`, reply: { messageReference: message.id }, allowedMentions: { repliedUser: false }})
     if (namee.length > 30) return message.channel.send(`${client.emote.rabbitMad} ${lang.ccmaxCommandLength}`);
     if (content.length > 2000) return message.channel.send(`${client.emote.rabbitMad} ${lang.ccmaxResLength}`); 
     if (this.client.commands.get(namee) || this.client.aliases.get(namee)) return message.channel.send(`${client.emote.rabbitReally} ${lang.ccCommandExist}`);
@@ -51,7 +51,7 @@ module.exports = class extends Command {
     }, async(err, data) => {
       if (!data) {
         customCommand.create({ guildId: message.guild.id, name, content });
-        message.channel.send(`${client.emote.rocketPink} ${lang.ccSaveCommand} \`${name}\`!***\n\n${client.emote.pinkarrow2} ${lang.ccDeleteCommand.replace('{prefix}', guildDB.prefix)}*`)
+        message.channel.send(`${client.emote.rocketPink} ${lang.ccSaveCommand} \`${name}\`!* ***\n\n${client.emote.pinkarrow2} ${lang.ccDeleteCommand.replace('{prefix}', guildDB.prefix)}***`)
       } else {
         return message.channel.send(`${client.emote.rabbitMad} ${lang.ccCommandExist}`)
       }

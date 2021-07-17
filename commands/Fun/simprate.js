@@ -5,9 +5,11 @@ const config = require('../../config.json');
 module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
-        name: 'simp',
-        aliases: ["simprate"],
-        description: `Display\'s ${config.bot_name || 'Bot'}\'s Ping Latency.`,
+        name: 'simprate',
+        aliases: ["simp"],
+        description: `Calcula que tan simp es la otra persona.`,
+        usage: ['<@Mención>'],
+        examples: ['simprate', 'simprate @Nero'],
         category: 'Fun',
         cooldown: 3,
       });
@@ -26,17 +28,18 @@ module.exports = class extends Command {
 
     const member = message.mentions.users.first() || message.author
     let amount = random(1, 100)
-    message.channel.send({
-      embed: {
-        title: 'Simprate',
-        description: `${lang.IsSIMP.replace('{username}', member.username).replace('{per}', amount)}`,
-        footer: {
-          text: message.author.username,
-          icon_url: message.author.displayAvatarURL({dynamic: true})
-        },
-        timestamp: new Date()
-      }
+    message.channel.send({embeds:
+      [
+        {
+          title: 'Simprate',
+          description: `${lang.IsSIMP.replace('{username}', member.username).replace('{per}', amount)}`,
+          footer: {
+            text: message.author.username,
+            icon_url: message.author.displayAvatarURL({dynamic: true})
+          },
+          timestamp: new Date()
+        }
+      ]
     })
-
   }
 };

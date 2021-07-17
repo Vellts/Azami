@@ -37,8 +37,13 @@ module.exports = {
   	"sakurahana": "<a:Az_Sakurahana:840355229245374484>",
   	"cuteRabbit": "<a:Az_cuteRabbit:862766266616250369>",
   	"bunnyPompom": "<a:Az_bunnyPompom:862767530824957972>",
-  	"bunnyPoke": "<a:Az_bunnyPoke:862769206315843634>",
+  	"bunnyPoke": "<a:Az_bunnyPoke:862769207535075349>",
   	"bunnyRainbow": "<a:Az_bunnyRainbow:862770934385606686>",
+  	"bunnyBubble": "<a:Az_bunnyBubble:864671602360582165>",
   	"bunnyDance": "<a:Az_bunnyDance:862771423226363934>",
-  	"bunnyhappy": "<a:Az_bunnyhappy:862771692124110889>"
+  	"bunnyhappy": "<a:Az_bunnyhappy:862771692124110889>",
+  	"bunnyHmm": "<:Az_bunnyHmm:865281727869616178>",
+  	"puppySlap": "<a:Az_puppySlap:865285437051764746>",
+  	"badunu": "<a:Az_badunu:865770079979700234>",
+  	"jumpjump": "<a:Az_jumpjump:865770763281760266>"
 }

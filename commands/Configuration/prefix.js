@@ -6,7 +6,7 @@ module.exports = class extends Command {
       super(...args, {
         name: 'setprefix',
         aliases: ['prefix'],
-        description: 'Customiza el prefix del servidor, al más comodo.',
+        description: 'Personaliza el prefix del servidor, al más comodo.',
         category: 'Configuration',
         usage: [ '<prefix>' ],
         examples: [ 'prefix az!', 'prefix +', 'prefix !' ],
@@ -25,14 +25,14 @@ module.exports = class extends Command {
 
       let rex = new RegExp(/([\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2694-\u2697]|\uD83E[\uDD10-\uDD5D])|<(a|):.+?:\d+>|([\uD800-\uDBFF][\uDC00-\uDFFF])/g)
       let nprefix = args[0]
-      if(rex.test(nprefix)) return message.lineReplyNoMention('nao')
-      if (nprefix.length < 1) return message.lineReplyNoMention(`${this.client.emote.rabbitConfused} ${lang.missPrefix}`)
-      if(nprefix.length > 4) return message.lineReplyNoMention(`${this.client.emote.rabbitReally} ${lang.maxLengthPrefix}`)
+      if(rex.test(nprefix)) return message.channel.send(`***${this.client.emote.bunnyconfused} ¡Eh! No puedes usar emojis personalizados o emojis unicodes.***`)
+      if (nprefix.length < 1) return message.channel.send(`${this.client.emote.rabbitConfused} ${lang.missPrefix}`)
+      if(nprefix.length > 4) return message.channel.send(`${this.client.emote.rabbitReally} ${lang.maxLengthPrefix}`)
 
       await settings.updateOne({
         prefix: nprefix
       });
 
-      return message.lineReplyNoMention(`${this.client.emote.crayons} ${lang.newPrefix}*** \`${nprefix}.\``)
+      return message.channel.send(`${this.client.emote.crayons} ${lang.newPrefix.replace("{prefix}", nprefix)}`)
     }
 };

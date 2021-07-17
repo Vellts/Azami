@@ -10,9 +10,9 @@ react.setURL(config.mongodb_url)
 module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
-        name: 'removerr',
-        aliases: ["removereactionrole", "rreactionrole", "deletereactionrole", "delreactionrole", "remrr", "delrr", 'delreaction', 'deletereaction'],
-        description: 'Delete a reaction role',
+        name: 'removereaction',
+        aliases: ["removereactionrole"],
+        description: 'remueve la reaction role.',
         category: 'Reaction Role',
         cooldown: 3,
         usage: '<channel> <messageID> <emoji>',
@@ -25,67 +25,32 @@ module.exports = class extends Command {
 
        const guildDB = await Guild.findOne({
         guildId: message.guild.id
-      });
+      }); 
     
 
       
     
-    let fail = message.client.emoji.fail
-      let success = message.client.emoji.success
-  const missingPermEmbed = new MessageEmbed()
-  .setAuthor(`Missing User Permissions`, message.author.displayAvatarURL())
-  .setDescription(`${fail} The following command the **Administrator** Permission`)
-  .setFooter(`https://github.com/peterhanania/reaction-roles`)
-   .setColor(client.color.red)
 
       let channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[0]) || message.guild.channels.cache.find(ch => ch.name === args[0])
-    if (!channel) return message.channel.send(new MessageEmbed()
-     .setAuthor(message.author.tag, message.author.displayAvatarURL())
-  .setDescription(`${fail} Provide me with a valid Channel`)
-  .setFooter(`https://github.com/peterhanania/reaction-roles`)
-   .setColor(client.color.red)
-    );
+    if (!channel) return message.channel.send('menciona un canal');
     
     let ID = args[1]
-    if(!ID) return message.channel.send(new MessageEmbed()
-     .setAuthor(message.author.tag, message.author.displayAvatarURL())
-  .setDescription(`${fail} Provide me with a valid message ID`)
-  .setFooter(`https://github.com/peterhanania/reaction-roles`)
-    );
-    let messageID = await channel.messages.fetch(ID).catch(() => { return message.channel.send(new MessageEmbed()
-     .setAuthor(message.author.tag, message.author.displayAvatarURL())
-  .setDescription(`${fail} I could not find the following ID`)
-  .setFooter(`https://github.com/peterhanania/reaction-roles`)
-   .setColor(client.color.red)
-    ); })
+    if(!ID) return message.channel.send('menciona la id del mensaje');
+    let messageID = await channel.messages.fetch(ID).catch(() => { return message.channel.send('id del mensaje no valida'); })
 
-           let emoji = args[2]
+    let emoji = args[2]
 
-    if (!emoji) return message.channel.send(new MessageEmbed()
-     .setAuthor(message.author.tag, message.author.displayAvatarURL())
-  .setDescription(`${fail} Provide me with a valid Emoji`)
-  .setFooter(`https://github.com/peterhanania/reaction-roles`)
-   .setColor(client.color.red)
-    );
+    if (!emoji) return message.channel.send('menciona un emoji');
 
   
     
-    if (isCustomEmoji(args[2])) return message.channel.send(new MessageEmbed()
-     .setAuthor(message.author.tag, message.author.displayAvatarURL())
-  .setDescription(`${fail} Do Not use custom Emojis!`)
-  .setFooter(`https://github.com/peterhanania/reaction-roles`)
-   .setColor(client.color.red)
-    );
+    if (isCustomEmoji(args[2])) return message.channel.send('no uses emojis personalizados');
     
    
 
     await react.reactionDelete(client, message.guild.id , ID, emoji);
     
-     message.channel.send(new MessageEmbed()
-   .setColor(client.color.green)
-     .setAuthor(message.author.tag, message.author.displayAvatarURL())
-  .setDescription(`${success} Deleted The [Reaction Role](${messageID.url})`)
-  .setFooter(`https://github.com/peterhanania/reaction-roles`))
+     message.channel.send('eliminado el reaction role')
   
 
 
