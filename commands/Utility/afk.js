@@ -3,10 +3,10 @@ const Guild = require('../../database/schemas/Guild');
 const afkModel = require('../../models/afk.js');
 const { MessageEmbed } = require('discord.js')
 
-module.exports = class extends Command {
+module.exports = class Afk extends Command {
     constructor(...args) {
       super(...args, {
-        name: 'afk',
+        name: 'Utilidad',
         description: 'Establece tu estado afk.',
         category: 'Utility',
         usage: [ '<mensaje opcional>'],
@@ -26,7 +26,7 @@ module.exports = class extends Command {
 
     let afkM = args.join(" ")
     if(!afkM) afkM = `${lang.missStatusAK}`
- 
+
     await afkModel.findOne({ guildId: message.guild.id, userId: message.author.id }, async (err, data) => {
         if(err) throw err;
         if(!data){
@@ -41,8 +41,7 @@ module.exports = class extends Command {
             `)
             .setColor('RANDOM')
             .setFooter(lang.footerAFK)
-            .setTimestamp()
-            message.channel.send({embeds: [embed]})
+            message.reply({embeds: [embed], allowedMentions: { repliedUser: false }})
         }
     })
 

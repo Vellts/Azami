@@ -7,76 +7,61 @@ module.exports = class extends Command {
       super(...args, {
         name: 'togglecommand',
         description: 'Disable or enable commands in the guild',
-        category: 'Configuration',
+        category: 'Configuración',
         examples: [ 'togglecommand angry'],
         cooldown: 3,
-        guildOnly: true,
         userPermission: ['MANAGE_GUILD'],
       });
     }
 
-    async run(message, args) {
-      const settings = await Guild.findOne({
-        guildId: message.guild.id,
-      }, (err, guild) => {
-        if (err) console.log(err)
-      });
+    async run(message, args, settings) {
 
-      const guildDB = await Guild.findOne({
-        guildId: message.guild.id
-      });
-      const lang = require(`../../data/language/${guildDB.language}.js`)
+    const lang = require(`../../data/language/${settings.language}.js`)
 
-      if(!args[0]) return message.channel.send(`${client.emote.bunnyconfused} ${lang.missArgsTCC}`);
+    if(!args[0]) return message.reply({content: `${this.client.emote.bunnyconfused} ${lang.missArgsTCC}`, allowedMentions: { repliedUser: false }});
 
-       const command = this.client.commands.get(args[0]) || this.client.aliases.get(args[0])
+    const command = this.client.commands.get(args[0]) || this.client.aliases.get(args[0])
 
-    if (!command || (command && command.category == 'Owner')) 
-      return message.channel.send(`${client.emote.rabbitReally} ${lang.notValidCommandTCC}`)
+    if (!command || (command && command.category == 'Owner')) return message.reply({content: `${this.client.emote.rabbitReally} ${lang.notValidCommandTCC}`, allowedMentions: { repliedUser: false }})
 
-  if(command && command.category === "Config") return message.channel.send(`${client.emote.rabbitReally} ${lang.configCommandTCC}`)
+    if(command && command.category === "Config") return message.reply({content: `${this.client.emote.rabbitReally} ${lang.configCommandTCC}`, allowedMentions: { repliedUser: false }})
 
-       let disabled = guildDB.disabledCommands
-       if (typeof(disabled) === 'string') disabled = disabled.split(' ');
+    let disabled = settings.disabledCommands
+    if (typeof(disabled) === 'string') disabled = disabled.split(' ');
 
     let description;
-
     if (!disabled.includes(command.name || command)) {
-      guildDB.disabledCommands.push(command.name || command); 
+      settings.disabledCommands.push(command.name || command); 
       description = `${lang.disableCommandTCC.replace('{commands}', command.name || command)}`;
-    
     } else {
       removeA(disabled, command.name || command)
       description = `${lang.enableCommandTCC.replace('{commands}', command.name || command)}`;
     }
-     await guildDB.save().catch(()=>{})
+    await settings.save().catch(()=>{})
 
-     const disabledCommands = disabled.map(c => `\`${c}\``).join(' ') || `\`${lang.disableCommandsTCC}\``;
+    const disabledCommands = disabled.map(c => `\`${c}\``).join(' ') || '\u200b';
 
-         const embed = new discord.MessageEmbed()
+    const embed = new discord.MessageEmbed()
       .setAuthor(message.author.tag, message.guild.iconURL({ dynamic: true }))
-      .setDescription(description)
-      .addField(lang.disableCommandsListTCC, disabledCommands, true)
+      .addField(description, disabledCommands, true)
       .setTimestamp()
- message.channel.send(embed).catch(()=>{
-               const errorEmbed = new discord.MessageEmbed()
+    message.reply({embeds: [embed], allowedMentions: { repliedUser: false }}).catch(()=>{
+      const errorEmbed = new discord.MessageEmbed()
       .setAuthor(message.author.tag, message.guild.iconURL({ dynamic: true }))
-      .setDescription(description)
-      .addField(lang.disableCommandsListTCC, `\`${lang.listCategoriesErrorTC}\``, true)
+      .addField(description, `\`${lang.listCategoriesErrorTC}\``, true)
       .setTimestamp()
-      message.channel.send(errorEmbed).catch(()=>{})
+      message.reply({embeds: [embed], allowedMentions: { repliedUser: false }}).catch(()=>{})
     })
+  }
+}   
 
-
-    }
-  }    
-          function removeA(arr) {
-    var what, a = arguments, L = a.length, ax;
-    while (L > 1 && arr.length) {
-        what = a[--L];
-        while ((ax= arr.indexOf(what)) !== -1) {
-            arr.splice(ax, 1);
-        }
-    }
-    return arr;
+function removeA(arr) {
+  var what, a = arguments, L = a.length, ax;
+  while (L > 1 && arr.length) {
+    what = a[--L];
+    while ((ax= arr.indexOf(what)) !== -1) {
+      arr.splice(ax, 1);
+      }
+  }
+  return arr;
 }

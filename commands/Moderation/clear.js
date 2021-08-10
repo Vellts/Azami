@@ -8,7 +8,7 @@ module.exports = class extends Command {
         name: 'clear',
         aliases: ['cc', 'clean'],
         description: 'Elimina la cantidad de mensajes que deseas, con un máximo de 800.',
-        category: 'Moderation',
+        category: 'Moderación',
         userPermission: ['MANAGE_MESSAGES'],
         botPermission: ['MANAGE_MESSAGES'],
         usage: ['<cantidad>', '<cantidad> <miembro>'],
@@ -27,12 +27,12 @@ module.exports = class extends Command {
     const lang = require(`../../data/language/${settings.language}.js`)
 
     const cantidad = args[0]
-    if(!cantidad) return message.channel.send(`${this.client.emote.bunnyPoke} ***Se te ha olvidad agregar la cantidad de mensajes a borrar. u.u***`)
-    if(isNaN(cantidad) || cantidad < 1 || cantidad > 800) return message.channel.send(`${this.client.emote.interdasting} ***No has agregado una cantidad correcta.\n\n${this.client.emote.pinkarrow2} Maxímo: \`800\`.\n${this.client.emote.pinkarrow2} Minimo: \`1\`.***`)
-    if(cantidad > 300 && !message.guild.premium) return message.channel.send('guild no premium')
+    if(!cantidad) return message.reply({content: `${this.client.emote.bunnyPoke} ***Se te ha olvidad agregar la cantidad de mensajes a borrar. u.u***`, allowedMentions: { repliedUser: false }})
+    if(isNaN(cantidad) || cantidad < 1 || cantidad > 800) return message.reply({content:`${this.client.emote.interdasting} ***No has agregado una cantidad correcta.\n\n${this.client.emote.pinkarrow2} Maxímo: \`800\`.\n${this.client.emote.pinkarrow2} Minimo: \`1\`.***`, allowedMentions: { repliedUser: false }})
+    if(cantidad > 300 && !message.guild.premium) return message.reply({content: `${this.client.emote.bunnyPoke} ***Oops! No puedes borrar más de 300 mensajes. Ésta es una carácteristica premium.***`, allowedMentions: { repliedUser: false }})
 
     if(cantidad >= 100){
-        let msg = await message.channel.send(`${this.client.emote.bunnyconfused} ***¿Deseas borrar \`${cantidad}\` mensajes? Una vez borrados no se podrán recuperar.***`)
+        let msg = await message.reply({content: `${this.client.emote.bunnyconfused} ***¿Deseas borrar \`${cantidad}\` mensajes? Una vez borrados no se podrán recuperar.***`, allowedMentions: { repliedUser: false }})
         await msg.react('✅')
         await msg.react('❎')
 
@@ -41,7 +41,7 @@ module.exports = class extends Command {
         .then(async (cc) => {
             const rr = cc.first()
             if(rr.emoji.name === '✅'){
-                await message.channel.send(`${this.client.emote.stars2} ***Borrando \`${cantidad}\` mensajes, la acción puede tomar \`${Math.ceil(cantidad/100) * 5}\` segundos.***`)
+                await message.reply({content: `${this.client.emote.stars2} ***Borrando \`${cantidad}\` mensajes, la acción puede tomar \`${Math.ceil(cantidad/100) * 5}\` segundos.***`, allowedMentions: { repliedUser: false }})
                 await this.client.delay(5000)
 
                 let x = 0, y = 0;
@@ -63,7 +63,7 @@ module.exports = class extends Command {
                         x = Math.ceil(amount / 100);
                     }
                 }
-                message.channel.send(`${this.client.emote.cat100} ***¡Bien! Se han borrado exitosamente \`${cantidad}\` mensajes.***`).then(x => x.deleteTimed({timeout: 5000}))
+                message.reply({content: `${this.client.emote.cat100} ***¡Bien! Se han borrado exitosamente \`${cantidad}\` mensajes.***`, allowedMentions: { repliedUser: false }}).then(x => x.deleteTimed({timeout: 5000}))
             } else if(rr.emoji.name === '❎') {
                 await msg.edit(`${this.client.emote.puppySlap} ***Cancelando la limpieza...***`).then(x => x.deleteTimed({ timeout: 3000 }))
                 await msg.reactions.removeAll()
@@ -81,7 +81,7 @@ module.exports = class extends Command {
 
                 // delete the message
                 await message.channel.bulkDelete(messages, true).catch(e => console.log(`El comando ${this.name} tiene el error: ${e}`));
-                message.channel.send(`${this.client.emote.cat100} ***¡Bien! Se han borrado exitosamente \`${cantidad}\` mensajes.***`).then(m => m.deleteTimed({ timeout: 5000 }));
+                message.channel.send({content: `${this.client.emote.cat100} ***¡Bien! Se han borrado exitosamente \`${cantidad}\` mensajes.***`}).then(m => m.deleteTimed({ timeout: 5000 }));
             });
         }
     }

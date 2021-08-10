@@ -17,15 +17,15 @@ module.exports = class extends Command {
     async run(message, args, client = message.client) {
 
     const text = args.join("+")
-    if (!text) return message.channel.send(`${client.emote.bunnyconfused} ***¿Se te ha olvido agregar texto?***`)
+    if (!text) return message.reply({content: `${client.emote.bunnyconfused} ***¿Se te ha olvido agregar texto?***`, allowedMentions: { repliedUser: false }})
 
-    message.channel.send({
+    message.reply({
       files: [
         {
           attachment: `https://vacefron.nl/api/changemymind?text=${text}`,
           name: `changemymind.png`
         }
-      ]
+      ], allowedMentions: { repliedUser: false }
     })
   }
 };

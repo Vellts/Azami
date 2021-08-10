@@ -1,16 +1,16 @@
 const SlashCommand = require('../../structures/SlashCommand');
-const azami = require("../../packages/imageng/src/index.js")
+const azami = require("../../Util/gifInteraction")
 const Discord = require('discord.js')
 
-module.exports = class extends SlashCommand {
+module.exports = class Lick extends SlashCommand {
   constructor(...args) {
     super(...args, {
       name: 'lick',
-      description: `cachetada unu`,
+      description: `Una lamida... ¿tendrá buen sabor? u.u`,
       options: [
         {
           name: 'usuario',
-          description: 'Argumento de prueba',
+          description: '¡Lame, lame, lame, lame!',
           type: 'USER',
           required: false,
         },
@@ -25,13 +25,24 @@ module.exports = class extends SlashCommand {
 
     const user = guild.members.cache.get(args.get('usuario')?.value);
     const author = guild.members.cache.get(interaction.user.id)
-    const image = await azami.Lick()
-    if(user){
+    let img = await azami.interactionGif(this.name)
+    if(!user || user.id === author.id){
       interaction.reply({
         embeds: [
           {
-            description: `**${author.user.username}**encuentra buen sabor en **${user.user.username}**. >u<`,
-            image: { url: image }
+            description: `Y-yo te voy a lamer **${author.user.username}**. o//o`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
+          }
+        ]
+      }) 
+    } else if(user.id === this.client.user.id){
+      interaction.reply({
+        embeds: [
+          {
+            description: `¡Eh! No lo hagas de nuevo,**${author.user.username}**. u.u`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
           }
         ]
       })
@@ -39,8 +50,9 @@ module.exports = class extends SlashCommand {
       interaction.reply({
         embeds: [
           {
-            description: `Y-yo te voy a lamer **${author.user.username}**. owo`,
-            image: { url: image }
+            description: `**${author.user.username}** encuentra buen sabor en **${user.user.username}**. >u<`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
           }
         ]
       })

@@ -7,12 +7,12 @@ module.exports = class extends Command {
       super(...args, {
         name: 'spank',
         description: `¡Dale una nalgada a alguien más! owo`,
-        category: 'Interaction',
+        category: 'Interacción',
         usage: ['<Miembro opcional>'],
         examples: ['spank', 'spank @Nero'],
         cooldown: 3,
       });
-    } 
+    }
 
     async run(message, args) {
 
@@ -22,18 +22,18 @@ module.exports = class extends Command {
     if(miembro === message.author) return
 
     if(!miembro){
-      message.channel.send({embeds: 
-        [{color:'RANDOM', 
-        description: `**${message.author.username}** recibió una nalgada de un ente desconocido (?).`, 
+      message.channel.send({embeds:
+        [{color:'RANDOM',
+        description: `**${message.author.username}** recibió una nalgada de un ente desconocido (?).`,
         image: {url: img}
       }]})
       } else {
         if(miembro.user.bot) return
         const msg = [`**${message.author.username}** le dió una nalgada a **${miembro.user.username}**. owo`]
         let random = msg[Math.floor(Math.random() * msg.length)]
-        message.channel.send({embeds: 
-        [{color:'RANDOM', 
-        description: random, 
+        message.channel.send({embeds:
+        [{color:'RANDOM',
+        description: random,
         image: {url: img}
       }]})
     }

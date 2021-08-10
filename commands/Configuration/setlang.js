@@ -7,7 +7,7 @@ module.exports = class extends Command {
         name: 'setlang',
         aliases: ['lang'],
         description: 'Customiza el prefix al que desees.',
-        category: 'Configuration',
+        category: 'a',
         usage: [ '<prefix>' ],
         examples: [ 'prefix $', 'prefix +', 'prefix ?' ],
         cooldown: 3,

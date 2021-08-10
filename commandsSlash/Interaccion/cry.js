@@ -1,23 +1,22 @@
 const SlashCommand = require('../../structures/SlashCommand');
-const azami = require("../../packages/imageng/src/index.js")
+const azami = require("../../Util/gifInteraction")
 const Discord = require('discord.js')
 
 module.exports = class extends SlashCommand {
   constructor(...args) {
     super(...args, {
       name: 'cry',
-      description: `cachetada unu`,
+      description: `Expresa tu llanto con los demás.`,
       options: [
         {
           name: 'usuario',
-          description: 'Argumento de prueba',
+          description: 'Expresate con alguién más. :3',
           type: 'USER',
           required: false,
         },
       ],
       guildOnly: true,
       cooldown: 5,
-      botPermission: ['MANAGE_GUILD'],
     });
   }
 
@@ -25,13 +24,25 @@ module.exports = class extends SlashCommand {
 
     const user = guild.members.cache.get(args.get('usuario')?.value);
     const author = guild.members.cache.get(interaction.user.id)
-    const image = await azami.Cry()
-    if(user){
+    let img = await azami.interactionGif(this.name)
+
+    if(!user || user.id === author.id){
       interaction.reply({
         embeds: [
           {
-            description: `**${author.user.username}** comienza a llorar con **${user.user.username}**. unu`,
-            image: { url: image }
+            description: `**${author.user.username}** ha soltado unas lagrimas... :(`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
+          }
+        ]
+      }) 
+    } else if(user.id === this.client.user.id){
+      interaction.reply({
+        embeds: [
+          {
+            description: `¡No llores por mi, **${author.user.username}**! D:`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
           }
         ]
       })
@@ -39,8 +50,9 @@ module.exports = class extends SlashCommand {
       interaction.reply({
         embeds: [
           {
-            description: `**${author.user.username}** ha soltado unas lagrimas... :(`,
-            image: { url: image }
+            description: `**${author.user.username}** llora junto con **${user.user.username}**. u.u`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
           }
         ]
       })

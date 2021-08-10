@@ -10,7 +10,7 @@ module.exports = class extends Command {
       super(...args, {
         name: 'warnings',
         description: 'Mira la cantidad de advertencias que tiene el usuario e igual podrás encontrar la ID del warn, con el cual podrás remover en cualquier momento.',
-        category: 'Moderation',
+        category: 'Moderación',
         usage: ['<@Usuario>'],
         examples: [ 'warnings @Nero'],
         cooldown: 3,
@@ -27,18 +27,18 @@ module.exports = class extends Command {
 
     let mention = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member
     const warnDoc = await warnModel.findOne({ guildID: message.guild.id, memberID: mention.id }).catch(err => console.log(err))
-    if (!warnDoc || !warnDoc.warnings.length) return message.channel.send({embeds: [{color: 'RANDOM', description: `${lang.emptyWarnsWN.replace("{username}", mention.user.username)}`}]})
+    if (!warnDoc || !warnDoc.warnings.length) return message.reply({embeds: [{color: 'RANDOM', description: `${lang.emptyWarnsWN.replace("{username}", mention.user.username)}`}], allowedMentions: { repliedUser: false }})
 
     const data = []
     for (let i = 0; warnDoc.warnings.length > i; i++) {
       data.push(`${lang.moderatorWN} ${await message.client.users.fetch(warnDoc.moderator[i])}\n${lang.reasonWN} ${warnDoc.warnings[i]}\n${lang.dateWN} ${moment(warnDoc.date[i]).format("dddd, MMMM Do YYYY")}\n**Warning ID:** ${i + 1}\n`)
     }
-        
+
     const count = warnDoc.warnings.length;
 
     const embed = new MessageEmbed()
       //.setAuthor(mention.user.tag, mention.user.displayAvatarURL({ dynamic: true }))
-      
+
       .setThumbnail(message.guild.iconURL({dynamic: true}))
       .setTimestamp()
 
@@ -63,27 +63,27 @@ module.exports = class extends Command {
       .setFooter(message.guild.name, message.author.displayAvatarURL({ dynamic: true }))
     };
 
-    if (count < 4) return message.channel.send({embeds: [buildEmbed(0, embed)]});
+    if (count < 4) return message.reply({embeds: [buildEmbed(0, embed)], allowedMentions: { repliedUser: false }});
       else {
         let n = 0;
         const json = embed.setFooter(
-          `${lang.ExpiredAt}\n` + message.member.displayName, 
+          `${lang.ExpiredAt}\n` + message.member.displayName,
           message.author.displayAvatarURL({ dynamic: true })
-        ).toJSON(); 
+        ).toJSON();
 
         const first = () => {
           if (n === 0) return;
             n = 0;
             return buildEmbed(n, new MessageEmbed(json));
           };
-    
+
         const previous = () => {
           if (n === 0) return;
             n -= 4;
             if (n < 0) n = 0;
             return buildEmbed(n, new MessageEmbed(json));
         };
-    
+
         const next = () => {
           const cap = count - (count % 4);
           if (n === cap || n + 4 === count) return;
@@ -91,7 +91,7 @@ module.exports = class extends Command {
             if (n >= count) n = cap;
             return buildEmbed(n, new MessageEmbed(json));
         };
-    
+
         const last = () => {
           const cap = count - (count % 4);
           if (n === cap || n + 4 === count) return;
@@ -99,7 +99,7 @@ module.exports = class extends Command {
             if (n === count) n -= 4;
             return buildEmbed(n, new MessageEmbed(json));
         };
-    
+
         const reactions = {
           '⏪': first,
           '◀️': previous,
@@ -107,19 +107,19 @@ module.exports = class extends Command {
           '▶️': next,
           '⏩': last,
         };
-    
+
         const menu = new ReactionMenu(
           message.client,
-          message.channel, 
-          message.member, 
-          buildEmbed(n, new MessageEmbed(json)), 
+          message.channel,
+          message.member,
+          buildEmbed(n, new MessageEmbed(json)),
           null,
           null,
-          reactions, 
+          reactions,
           180000
         )
-    
+
         menu.reactions['⏹️'] = menu.stop.bind(menu)
     };
   }
-}    
+}

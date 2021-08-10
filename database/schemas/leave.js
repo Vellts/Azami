@@ -20,7 +20,7 @@ const guildConfigSchema = mongoose.Schema({
   },
   leaveMessage:{
     type: mongoose.SchemaTypes.String,
-    default: `{user_tag} just left {guild}, we now have {memberCount} Members!`,
+    default: `{user_tag} ha salido del servidor! Nuestras cifras han bajado a {memberCount}. :(`,
   },
   leaveEmbed:{
     type: mongoose.SchemaTypes.String,
@@ -33,7 +33,7 @@ const guildConfigSchema = mongoose.Schema({
     type: mongoose.SchemaTypes.String,
     default: `Goodbye!`,
     },
-     
+
   titleURL: {
     type: mongoose.SchemaTypes.String,
     default: ``,
@@ -72,7 +72,7 @@ const guildConfigSchema = mongoose.Schema({
     default: ``,
     },
 
-    
+
     url: {
     type: mongoose.SchemaTypes.String,
     default: ``,
@@ -82,7 +82,7 @@ const guildConfigSchema = mongoose.Schema({
     type: mongoose.SchemaTypes.String,
     default: ``,
     },
-    
+
     },
 
   },

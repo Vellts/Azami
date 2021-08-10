@@ -29,12 +29,7 @@ module.exports = class Interaction extends Event {
 			const channel = this.client.channels.cache.get(interaction.channelId)
 			const member = this.client.users.cache.get(interaction.user.id)
 			const guildMember = await guild.members.fetch(interaction.user.id);
-
-			console.log(member); // the guild member object
-
-			//////////////////
-			console.log(interaction.id)
-			console.log(interaction.applicationId)
+			
 			/////////////////
 
 			if(cmd.nsfwOnly){

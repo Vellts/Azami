@@ -28,13 +28,13 @@ module.exports = class extends Command {
 
     let frase = frases[mathRandom(frases.length)]
 
-    message.lineReplyNoMention(new MessageEmbed()
+    message.reply({embeds: [new MessageEmbed()
         .setTitle(`${lang.randomTopicRT} **${message.guild.name}**`)
         .setThumbnail(message.guild.iconURL({dynamic: true}))
         .setDescription(`${frase}`)
         .setFooter(this.client.user.username, this.client.user.displayAvatarURL())
-        .setTimestamp()
-    )
+        .setTimestamp()], allowedMentions: { repliedUser: false }
+    })
 
     }
 };

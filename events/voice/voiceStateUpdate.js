@@ -3,7 +3,7 @@ const Event = require('../../structures/Event'),
 
 module.exports = class voiceStateUpdate extends Event {
 	async run(oldState, newState){
-		const newMember = newState.guild.members.cache.get(newState.id);
+		/*const newMember = newState.guild.members.cache.get(newState.id);
 		const channel = newState.channelId ? newState.guild.channels.cache.get(newState.channelId.id || newState.channelId) : null;
 
 		const player = this.client.manager.players.get(newState.guild.id)
@@ -45,7 +45,7 @@ module.exports = class voiceStateUpdate extends Event {
 					}
 				}
 			}
-		}
+		}*/
 
 	}
 }

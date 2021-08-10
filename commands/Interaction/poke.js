@@ -7,12 +7,12 @@ module.exports = class extends Command {
       super(...args, {
         name: 'poke',
         description: `¡Molesta a todo el que mires!`,
-        category: 'Interaction',
+        category: 'Interacción',
         usage: ['<Miembro opcional>'],
         examples: ['poke', 'poke @Nero'],
         cooldown: 3,
       });
-    } 
+    }
 
     async run(message, args) {
 
@@ -22,18 +22,18 @@ module.exports = class extends Command {
     if(miembro === message.author) return
 
     if(!miembro){
-      message.channel.send({embeds: 
-        [{color:'RANDOM', 
-        description: `Puck puck-.`, 
+      message.channel.send({embeds:
+        [{color:'RANDOM',
+        description: `Puck puck-.`,
         image: {url: img}
       }]})
       } else {
         if(miembro.user.bot) return
         const msg = [`**${miembro.user.username}** recibe molestias por **${message.author.username}**. >u<`]
         let random = msg[Math.floor(Math.random() * msg.length)]
-        message.channel.send({embeds: 
-        [{color:'RANDOM', 
-        description: random, 
+        message.channel.send({embeds:
+        [{color:'RANDOM',
+        description: random,
         image: {url: img}
       }]})
     }

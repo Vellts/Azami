@@ -144,11 +144,9 @@ module.exports = async (client) => {
     renderTemplate(res, req, "index.ejs");
   });
 
-  app.get("/test", (req, res) => {
+  app.get("/invite", (req, res) => {
 
-    const guilds = client.guilds.cache.size
-
-    renderTemplate(res, req, "test.ejs", { guilds })
+    renderTemplate(res, req, "test.ejs")
   })
 
   app.get("/manage", checkAuth, (req, res) => {

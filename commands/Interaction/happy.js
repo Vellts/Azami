@@ -1,43 +1,48 @@
 const Command = require('../../structures/Command');
-const azami = require("../../packages/imageng/src/index.js")
+const azami = require("../../Util/gifInteraction")
 const Discord = require('discord.js')
 
-module.exports = class extends Command {
+module.exports = class Happy extends Command {
     constructor(...args) {
       super(...args, {
         name: 'happy',
         description: `¡Muestra tu felicidad con todo el mundo!`,
-        category: 'Interaction',
+        category: 'Interacción',
         usage: ['<Miembro opcional>'],
         examples: ['happy', 'happy @Nero'],
         cooldown: 3,
       });
-    } 
+    }
 
     async run(message, args) {
 
-    let img = await azami.Happy()
+    let img = await azami.interactionGif(this.name)
 
     let miembro = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.user.tag.toLowerCase() === args.join(" ").toLowerCase()) || message.guild.members.cache.find(x => x.displayName.toLowerCase() === args.join(" ").toLowerCase())
-    if(miembro === message.author) return
 
-    if(!miembro){
-      message.channel.send({embeds: 
-        [{color:'RANDOM', 
-        description: `**${message.author.username}** se encuentra muy feliz. n.n`, 
-        image: {url: img}
-      }]})
-      } else {
-        if(miembro.user.bot) return
+    if(!miembro || miembro.id === message.author.id){
+      message.reply({embeds:
+        [{color:'RANDOM',
+        description: `**${message.author.username}** se encuentra muy feliz. n.n`,
+        image: {url: img.gif },
+        footer: { text: `Anime: ${img.name}` }
+      }], allowedMentions: { repliedUser: false }})
+    } else if(miembro.id === this.client.user.id){
+      message.reply({embeds:
+        [{color:'RANDOM',
+        description: `Me parece maravilloso que estés feliz, **${message.author.username}**. n.n`,
+        image: {url: img.gif },
+        footer: { text: `Anime: ${img.name}` }
+      }], allowedMentions: { repliedUser: false }})
+    } else {
         const msg = [`**${message.author.username}** está muy alegre por **${miembro.user.username}**. :3`]
         let random = msg[Math.floor(Math.random() * msg.length)]
-        message.channel.send({embed: 
-        [{color:'RANDOM', 
-        description: random, 
-        image: {url: img}
-      }]})
+        message.reply({embeds:
+        [{color:'RANDOM',
+        description: random,
+        image: {url: img.gif },
+        footer: { text: `Anime: ${img.name}` }
+      }], allowedMentions: { repliedUser: false }})
     }
-
-
-      }
+  }
 };

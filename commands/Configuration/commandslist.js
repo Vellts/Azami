@@ -9,7 +9,7 @@ module.exports = class extends Command {
         name: 'commandslist',
         aliases: ["commandlist", "cclist"],
         description: `Obtén la cantidad de comandos personalizados en el servidor.`,
-        category: 'Configuration',
+        category: 'Configuración',
         examples: ['commandlist'],
         cooldown: 3,
       });
@@ -25,7 +25,7 @@ module.exports = class extends Command {
     await customCommand.find({
       guildId: message.guild.id,
     }, (err, data) => {
-      if (!data && !data.name) return message.channel.send({content: `${message.client.emoji.fail} ${language.cc5}`, reply: { messageReference: message.id }, allowedMentions: { repliedUser: false }})
+      if (!data && !data.name) return message.reply({content: `${this.client.emote.rabbitMad} ${language.cc5}`, allowedMentions: { repliedUser: false }})
       let array =[]
       data.map((d, i) => array.push(d.name));
 
@@ -37,11 +37,11 @@ module.exports = class extends Command {
       .setTimestamp()
 
       if (!Array.isArray(array) || !array.length) {
-        embed.setDescription(`${client.emote.rabbitMad} ${lang.ccErrorList}`)
+        embed.setDescription(`${this.client.emote.rabbitMad} ${lang.ccErrorList}`)
       } else {
         embed.setDescription(`\`${(array).join(", ")}\``)
       }
-      message.channel.send({embeds: [embed], reply: { messageReference: message.id }, allowedMentions: { repliedUser: false }})
+      message.reply({embeds: [embed], allowedMentions: { repliedUser: false }})
     });
   }
 };

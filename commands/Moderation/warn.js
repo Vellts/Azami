@@ -11,7 +11,7 @@ module.exports = class extends Command {
       super(...args, {
         name: 'warn',
         description: '¡Regala una advertencia! Que bien merecida la tiene.',
-        category: 'Moderation',
+        category: 'Moderación',
         usage: ['<@Usario>'],
         examples: [ 'warn @Azami'],
         cooldown: 3,
@@ -26,13 +26,13 @@ module.exports = class extends Command {
     const logging = await Logging.findOne({ guildId: message.guild.id })
 
     let mention = message.mentions.members.first() || message.guild.members.cache.get(args[0])
-    if(!mention) return message.channel.send(`${client.emote.rabbitMad} ${lang.missUserWR}`)
-    if(mention.user.bot) return message.channel.send('no puedes advertir a bots.')
+    if(!mention) return message.reply({content: `${client.emote.rabbitMad} ${lang.missUserWR}`, allowedMentions: { repliedUser: false }})
+    if(mention.user.bot) return message.reply({content: `${this.client.emote.bunnyPoke} ***¡Hey hey! No puedes advertir a bots.`, allowedMentions: { repliedUser: false }})
 
     const mentionedPotision = mention.roles.highest.position
     const memberPotision = message.member.roles.highest.position
 
-    if (memberPotision <= mentionedPotision) return message.channel.send(`${client.emote.rabbitShocket} ${lang.highestRoleWR}`)
+    if (memberPotision <= mentionedPotision) return message.reply({content: `${client.emote.rabbitShocket} ${lang.highestRoleWR}`, allowedMentions: { repliedUser: false }})
     let razon = args.slice(1).join(' ') || 'Sin razón.'
 
     let warnID = random.password({
@@ -70,9 +70,9 @@ module.exports = class extends Command {
 
     await warnDoc.save().catch(err => console.log(err))
     let dmEmbed = `${this.client.emote.BananaCat} ${lang.sendUserWanrWR.replace("{servername}", message.guild.name).replace("{author_username}", message.author.username).replace("{razon}", razon)}`
-    mention.send({embed: {description: dmEmbed, color: 'RANDOM', author: {name: message.guild.name, icon_url: message.guild.iconURL({dynamic: true})}}}).catch(()=>{})
+    mention.send({embeds: [{description: dmEmbed, color: 'RANDOM', author: {name: message.guild.name, icon_url: message.guild.iconURL({dynamic: true})}}]}).catch(()=>{})
 
-    message.channel.send({embeds: [{color: 'RANDOM', description: `${client.emote.cuteBee} ${lang.sendWarnWR.replace("{username}", mention.user.username).replace("{razon}", razon)}`}]}).catch(()=>{});
+    message.reply({embeds: [{color: 'RANDOM', description: `${client.emote.cuteBee} ${lang.sendWarnWR.replace("{username}", mention.user.username).replace("{razon}", razon)}`}], allowedMentions: { repliedUser: false }}).catch(()=>{});
 
     if(logging && logging.moderation.auto_punish.toggle === "true"){
       if(Number(logging.moderation.auto_punish.amount) <= Number(warnDoc.warnings.length)){
@@ -89,7 +89,7 @@ module.exports = class extends Command {
           await mention.ban({ reason:`Autoban / Usuario responable: ${message.author.tag}`, days: 7 });
           await message.guild.members.unban(mention.user, `Autodesbaneo / Usuario responsable: ${message.author.tag}`);
         }
-        message.channel.send({embed: {description: `Castigo activado, ${action} **${mention.user.username}** ${client.emote.cuteBee}`, color: 'RANDOM'}})
+        message.reply({embeds: [{description: `Castigo activado, ${action} **${mention.user.username}** ${client.emote.cuteBee}`, color: 'RANDOM'}], allowedMentions: { repliedUser: false }})
           const auto = logging.moderation.auto_punish;
           if(auto.dm && auto.dm !== "1"){
             let dmEmbed;

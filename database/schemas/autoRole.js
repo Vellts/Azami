@@ -6,15 +6,21 @@ const guildConfigSchema = mongoose.Schema({
     required: true,
     unique: true
   },
-  channelID: {
+  roleID: {
     type: mongoose.SchemaTypes.String,
     required: false,
+    default: null
   },
-  categoryID: {
-    type: mongoose.SchemaTypes.String,
+  roleToggle: {
+    type: Boolean,
     required: false,
+    default: false
   },
-
+  roleUser: {
+    type: Array,
+    required: false,
+    default: []
+  }
 });
 
-module.exports = mongoose.model('Temp Vc', guildConfigSchema);
+module.exports = mongoose.model('autoRole', guildConfigSchema);

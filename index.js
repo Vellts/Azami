@@ -5,8 +5,9 @@ const fs = require('fs')
 
 bot.emote = require('./assets/emojis.js'); 
 
-require('./structures/erelaManager')(bot);
-bot.on("raw", (d) => bot.manager.updateVoiceState(d));
+require('./Util/LoL/LoLClient')(bot);
+//require('./structures/erelaManager')(bot);
+//bot.on("raw", (d) => bot.manager.updateVoiceState(d));
 
 
 if(config.dashboard === "true"){
@@ -18,7 +19,7 @@ bot.on('messageCreate', async message => {
     if(!bot.application?.owner) await bot.application?.fetch()
 
     if(message.content.toLowerCase() === `${bot.prefix}gcc` && message.author.id === bot.application?.owner.id){
-        let slash = []
+    let slash = []
     bot.slashCommands.filter(x => x.guildOnly).forEach(e => {
         slash.push({
             name: e.name,
@@ -74,7 +75,7 @@ bot.on('interaction', async interaction => {
 });*/
 
 process.on('unhandledRejection', err => {
-    bot.channels.cache.get('856714305029013525').send(`Unhandled promise rejection: ${err.message}.`);
+    //bot.channels.cache.get('856714305029013525').send(`Unhandled promise rejection: ${err.message}.`);
     console.log(err); 
     });
 

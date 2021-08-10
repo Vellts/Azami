@@ -8,7 +8,7 @@ module.exports = class extends Command {
         name: 'addemoji',
         aliases: ['addemj'],
         description: 'Agrega nuevos emojis a tu servidor de forma rápida.',
-        category: 'Moderation',
+        category: 'Moderación',
         userPermission: ['MANAGE_EMOJIS'],
         botPermission: ['MANAGE_EMOJIS'],
         usage: ['<emoji>'],
@@ -27,21 +27,21 @@ module.exports = class extends Command {
     const lang = require(`../../data/language/${settings.language}.js`)
 
     let url = message.attachments.first() ? message.attachments.first().url : undefined || args[1]
-    if (!url || url === undefined) return message.channel.send(`${this.client.emote.rabbitMad} ${lang.missLinkEmojiAE}`)
+    if (!url || url === undefined) return message.reply({content:`${this.client.emote.rabbitMad} ${lang.missLinkEmojiAE}`, allowedMentions: { repliedUser: false }})
     let name = args[0]
-    if (!name) return message.channel.send(`${this.client.emote.rabbitMad} ${lang.missNameEmojiAE}`)
+    if (!name) return message.reply({content: `${this.client.emote.rabbitMad} ${lang.missNameEmojiAE}`, allowedMentions: { repliedUser: false }})
 
     if (!message.attachments.first()) {
         message.guild.emojis.create(url, name).then(emoji => {
-            message.channel.send(`${emoji} **|** ${lang.addedEmojiAE}`)
+            message.reply({content: `${emoji} **|** ${lang.addedEmojiAE}`, allowedMentions: { repliedUser: false }})
         }).catch(() => {
-            message.channel.send(`${this.client.emote.bunnyconfused} ${lang.errorEmojiAE}`)
+            message.reply({content:`${this.client.emote.bunnyconfused} ${lang.errorEmojiAE}`, allowedMentions: { repliedUser: false }})
         })
     } else {
         message.guild.emojis.create(url, name).then(emoji => {
-            message.channel.send(`${emoji} **|** ${lang.addedEmojiAE}`)
+            message.reply({content: `${emoji} **|** ${lang.addedEmojiAE}`, allowedMentions: { repliedUser: false }})
         }).catch(() => {
-            message.channel.send(`${this.client.emote.bunnyconfused} ${lang.errorEmojiAE}`)
+            message.reply({content:`${this.client.emote.bunnyconfused} ${lang.errorEmojiAE}`, allowedMentions: { repliedUser: false }})
         })
     }
     }

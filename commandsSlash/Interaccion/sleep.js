@@ -1,16 +1,16 @@
 const SlashCommand = require('../../structures/SlashCommand');
-const azami = require("../../packages/imageng/src/index.js")
+const azami = require("../../Util/gifInteraction")
 const Discord = require('discord.js')
 
 module.exports = class extends SlashCommand {
   constructor(...args) {
     super(...args, {
       name: 'sleep',
-      description: `cachetada unu`,
+      description: `Me parece que te ha alcanzado el sueño... u.u`,
       options: [
         {
           name: 'usuario',
-          description: 'Argumento de prueba',
+          description: '¿Uhh... sueño?',
           type: 'USER',
           required: false,
         },
@@ -25,13 +25,24 @@ module.exports = class extends SlashCommand {
 
     const user = guild.members.cache.get(args.get('usuario')?.value);
     const author = guild.members.cache.get(interaction.user.id)
-    const image = await azami.Sleep()
-    if(user){
+    let img = await azami.interactionGif(this.name)
+    if(!user || user.id === author.id){
       interaction.reply({
         embeds: [
           {
-            description: `**${author.user.username}** le apetece dormir junto a **${user.user.username}**. uwu`,
-            image: { url: image }
+            description: `Se le han acabado las baterías a **${author.user.username}**.`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
+          }
+        ]
+      }) 
+    } else if(user.id === this.client.user.id){
+      interaction.reply({
+        embeds: [
+          {
+            description: `Dulces sueños, **${author.user.username}**. uwu`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
           }
         ]
       })
@@ -39,8 +50,9 @@ module.exports = class extends SlashCommand {
       interaction.reply({
         embeds: [
           {
-            description: `Se le han acabado las baterías a **${author.user.username}**.`,
-            image: { url: image }
+            description: `A **${author.user.username}** le apetece dormir junto a **${user.user.username}**. uwu`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
           }
         ]
       })

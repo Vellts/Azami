@@ -75,18 +75,18 @@ class DiscordXp {
         userID: userId,
         guildID: guildId,
         xp: xp,
-        level: Math.floor(0.1 * Math.sqrt(xp))
+        level: 1
       });
 
       await newUser.save().catch(e => console.log(`Failed to save new user.`));
 
-      return (Math.floor(0.1 * Math.sqrt(xp)) > 0);
+      //return (Math.floor(0.1 * Math.sqrt(xp)) > 0);
     };
 
     user.xp += parseInt(xp, 10);
     user.level = Math.floor(0.1 * Math.sqrt(user.xp));
     user.lastUpdated = new Date();
- 
+
     await user.save().catch(e => console.log(`Failed to append xp: ${e}`) );
 
     return (Math.floor(0.1 * Math.sqrt(user.xp -= xp)) < user.level);
@@ -105,11 +105,11 @@ class DiscordXp {
 
     const user = await levels.findOne({ userID: userId, guildID: guildId });
     if (!user) return false;
-    
+
     user.level += parseInt(levelss, 10);
     user.xp = user.level * user.level * 100;
     user.lastUpdated = new Date();
- 
+
     user.save().catch(e => console.log(`Failed to append level: ${e}`) );
 
     return user;
@@ -132,7 +132,7 @@ class DiscordXp {
     user.xp = xp;
     user.level = Math.floor(0.1 * Math.sqrt(user.xp));
     user.lastUpdated = new Date();
-  
+
     user.save().catch(e => console.log(`Failed to set xp: ${e}`) );
 
     return user;
@@ -155,7 +155,7 @@ class DiscordXp {
     user.level = level;
     user.xp = level * level * 100;
     user.lastUpdated = new Date();
-    
+
     user.save().catch(e => console.log(`Failed to set level: ${e}`) );
 
     return user;
@@ -184,11 +184,11 @@ class DiscordXp {
       user.position = leaderboard.findIndex(i => i.userID === userId) + 1;
     }
 
-    
+
     /* To be used with canvacord or displaying xp in a pretier fashion, with each level the cleanXp stats from 0 and goes until cleanNextLevelXp when user levels up and gets back to 0 then the cleanNextLevelXp is re-calculated */
     user.cleanXp = user.xp - this.xpFor(user.level);
     user.cleanNextLevelXp = this.xpFor(user.level + 1) - this.xpFor(user.level);
-    
+
     return user;
   }
 
@@ -209,7 +209,7 @@ class DiscordXp {
     user.xp -= xp;
     user.level = Math.floor(0.1 * Math.sqrt(user.xp));
     user.lastUpdated = new Date();
-   
+
     user.save().catch(e => console.log(`Failed to subtract xp: ${e}`) );
 
     return user;
@@ -232,7 +232,7 @@ class DiscordXp {
     user.level -= levelss;
     user.xp = user.level * user.level * 100;
     user.lastUpdated = new Date();
-    
+
     user.save().catch(e => console.log(`Failed to subtract levels: ${e}`) );
 
     return user;
@@ -293,7 +293,7 @@ class DiscordXp {
 
     return computedArray;
   }
-  
+
   /*
   * @param {number} [targetLevel] - Xp required to reach that level.
   */

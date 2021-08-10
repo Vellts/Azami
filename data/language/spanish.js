@@ -54,7 +54,7 @@ module.exports = {
 	"notValidCommandTCC": "***Menciona una categoria válida. u.u**",
 	"configCommandTCC": "***No puedes deshabilitar la categoria de configuración. D:***",
 	"enableCommandTCC": "El comando \`{commands}\` ha sido **habilitado**.",
-	"disableCommandTCC": "Ningúno.",
+	"disableCommandTCC": "El comando \`{commands}\` ha sido **deshabilitado**.",
 	// Simprate - cpo
 	"IsSIMP": "*{username} es `{per}%` simp.*",
 	// Help - me

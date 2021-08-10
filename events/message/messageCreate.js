@@ -13,6 +13,7 @@ const customCommand = require('../../database/schemas/customCommand');
 const levelModel = require('../../database/schemas/levelsSystem');
 const fetchAllies = require('../../data/fetchAllies.js');
 const getXp = require('../../data/levelsMessage.js');
+const getRoles = require('../../data/levelRoles.js');
 const embedModel = require('../../database/schemas/embedSettings');
 const xpSystem = require('../../packages/Levels/index');
 
@@ -36,11 +37,11 @@ module.exports = class extends Event {
   }
 
   async run(message) {
+    if (!message.guild || message.author.bot) return;
+
     try {
       const mentionRegex = RegExp(`^<@!?${this.client.user.id}>$`);
       const mentionRegexPrefix = RegExp(`^<@!?${this.client.user.id}>`);
-    
-      if (!message.guild || message.author.bot) return;
 
       const settings = await Guild.findOne({
         guildId: message.guild.id,
@@ -64,19 +65,19 @@ module.exports = class extends Event {
           })
         }
       });
-      
+
     if (message.content.match(mentionRegex)) return message.channel.send(`¡Hey que tal! Mi prefix en ${message.guild.name}** es ${settings.prefix || '?' }.`).catch(()=>{})
-    
+
     let mainPrefix = settings ? settings.prefix : '?';
-    const prefix = message.content.match(mentionRegexPrefix) ? message.content.match(mentionRegexPrefix)[0] : mainPrefix 
+    const prefix = message.content.match(mentionRegexPrefix) ? message.content.match(mentionRegexPrefix)[0] : mainPrefix
     const guildDB = await Guild.findOne({ guildId: message.guild.id });
     moment.suppressDeprecationWarnings = true;
 
   if(message.mentions.members.first()){
-        
+
         const userAfk = await afkM.findOne({ userId: message.mentions.members.first().id, guildId: message.guild.id});
         if(userAfk){
-          
+
            await message.guild.members.fetch(userAfk.userId).then(member => {
            return message.channel.send(new Discord.MessageEmbed()
       .setTitle(`El usuario se encuentra afk.`)
@@ -88,24 +89,24 @@ Tiempo afk: ${moment(userAfk.timestamp).locale("es-co").fromNow()}
            });
         }
         }
-        
+
         const userAfk = await afkM.findOne({ userId: message.author.id, guildId: message.guild.id});
-        
-        
+
+
         if(userAfk) {
-          
+
           await afkM.deleteOne({ userId: message.author.id });
           return message.channel.send(`
 ${message.author}, he removido tu estado afk.
 **Estado**: ${userAfk.estado}
 **Tiempo afk**: ${moment(userAfk.timestamp).locale("es-co").fromNow()}.
 `).then(msg => msg.delete({timeout: 15000}))
-        
+
         };
 
     //partners system
     if (settings && await fetchAllies(message)) return;
-    if(levels && await getXp(message)) return;
+    //if(levels && await getXp(message)) return;
 
     // level system
 
@@ -114,7 +115,7 @@ ${message.author}, he removido tu estado afk.
 
       const [cmd, ...args] = message.content.slice(prefix.length).trim().split(/ +/g);
       const command = this.client.commands.get(cmd.toLowerCase()) || this.client.commands.get(this.client.aliases.get(cmd.toLowerCase()));
-      
+
 
       const customCommandSettings = await customCommand.findOne({ guildId: message.guild.id, name: cmd.toLowerCase() });
       if (customCommandSettings && customCommandSettings.name && customCommandSettings.content) {
@@ -132,15 +133,8 @@ ${message.author}, he removido tu estado afk.
           .replace(/{member_createdAt}/g, `${moment(message.author.createdAt).format('MMMM Do YYYY, h:mm:ss a')}`)
         )
       }
-  
-      if (command) {
 
-      function timedDelete(ms) {
-        new Promise(res => 
-          setTimeout(() => {
-            this.delete()
-          }, ms || 3000));
-      }
+      if (command) {
 
         const disabledCommands = guildDB.disabledCommands;
         if (typeof(disabledCommands) === 'string') disabledCommands = disabledCommands.split(' ');
@@ -148,7 +142,7 @@ ${message.author}, he removido tu estado afk.
         const rateLimit = this.ratelimit(message, cmd);
         if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) return;
         if (typeof rateLimit === "string") return message.channel.send(`${message.author}, espera **${rateLimit}** antes de volver a ejecutar **${cmd}**.`);
-        
+
         if (command.botPermission) {
           const missingPermissions = message.channel.permissionsFor(message.guild.me).missing(command.botPermission).map(p => permissions[p]);
           if (missingPermissions.length !== 0) return message.channel.send({embed: { title: '¡Error!', description: `Comando: **${command.name}**\nRequiere los siguientes permisos: \n\n**${missingPermissions.map(p => `${p}`).join(' - ')}**` }})
@@ -168,8 +162,8 @@ ${message.author}, he removido tu estado afk.
         if (command.disabled) return message.channel.send(`El comando ha sido deshabilitado por los owners.`)
 
         if(disabledCommands.includes(command.name || command)) return message.channel.send('Comando deshabilitado.');
-    
-      await this.runCommand(message, cmd, args).catch(error => {
+
+      await this.runCommand(message, cmd, args, settings).catch(error => {
       this.client.channels.cache.get('856714305029013525').send(new MessageEmbed()
           .setTitle(`Nuevo error ejecutando la función de los comandos.`)
           .setDescription(`\`\`\`${error}\`\`\``))
@@ -177,6 +171,10 @@ ${message.author}, he removido tu estado afk.
       return message.channel.send(`Ha ocurrido un error. Contacta con los desarrolladores. https://azami.xyz/contact`)
         })
       }
+    } else if(message.guild){
+
+      if(levels && await getXp(message)) return;
+      if(levels && await getRoles(message)) return;
     }
     } catch(error) {
       this.client.channels.cache.get('856714305029013525').send(new MessageEmbed()
@@ -187,7 +185,7 @@ ${message.author}, he removido tu estado afk.
     }
   }
 
-    async runCommand(message, cmd, args) {
+    async runCommand(message, cmd, args, settings) {
 
         if (!message.channel.permissionsFor(message.guild.me) || !message.channel.permissionsFor(message.guild.me).has('EMBED_LINKS'))
           return message.channel.send(`${message.client.emoji.fail} Missing bot Permissions - **Embeds Links**`)
@@ -195,14 +193,14 @@ ${message.author}, he removido tu estado afk.
         const command = this.client.commands.get(cmd.toLowerCase()) || this.client.commands.get(this.client.aliases.get(cmd.toLowerCase()));
 
         this.client.commandCount++;
-        await command.run(message, args)
+        await command.run(message, args, settings)
     }
 
     ratelimit(message, cmd) {
       try {
         const command = this.client.commands.get(cmd.toLowerCase()) || this.client.commands.get(this.client.aliases.get(cmd.toLowerCase()));
         if (message.author.permLevel > 4) return false;
-    
+
         const cooldown = command.cooldown * 1000
         const ratelimits = this.ratelimits.get(message.author.id) || {}; // get the ENMAP first.
         if (!ratelimits[command.name]) ratelimits[command.name] = Date.now() - cooldown; // see if the command has been run before if not, add the ratelimit

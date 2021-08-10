@@ -1,16 +1,16 @@
 const SlashCommand = require('../../structures/SlashCommand');
-const azami = require("../../packages/imageng/src/index.js")
+const azami = require("../../Util/gifInteraction")
 const Discord = require('discord.js')
 
 module.exports = class extends SlashCommand {
   constructor(...args) {
     super(...args, {
       name: 'bite',
-      description: `cachetada unu`,
+      description: `Muerde al que quieras, sin piedad.`,
       options: [
         {
           name: 'usuario',
-          description: 'Argumento de prueba',
+          description: 'Menciona al que se merece una mordida.',
           type: 'USER',
           required: false,
         },
@@ -25,13 +25,25 @@ module.exports = class extends SlashCommand {
 
     const user = guild.members.cache.get(args.get('usuario')?.value);
     const author = guild.members.cache.get(interaction.user.id)
-    const image = await azami.Bite()
-    if(user){
+    let img = await azami.interactionGif(this.name)
+
+    if(!user || user.id === author.id){
       interaction.reply({
         embeds: [
           {
-            description: `**${author.user.username}** le dió una mordida a **${user.user.username}** >n<`,
-            image: { url: image }
+            description: `Yo te daré una mordida... **${author.user.username}**. >u<`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
+          }
+        ]
+      }) 
+    } else if(user.id === this.client.user.id){
+      interaction.reply({
+        embeds: [
+          {
+            description: `¡**${author.user.username}**, no me muerdas más! >.<`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
           }
         ]
       })
@@ -39,8 +51,9 @@ module.exports = class extends SlashCommand {
       interaction.reply({
         embeds: [
           {
-            description: `Yo te daré una mordida... **${author.user.username}**. >u<`,
-            image: { url: image }
+            description: `**${author.user.username}** le dió una mordida a **${user.user.username}**. >n<`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
           }
         ]
       })

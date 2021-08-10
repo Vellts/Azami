@@ -7,16 +7,16 @@ module.exports = class extends Command {
       super(...args, {
         name: 'latom',
         description: `Una mano, que te puede salvar.`,
-        category: 'Interaction',
+        category: 'Interacción',
         usage: ['<Miembro opcional>'],
         examples: ['latom', 'latom @Nero'],
         cooldown: 3,
       });
-    } 
+    }
 
     async run(message, args) {
 
-    
+
 
     let img = await azami.Latom()
 
@@ -24,18 +24,18 @@ module.exports = class extends Command {
     if(miembro === message.author) return message.channel.send('Menciona a otra persona... u.u')
 
     if(!miembro){
-      message.channel.send({embeds: 
-        [{color:'RANDOM', 
-        description: `**${message.author.username}** está juntando sus palmas.`, 
+      message.channel.send({embeds:
+        [{color:'RANDOM',
+        description: `**${message.author.username}** está juntando sus palmas.`,
         image: {url: img}
       }]})
       } else {
         if(miembro.user.bot) return
         const msg = [`**${message.author.username}** está orando por **${miembro.user.username}**.`]
         let random = msg[Math.floor(Math.random() * msg.length)]
-        message.channel.send({embeds: 
-        [{color:'RANDOM', 
-        description: random, 
+        message.channel.send({embeds:
+        [{color:'RANDOM',
+        description: random,
         image: {url: img}
       }]})
     }

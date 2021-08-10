@@ -11,7 +11,7 @@ module.exports = class extends Command {
       super(...args, {
         name: 'warndelete',
         description: 'Elimina cierta cantidad de advertencias al usuario.',
-        category: 'Moderation',
+        category: 'Moderación',
         usage: ['<@Usuario>'],
         examples: ['warndelete @Nero'],
         cooldown: 3,
@@ -28,27 +28,27 @@ module.exports = class extends Command {
     const logging = await Logging.findOne({ guildId: message.guild.id })
 
     let mention = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member
-    if(!mention) return message.channel.send(`${client.emote.rabbitMad} ${lang.missMentionRW}`)
+    if(!mention) return message.reply({content:`${client.emote.rabbitMad} ${lang.missMentionRW}`, allowedMentions: { repliedUser: false }})
 
     const mentionedPotision = mention.roles.highest.position
     const memberPotision = message.member.roles.highest.position
 
-    if (memberPotision <= mentionedPotision) return message.channel.send(`${client.emote.rabbitShocket} ${lang.highestWarnRW}`)
+    if (memberPotision <= mentionedPotision) return message.reply({content: `${client.emote.rabbitShocket} ${lang.highestWarnRW}`, allowedMentions: { repliedUser: false }})
 
     let reason = args.slice(2).join(' ');
-    if (!reason) reason = 'None';
+    if (!reason) reason = 'Sin razón';
     if (reason.length > 1024) reason = reason.slice(0, 1021) + '...';
 
     const warnDoc = await warnModel.findOne({ guildID: message.guild.id, memberID: mention.id }).catch(err => console.log(err))
-    if (!warnDoc || !warnDoc.warnings.length) return message.channel.send({embeds: [{color: 'RANDOM', description: `${lang.emptyWarnsRW.replace("{username}", "")}`}]})
+    if (!warnDoc || !warnDoc.warnings.length) return message.reply({embeds: [{color: 'RANDOM', description: `${lang.emptyWarnsRW.replace("{username}", "")}`}], allowedMentions: { repliedUser: false }})
 
     let warningID = args[1]
-    if(!warningID) return message.channel.send(`${client.emote.rabbitMad} ${lang.missWarnKeyRW}`)
+    if(!warningID) return message.reply({content: `${client.emote.rabbitMad} ${lang.missWarnKeyRW}`, allowedMentions: { repliedUser: false }})
 
     let check = warnDoc.warningID.filter(word => args[1] === word)
-    if(!warnDoc.warningID.includes(warningID)) return message.channel.send(`${client.emote.rabbitReally} ${lang.keyNotFoundRW}`)
-    if(!check) return message.channel.send(`${client.emote.rabbitReally} ${lang.keyNotFoundRW}`)
-    if(check < 0) return message.channel.send(`${client.emote.rabbitReally} ${lang.keyNotFoundRW}`)
+    if(!warnDoc.warningID.includes(warningID)) return message.reply({content: `${client.emote.rabbitReally} ${lang.keyNotFoundRW}`, allowedMentions: { repliedUser: false }})
+    if(!check) return message.reply({content: `${client.emote.rabbitReally} ${lang.keyNotFoundRW}`, allowedMentions: { repliedUser: false }})
+    if(check < 0) return message.reply({content: `${client.emote.rabbitReally} ${lang.keyNotFoundRW}`, allowedMentions: { repliedUser: false }})
 
     let toReset = warnDoc.warningID.length
 
@@ -59,8 +59,8 @@ module.exports = class extends Command {
     warnDoc.date.splice(toReset - 1, toReset !== 1 ? toReset - 1 : 1)
     await warnDoc.save().catch(err => console.log(err))
 
-    message.channel.send(`${client.emote.pinkBunny} ${lang.warnDeletedRW.replace("{keyWarn}", warningID).replace("{username}", mention.user.username)} ${logging && logging.moderation.include_reason === "true" ?`\n\n${lang.reasonRW} ${reason}`:``}`)
+    message.reply({content: `${client.emote.pinkBunny} ${lang.warnDeletedRW.replace("{keyWarn}", warningID).replace("{username}", mention.user.username)} ${logging && logging.moderation.include_reason === "true" ?`\n\n${lang.reasonRW} ${reason}`:``}`, allowedMentions: { repliedUser: false }})
 
 
   }
-}    
+}

@@ -7,7 +7,7 @@ module.exports = class extends Command {
       super(...args, {
         name: 'kick',
         description: 'Expulsa a los miembros no deseados.',
-        category: 'Moderation',
+        category: 'Moderación',
         userPermission: ['MANAGE_MESSAGES'],
         botPermission: ['MANAGE_MESSAGES'],
         usage: ['<miembro>'],
@@ -27,13 +27,13 @@ module.exports = class extends Command {
     const lang = require(`../../data/language/${settings.language}.js`)
 
      const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === args.join(" ").toLowerCase())
-    if(!member) return message.channel.send(`${this.client.emote.bunnyPoke} ***No has introducido algún miembro. u.u***`)
-    if(member.id === message.author.id) return message.channel.send(`${this.client.emote.bunnyHmm} ***¿Por qué te expulsarías?***`)
-    if(!member.kickable || member.roles.highest.comparePositionTo(message.guild.me.roles.highest) >= 0) return message.channel.send(`${this.client.emote.bunnyPoke} ***Parece que intentas expulsar a un rango superior. u.u***`)
+    if(!member) return message.reply({content:`${this.client.emote.bunnyPoke} ***No has introducido algún miembro. u.u***`, allowedMentions: { repliedUser: false }})
+    if(member.id === message.author.id) return message.reply({content: `${this.client.emote.bunnyHmm} ***¿Por qué te expulsarías?***`, allowedMentions: { repliedUser: false }})
+    if(!member.kickable || member.roles.highest.comparePositionTo(message.guild.me.roles.highest) >= 0) return message.reply({content: `${this.client.emote.bunnyPoke} ***Parece que intentas expulsar a un rango superior. u.u***`, allowedMentions: { repliedUser: false }})
 
     let reason = args.slice(1).join(" ") || "Sin razón"
 
-    let msg = await message.channel.send(`${this.client.emote.puppySlap} ***¿Deseas expulsar a ${member.user.tag}? Podrá regresar al servidor cuando quiera.***`)
+    let msg = await message.reply({content: `${this.client.emote.puppySlap} ***¿Deseas expulsar a ${member.user.tag}? Podrá regresar al servidor cuando quiera.***`, allowedMentions: { repliedUser: false }})
     await msg.react('✅')
     await msg.react('❎')
 
@@ -45,7 +45,7 @@ module.exports = class extends Command {
         if(rr.emoji.name === '✅'){
             try{
                 let s = lang.memberSendKick.replace("{servername}", message.guild.name).replace("{reason}", reason)
-                const sembed2 = new Discord.MessageEmbed() 
+                const sembed2 = new Discord.MessageEmbed()
                 .setColor("RED")
                 .setDescription(`${s}`)
                 .setFooter(message.guild.name, message.guild.iconURL())

@@ -3,7 +3,7 @@ const Guild = require('../../database/schemas/Guild');
 const { MessageEmbed } = require('discord.js')
 const { read24hrFormat }  = require('../../structures/Timer')
 
-module.exports = class extends Command {
+module.exports = class Join extends Command {
     constructor(...args) {
       super(...args, {
         name: 'join',
@@ -19,7 +19,7 @@ module.exports = class extends Command {
 
     const player = this.client.manager.players.get(message.guild.id);
     if (!message.member.voice.channel.id) return message.channel.send(`${this.client.emote.jumpjump} ***¡Este canal no es el apropiado para manejar mis notas músicales!***`)
-    
+
     if (message.member.voice.channel.full && !message.member.voice.channel.permissionsFor(message.guild.me).has('MOVE_MEMBERS')) {
       return message.channel.send(`${this.client.emote.bunnyPoke} ***Oops! No he podido ingresar al canal.***`).then(m => m.deleteTimed({ timeout: 10000 }));
     }

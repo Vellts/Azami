@@ -1,124 +1,114 @@
 const Event = require('../../structures/Event');
 const Guild = require('../../database/schemas/Guild');
 const WelcomeDB = require('../../database/schemas/welcome');
-const { messageAttachment } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const discord = require("discord.js");
 const moment = require('moment');
 const Maintenance = require('../../database/schemas/maintenance')
 const embedModel = require('../../database/schemas/embedSettings')
+const autoRole = require('../../database/schemas/embedSettings')
 const Logging = require('../../database/schemas/logging');
 
 module.exports = class extends Event {
   async run(member) {
 
-  const maintenance = await Maintenance.findOne({ maintenance: "maintenance" })
-  if(maintenance && maintenance.toggle == "true") return;
+    // Mantenimiento //
 
-  const logging = await Logging.findOne({ guildId: member.guild.id });
-  let guildDB = await Guild.findOne({ guildId: member.guild.id })
-  let welcome = await WelcomeDB.findOne({ guildId: member.guild.id })
-  if (!welcome) {
-    const newSettings = new WelcomeDB({ guildId: member.guild.id });
-    await newSettings.save().catch(()=>{});
-    welcome = await WelcomeDB.findOne({ guildId: member.guild.id });
-  }
+    const maintenance = await Maintenance.findOne({ maintenance: "maintenance" })
+    if(maintenance && maintenance.toggle == "true") return;
 
-  const data = await embedModel.findOne({ guildId: member.guild.id, name: welcome.welcomeCustomEmbed })
-  let cauthor = data.author
-    .replace(/{user}/g, member)
-    .replace(/{user_username}/g, member.user.username)
-    .replace(/{user_ID}/g, member.user.id)
-    .replace(/{guild_name}/g, member.guild.name)
-    .replace(/{memberCount}/g, member.guild.memberCount)
-  let ctitle = data.title
-    .replace(/{user}/g, member.user)
-    .replace(/{user_username}/g, member.user.username)
-    .replace(/{user_ID}/g, member.user.id)
-    .replace(/{guild_name}/g, member.guild.name)
-    .replace(/{memberCount}/g, member.guild.memberCount)
-  let cdescription = data.description
-    .replace(/{user}/g, member.user)
-    .replace(/{user_username}/g, member.user.username)
-    .replace(/{user_ID}/g, member.user.id)
-    .replace(/{guild_name}/g, member.guild.name)
-    .replace(/{memberCount}/g, member.guild.memberCount)
-  let cfooter = data.footer
-    .replace(/{user}/g, member.user)
-    .replace(/{user_username}/g, member.user.username)
-    .replace(/{user_ID}/g, member.user.id)
-    .replace(/{guild_name}/g, member.guild.name)
-    .replace(/{memberCount}/g, member.guild.memberCount)
+    // Bienvenidas //
 
-  if(data.thumbnail === '{user_avatar}') data.thumbnail = member.user.displayAvatarURL({dynamic: true})
-  if(data.image === '{user_avatar}') data.image = member.user.displayAvatarURL({dynamic: true})
+    const welcome = await WelcomeDB.findOne({ guildId: member.guild.id })
+    if(welcome && welcome.welcomeToggle === true){
+      if(welcome.welcomeChannel){
+        const channel = await member.guild.channels.cache.get(welcome.welcomeChannel)
+        if(channel){
+          const dataEmbed = await embedModel.findOne({ guildId: member.guild.id, name: welcome.welcomeEmbed })
+          if(dataEmbed){
+            let embed = new MessageEmbed()
+            let author = dataEmbed.author
+            .replace(/{user}/g, member)
+            .replace(/{username}/g, member.user.username)
+            .replace(/{userId}/g, member.id)
+            .replace(/{guildname}/g, member.guild.name)
+            .replace(/{memberCount}/g, member.guild.memberCount)
+            let title = dataEmbed.title
+            .replace(/{user}/g, member)
+            .replace(/{username}/g, member.user.username)
+            .replace(/{userId}/g, member.id)
+            .replace(/{guildname}/g, member.guild.name)
+            .replace(/{memberCount}/g, member.guild.memberCount)
+            let description = dataEmbed.description
+            .replace(/{user}/g, member)
+            .replace(/{username}/g, member.user.username)
+            .replace(/{userId}/g, member.id)
+            .replace(/{guildname}/g, member.guild.name)
+            .replace(/{memberCount}/g, member.guild.memberCount)
+            let footer = dataEmbed.footer
+            .replace(/{user}/g, member)
+            .replace(/{username}/g, member.user.username)
+            .replace(/{userId}/g, member.id)
+            .replace(/{guildname}/g, member.guild.name)
+            .replace(/{memberCount}/g, member.guild.memberCount)
 
-  const cembed = new discord.MessageEmbed()
-    .setAuthor(cauthor || ' ')
-    .setTitle(ctitle || ' ')
-    .setDescription(cdescription || '⠀')
-    .setThumbnail(data.thumbnail || ' ')
-    .setImage(data.image || ' ') 
-    .setColor(data.color || '#71A1DF')
-    .setFooter(cfooter || ' ')
-    .setTimestamp(data.timestamp ? member.createdTimestamp : false)
-
-  if(welcome.welcomeToggle == "true") {
-    if(welcome.welcomeDM == "true"){
-      let text = welcome.welcomeMessage
-        .replace(/{user}/g, `${member}`)
-        .replace(/{user_tag}/g, `${member.user.tag}`)
-        .replace(/{user_name}/g, `${member.user.username}`)
-        .replace(/{user_ID}/g, `${member.id}`)
-        .replace(/{guild_name}/g, `${member.guild.name}`)
-        .replace(/{guild_ID}/g, `${member.guild.id}`)
-        .replace(/{memberCount}/g, `${member.guild.memberCount}`)
-        .replace(/{size}/g, `${member.guild.memberCount}`)
-        .replace(/{guild}/g, `${member.guild.name}`)
-        .replace(/{member_createdAtAgo}/g, `${moment(member.user.createdTimestamp).fromNow()}`)
-        .replace(/{member_createdAt}/g, `${moment(member.user.createdAt).format('MMMM Do YYYY, h:mm:ss a')}`)
-        
-    if(welcome.welcomeEmbed == "false") {
-      member.send(text).catch(() => {})
-    }
-    
-    if(welcome.welcomeEmbed == "true") { 
-      member.send(cembed).catch(()=>{})
-    }  
-  }
-
-  if(welcome.welcomeDM == "false"){
-    if (welcome.welcomeChannel) {
-      const greetChannel = member.guild.channels.cache.get(welcome.welcomeChannel)
-      if (greetChannel) {
-        let text = welcome.welcomeMessage
-        .replace(/{user}/g, `${member}`)
-        .replace(/{user_tag}/g, `${member.user.tag}`)
-        .replace(/{user_name}/g, `${member.user.username}`)
-        .replace(/{user_ID}/g, `${member.id}`)
-        .replace(/{guild_name}/g, `${member.guild.name}`)
-        .replace(/{guild_ID}/g, `${member.guild.id}`)
-        .replace(/{memberCount}/g, `${member.guild.memberCount}`)
-        .replace(/{size}/g, `${member.guild.memberCount}`)
-        .replace(/{guild}/g, `${member.guild.name}`)
-        .replace(/{member_createdAtAgo}/g, `${moment(member.user.createdTimestamp).fromNow()}`)
-        .replace(/{member_createdAt}/g, `${moment(member.user.createdAt).format('MMMM Do YYYY, h:mm:ss a')}`)
-        if(welcome.welcomeEmbed == "false") {           
-          if(greetChannel && greetChannel.viewable && greetChannel.permissionsFor(member.guild.me).has(['SEND_memberS', 'EMBED_LINKS'])){
-            greetChannel.send(text).catch(() => {})
-          }
-        }
-
-        if(welcome.welcomeEmbed == "true") {
-          if(greetChannel && greetChannel.viewable && greetChannel.permissionsFor(member.guild.me).has(['SEND_memberS', 'EMBED_LINKS'])){
-            if(data){
-              greetChannel.send(cembed)
-            }
+            if(dataEmbed.thumbnail === '{user_avatar}') {
+              embed.setThumbnail(member.user.displayAvatarURL({dynamic: true}))
+            } else if(dataEmbed.thumbnail === '{guild_icon}') {
+              embed.setThumbnail(member.guild.iconURL({dynamic: true}))
+            } else {
+              embed.setThumbnail(dataEmbed.thumbnail)
+            };
+            if(dataEmbed.image === '{user_avatar}') {
+              embed.setImage(member.user.displayAvatarURL({dynamic: true}))
+            } else if (dataEmbed.image === '{guild_icon}'){
+              embed.setImage(member.guild.iconURL({dynamic: true}))
+            } else {
+              embed.setImage(dataEmbed.image)
+            };
+            if(footer.includes('{user_avatar}')) {
+              embed.setFooter(footer.replace('{user_avatar}', ''), member.user.displayAvatarURL({dynamic: true}))
+            } else if(footer.includes('{guild_icon}')){
+              embed.setFooter(footer.replace('{guild_icon}', ''), member.guild.iconURL({dynamic: true}))
+            } else {
+              embed.setFooter(footer)
+            };
+            if(author.includes('{user_avatar}')) {
+              embed.setAuthor(author.replace('{user_avatar}', ''), member.user.displayAvatarURL({dynamic: true}))
+            } else if (author.includes('{guild_icon}')){
+              embed.setAuthor(author.replace('{guild_icon}', ''), member.guild.iconURL({dynamic: true}))
+            } else {
+              embed.setAuthor(author)
+            };
+            if(dataEmbed.description) embed.setDescription(description)
+            if(dataEmbed.title) embed.setDescription(title)
+            embed.setTimestamp(dataEmbed.timestamp ? member.user.createdTimestamp : false)
+            embed.setColor(dataEmbed.color ? dataEmbed.color : '#71A1DF')
+            channel.send({embeds: [embed]}).catch((e) => console.log(e))
+          } else {
+            let msgData = welcome.welcomeMessage
+            .replace(/{user}/g, member)
+            .replace(/{username}/g, member.user.username)
+            .replace(/{userId}/g, member.id)
+            .replace(/{guildname}/g, member.guild.name)
+            .replace(/{memberCount}/g, member.guild.memberCount)
+            channel.send(msgData).catch((e) => console.log(e))
           }
         }
       }
     }
-  }
-}
 
+    // Autoroles //
+
+    let rolesAuto = await autoRole.findOne({ guildId: member.guild.id })
+    if(rolesAuto && rolesAuto.toggle === true){
+      if(rolesAuto.roleID){
+        let checkRole = member.guild.roles.cache.get(rolesAuto.roleID)
+        if(checkRole){
+          member.roles.add(checkRole)
+        }
+      }
+    }
+    ///fin
   }
 };

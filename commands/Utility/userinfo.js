@@ -16,7 +16,7 @@ module.exports = class extends Command {
     }
 
     async run(message, args) {
-                       
+
     const settings = await Guild.findOne({
         guildId: message.guild.id,
     }, (err, guild) => {
@@ -25,23 +25,27 @@ module.exports = class extends Command {
     const lang = require(`../../data/language/${settings.language}.js`)
 
     let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member
+    //return console.log(user.presence)
     if(user === user.user.bot) return;
+    const server = await message.guild.members.fetch(user.id)
 
-    let status;
-    switch (user.presence.status) {
-        case "online":
-            status = `<:Az_onlineStatus:854528081145364510> ${lang.onlineUF}`;
+    /*let estato;
+    switch (user.presence) {
+        case user.presence.status === "online":
+            estato = `<:Az_onlineStatus:854528081145364510> ${lang.onlineUF}`;
             break;
-        case "dnd":
-            status = `<:Az_dndStatus:854529483347197992> ${lang.dndUF}`;
+        case user.presence.status === "dnd":
+            estato = `<:Az_dndStatus:854529483347197992> ${lang.dndUF}`;
             break;
-        case "idle":
-            status = `<:Az_idleStatus:854530327199481896> ${lang.idleUF}`;
+        case user.presence.status === "idle":
+            estato = `<:Az_idleStatus:854530327199481896> ${lang.idleUF}`;
             break;
-        case "offline":
-            status = `<:Az_offlineStatus:854530663838384178> ${lang.offlineUF}`;
+        case user.presence.status === "offline":
+            estato = `<:Az_offlineStatus:854530663838384178> ${lang.offlineUF}`;
             break;
-    }
+        case null:
+            estato = '\u200b'
+    }*/
 
     function checkDays(date) {
         let now = new Date();
@@ -114,14 +118,12 @@ module.exports = class extends Command {
     > **\`Usuario\`:** *${user}*
     > **\`Id\`:** *${user.id}*
     > **\`Tag\`:** *${user.user.tag}*
-    > **\`Status\`:** *${status}*
-    > **\`Badges\`:** ${user.user.flags.toArray().length > 0 ? user.user.flags.toArray().map(flag => `${badges[flag]}`) : ""} ${bst} ${nrt}
+    > **\`Badges\`:** ${user.user.flags ? user.user.flags.toArray().map(flag => `${badges[flag]}`) : ""} ${bst} ${nrt}
     > **\`Cuenta creada\`:** *${user.user.createdAt.toLocaleDateString("es-co")} (${checkDays(user.user.createdAt)})*
-    > **\`Ingreso al servidor\`:**${user.joinedAt.toLocaleDateString("es-co")} (${checkDays(user.joinedAt)})**
+    > **\`Ingreso al servidor\`:** *${user.joinedAt.toLocaleDateString("es-co")} (${checkDays(user.joinedAt)})*
     \n
-    > **\`Actividad\`:** *${user.presence.activities[0] ? user.presence.activities[0].state : "Sin estado"}*
-    > **\`Permisos\`:** \`\`\`${user.permissions.toArray().map(x => permisos[x]).join(", ")}\`\`\`
-    > **\`Roles\`:** \`\`\`${user.roles.cache.map(role => role.name.toString()).join(", ")}\`\`\`
+    > **\`Permisos\`:** \`\`\`${server.permissions.toArray().map(x => permisos[x]).join(", ")}\`\`\`
+    > **\`Roles\`:** \`\`\`${server.roles.cache.map(role => role.name.toString()).slice(0, 100).join(", ")}\`\`\`
     `)
     .setFooter(message.guild.name, message.guild.iconURL({ dynamic: true }))
     .setTimestamp()
@@ -131,7 +133,7 @@ module.exports = class extends Command {
     .addField(`📟 ${lang.createdAtUserUF}`, `${user.user.createdAt.toLocaleDateString("es-co")} (${checkDays(user.user.createdAt)})`)
     .addField(`🗄 ${lang.joinedAtUserUF}`, `${user.joinedAt.toLocaleDateString("es-co")} (${checkDays(user.joinedAt)})`)
     .addField(`🎎 ${lang.rolesUserUF}`, user.roles.cache.map(role => role.toString()).join(" ,"))*/
-    message.lineReplyNoMention(embed)
+    message.reply({embeds: [embed], allowedMentions: { repliedUser: false }})
 
     }
 };

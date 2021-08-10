@@ -1,23 +1,22 @@
 const SlashCommand = require('../../structures/SlashCommand');
-const azami = require("../../packages/imageng/src/index.js")
+const azami = require("../../Util/gifInteraction")
 const Discord = require('discord.js')
 
-module.exports = class extends SlashCommand {
+module.exports = class Run extends SlashCommand {
   constructor(...args) {
     super(...args, {
       name: 'run',
-      description: `cachetada unu`,
+      description: `¡Corre por tu vida, que note atrapen!`,
       options: [
         {
           name: 'usuario',
-          description: 'Argumento de prueba',
+          description: '¡Corran!',
           type: 'USER',
           required: false,
         },
       ],
       guildOnly: true,
       cooldown: 5,
-      botPermission: ['MANAGE_GUILD'],
     });
   }
 
@@ -25,13 +24,24 @@ module.exports = class extends SlashCommand {
 
     const user = guild.members.cache.get(args.get('usuario')?.value);
     const author = guild.members.cache.get(interaction.user.id)
-    const image = await azami.Run()
-    if(user){
+    let img = await azami.interactionGif(this.name)
+    if(!user || user.id === author.id){
       interaction.reply({
         embeds: [
           {
-            description: `¡Huye **${author.user.username}**! Deja sin alcance a **${user.user.username}**.`,
-            image: { url: image }
+            description: `**${author.user.username}** por algún motivo se molestó. D:`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
+          }
+        ]
+      }) 
+    } else if(user.id === this.client.user.id){
+      interaction.reply({
+        embeds: [
+          {
+            description: `¡Corre más rapido **${author.user.username}**, te estás quedando atrás!`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
           }
         ]
       })
@@ -39,8 +49,9 @@ module.exports = class extends SlashCommand {
       interaction.reply({
         embeds: [
           {
-            description: `¡Corre **${author.user.username}**, corre!`,
-            image: { url: image }
+            description: `¡Huye **${author.user.username}**! Deja sin alcance a **${user.user.username}**.`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
           }
         ]
       })

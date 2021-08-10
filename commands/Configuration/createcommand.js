@@ -9,14 +9,14 @@ module.exports = class extends Command {
         name: 'createcommand',
         aliases: ["ccreate", "commandcreate"],
         description: `Crea comandos personalizados que funcionan con el prefijo de Azami.`,
-        category: 'Configuration',
+        category: 'Configuración',
         examples: ['ccreate Neour Obtén premium.'],
         userPermission: ['MANAGE_GUILD'],
         cooldown: 3,
       });
     }
 
-    async run(message, args, client = message.client) {
+    async run(message, args) {
 
     const guildDB = await Guild.findOne({
       guildId: message.guild.id
@@ -24,14 +24,14 @@ module.exports = class extends Command {
     const lang = require(`../../data/language/${guildDB.language}.js`)
 
     let namee = args[0]
-    if(!namee) return message.channel.send({content: `${client.emote.bunnyconfused} ${lang.ccmissContent.replace('{prefix}', guildDB.prefix)}.`, reply: { messageReference: message.id }, allowedMentions: { repliedUser: false }})
+    if(!namee) return message.reply({content: `${this.client.emote.bunnyconfused} ${lang.ccmissContent.replace('{prefix}', guildDB.prefix)}.`, allowedMentions: { repliedUser: false }})
     let content = args.slice(1).join(" ")
     let name = namee.toLowerCase()
 
-    if (!content) return message.channel.send({content: `${client.emote.bunnyconfused} ${lang.ccmissContent.replace('{prefix}', guildDB.prefix)}.`, reply: { messageReference: message.id }, allowedMentions: { repliedUser: false }})
-    if (namee.length > 30) return message.channel.send(`${client.emote.rabbitMad} ${lang.ccmaxCommandLength}`);
-    if (content.length > 2000) return message.channel.send(`${client.emote.rabbitMad} ${lang.ccmaxResLength}`); 
-    if (this.client.commands.get(namee) || this.client.aliases.get(namee)) return message.channel.send(`${client.emote.rabbitReally} ${lang.ccCommandExist}`);
+    if (!content) return message.reply({content: `${this.client.emote.bunnyconfused} ${lang.ccmissContent.replace('{prefix}', guildDB.prefix)}.`, allowedMentions: { repliedUser: false }})
+    if (namee.length > 30) return message.reply({content: `${this.client.emote.rabbitMad} ${lang.ccmaxCommandLength}`, allowedMentions: { repliedUser: false }});
+    if (content.length > 2000) return message.reply({content: `${this.client.emote.rabbitMad} ${lang.ccmaxResLength}`, allowedMentions: { repliedUser: false }}); 
+    if (this.client.commands.get(namee) || this.client.aliases.get(namee)) return message.reply({content: `${this.client.emote.rabbitReally} ${lang.ccCommandExist}`, allowedMentions: { repliedUser: false }});
 
 
     if(guildDB.isPremium === "false"){
@@ -41,7 +41,7 @@ module.exports = class extends Command {
       const results = await customCommand.find(conditional)
 
       if(results.length >= 10){
-        return message.channel.send(`${client.emote.rabbitMad} ${lang.ccNotPremium}`)
+        return message.reply(`${this.client.emote.rabbitMad} ${lang.ccNotPremium}`)
       }
     }
 
@@ -51,12 +51,10 @@ module.exports = class extends Command {
     }, async(err, data) => {
       if (!data) {
         customCommand.create({ guildId: message.guild.id, name, content });
-        message.channel.send(`${client.emote.rocketPink} ${lang.ccSaveCommand} \`${name}\`!* ***\n\n${client.emote.pinkarrow2} ${lang.ccDeleteCommand.replace('{prefix}', guildDB.prefix)}***`)
+        message.reply({content: `${this.client.emote.rocketPink} ${lang.ccSaveCommand} \`${name}\`!* ***\n\n${this.client.emote.pinkarrow2} ${lang.ccDeleteCommand.replace('{prefix}', guildDB.prefix)}***`, allowedMentions: { repliedUser: false }})
       } else {
-        return message.channel.send(`${client.emote.rabbitMad} ${lang.ccCommandExist}`)
+        return message.reply({content: `${this.client.emote.rabbitMad} ${lang.ccCommandExist}`, allowedMentions: { repliedUser: false }})
       }
     })
-
-
   }
 };

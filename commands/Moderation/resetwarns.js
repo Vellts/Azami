@@ -11,7 +11,7 @@ module.exports = class extends Command {
       super(...args, {
         name: 'resetwarns',
         description: 'Devuelve al punto inicial las advertencias que tenga el usuario.',
-        category: 'Moderation',
+        category: 'Moderación',
         usage: ['<@Usuario>'],
         examples: [ 'resetwarns @Azami'],
         cooldown: 3,
@@ -28,19 +28,19 @@ module.exports = class extends Command {
     const logging = await Logging.findOne({ guildId: message.guild.id })
 
     let mention = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member
-    if(!mention) return message.channel.send(`${client.emote.rabbitMad} ${lang.missMentionRW}`)
+    if(!mention) return message.reply({content: `${client.emote.rabbitMad} ${lang.missMentionRW}`, allowedMentions: { repliedUser: false }})
 
     const mentionedPotision = mention.roles.highest.position
     const memberPotision = message.member.roles.highest.position
 
-    if (memberPotision <= mentionedPotision) return message.channel.send(`${client.emote.rabbitShocket} ${lang.highestRoleRW}`)
+    if (memberPotision <= mentionedPotision) return message.reply({content: `${client.emote.rabbitShocket} ${lang.highestRoleRW}`, allowedMentions: { repliedUser: false }})
 
     let reason = args.slice(2).join(' ');
     if (!reason) reason = 'Sin razón.';
     if (reason.length > 1024) reason = reason.slice(0, 1021) + '...';
 
     const warnDoc = await warnModel.findOne({ guildID: message.guild.id, memberID: mention.id }).catch(err => console.log(err))
-    if (!warnDoc || !warnDoc.warnings.length) return message.channel.send({embed: {color: 'RANDOM', description: `${lang.userWarnsRW.replace("{username}", mention.user.username)}`}})
+    if (!warnDoc || !warnDoc.warnings.length) return message.reply({embed: {color: 'RANDOM', description: `${lang.userWarnsRW.replace("{username}", mention.user.username)}`}, allowedMentions: { repliedUser: false }})
 
     await warnDoc.updateOne({
         modType: [],
@@ -50,8 +50,8 @@ module.exports = class extends Command {
         date: [],
     })
 
-    message.channel.send(`${client.emote.pinkBunny} ${lang.removeUserWarnsRW.replace("{username}", mention.user.username)}.`)
+    message.reply({content: `${client.emote.pinkBunny} ${lang.removeUserWarnsRW.replace("{username}", mention.user.username)}.`, allowedMentions: { repliedUser: false }})
 
 
   }
-}    
+}

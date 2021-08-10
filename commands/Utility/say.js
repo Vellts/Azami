@@ -6,7 +6,7 @@ module.exports = class extends Command {
       super(...args, {
         name: 'say',
         description: 'Tus palabras dichas por Azami.',
-        category: 'Utility',
+        category: 'Utilidad',
         usage: [ '<mensaje>'],
         examples: ['say ¡Hey!'],
         cooldown: 3,

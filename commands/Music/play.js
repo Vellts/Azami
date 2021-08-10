@@ -59,7 +59,7 @@ module.exports = class extends Command {
         throw res.exception;
       }
     } catch (err) {
-      return message.channel.send('Error :( '+ err).then(m => m.delete({ timeout: 5000 }));
+      return message.channel.send('Error :( '+ err.message).then(m => m.deleteTimed({ timeout: 5000 }));
     }
     // Workout what to do with the results
     if (res.loadType == 'NO_MATCHES') {

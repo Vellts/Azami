@@ -44,7 +44,7 @@ module.exports = class extends Command {
                > *Podrás usar \`${this.client.commands.size}\` comandos en \`${categorias}\` categorías.*
                > *Interactúa a través de \`${this.client.slashCommands.size}\` comandos de barra diagonal.*
 
-               ${this.client.emote.pinkarrow2} *Usa \`${settings.prefix}help [Categoría]\` para ver los comandos de la categoría. 
+               ${this.client.emote.pinkarrow2} *Usa \`${settings.prefix}help [Categoría]\` para ver los comandos de la categoría.
                ${this.client.emote.pinkarrow2} Usa \`${settings.prefix}help [Comando]\` para ver información detallada del comando.*
                `,
                fields: [
@@ -63,13 +63,13 @@ module.exports = class extends Command {
                          name: `${this.client.emote.interdasting} Enlaces útiles`,
                          value: `> ${this.client.emote.pinkarrow2} [Dashboard](https://azamibot.xyz)
                          > ${this.client.emote.pinkarrow2} [Soporte](https://discord.gg/qwATJpNhqG)
-                         ` 
+                         `
                     }
                ],
                thumbnail: {url: message.guild.iconURL({dynamic: true})}
           }
           ],
-               components: 
+               components:
           [
                new Discord.MessageActionRow()
                .addComponents(
@@ -134,7 +134,7 @@ module.exports = class extends Command {
      collector.on("collect", async (i) => {
           switch(i.values[0]){
                case 'config':
-               await i.update({embeds: 
+               await i.update({embeds:
                     [
                          {
                               title: `∷ Comandos de Configuración ∷`,
@@ -144,7 +144,7 @@ module.exports = class extends Command {
                               fields: [
                                    {
                                         name: `${this.client.emote.kawaiiBunny} Lista de comandos `,
-                                        value: `\`\`\`${this.client.commands.filter(x => x.category === 'Configuration').map(c => c.name).join(", ")}\`\`\``
+                                        value: `\`\`\`${this.client.commands.filter(x => x.category === 'Configuración').map(c => c.name).join(", ")}\`\`\``
                                    }
                               ]
                          }
@@ -152,7 +152,7 @@ module.exports = class extends Command {
                })
                break;
                case 'lvl':
-               await i.update({embeds: 
+               await i.update({embeds:
                     [
                          {
                               title: `∷ Comandos de Niveles ∷`,
@@ -162,7 +162,7 @@ module.exports = class extends Command {
                               fields: [
                                    {
                                         name: `${this.client.emote.kawaiiBunny} Lista de comandos `,
-                                        value: `\`\`\`${this.client.commands.filter(x => x.category === 'Levels').map(c => c.name).join(", ")}\`\`\``
+                                        value: `\`\`\`${this.client.commands.filter(x => x.category === 'Niveles').map(c => c.name).join(", ")}\`\`\``
                                    }
                               ]
                          }
@@ -170,7 +170,7 @@ module.exports = class extends Command {
                })
                break;
                case 'mod':
-               await i.update({embeds: 
+               await i.update({embeds:
                     [
                          {
                               title: `∷ Comandos de Moderación ∷`,
@@ -180,7 +180,7 @@ module.exports = class extends Command {
                               fields: [
                                    {
                                         name: `${this.client.emote.kawaiiBunny} Lista de comandos `,
-                                        value: `\`\`\`${this.client.commands.filter(x => x.category === 'Moderation').map(c => c.name).join(", ")}\`\`\``
+                                        value: `\`\`\`${this.client.commands.filter(x => x.category === 'Moderación').map(c => c.name).join(", ")}\`\`\``
                                    }
                               ]
                          }
@@ -188,7 +188,7 @@ module.exports = class extends Command {
                })
                break;
                case 'intc':
-               await i.update({embeds: 
+               await i.update({embeds:
                     [
                          {
                               title: `∷ Comandos de Interacción ∷`,
@@ -198,7 +198,7 @@ module.exports = class extends Command {
                               fields: [
                                    {
                                         name: `${this.client.emote.kawaiiBunny} Lista de comandos `,
-                                        value: `\`\`\`${this.client.commands.filter(x => x.category === 'Interaction').map(c => c.name).join(", ")}\`\`\``
+                                        value: `\`\`\`${this.client.commands.filter(x => x.category === 'Interacción').map(c => c.name).join(", ")}\`\`\``
                                    }
                               ]
                          }
@@ -206,7 +206,7 @@ module.exports = class extends Command {
                })
                break;
                 case 'fun':
-                await i.update({embeds: 
+                await i.update({embeds:
                     [
                          {
                               title: `∷ Comandos de Diversión ∷`,
@@ -224,7 +224,7 @@ module.exports = class extends Command {
                 })
                 break;
                case 'util':
-               await i.update({embeds: 
+               await i.update({embeds:
                     [
                          {
                               title: `∷ Comandos de Utilidad ∷`,
@@ -234,7 +234,7 @@ module.exports = class extends Command {
                               fields: [
                                    {
                                         name: `${this.client.emote.kawaiiBunny} Lista de comandos `,
-                                        value: `\`\`\`${this.client.commands.filter(x => x.category === 'Utility').map(c => c.name).join(", ")}\`\`\``
+                                        value: `\`\`\`${this.client.commands.filter(x => x.category === 'Utilidad').map(c => c.name).join(", ")}\`\`\``
                                    }
                               ]
                          }
@@ -242,7 +242,7 @@ module.exports = class extends Command {
                })
                break;
                case 'music':
-               await i.update({embeds: 
+               await i.update({embeds:
                     [
                          {
                               title: `∷ Comandos de Música ∷`,
@@ -252,7 +252,7 @@ module.exports = class extends Command {
                               fields: [
                                    {
                                         name: `${this.client.emote.kawaiiBunny} Lista de comandos `,
-                                        value: `\`\`\`${this.client.commands.filter(x => x.category === 'Music').map(c => c.name).join(", ")}\`\`\``
+                                        value: `\`\`\`${this.client.commands.filter(x => x.category === 'Musica').map(c => c.name).join(", ")}\`\`\``
                                    }
                               ]
                          }
@@ -266,10 +266,10 @@ module.exports = class extends Command {
         }
      })
      collector.on("end", async (a) => {
-          await msg.edit({content: ' ', components: []})
+          await msg.edit({components: []})
      })
      } else if(type.toLowerCase() === 'config'){
-          message.channel.send({embeds: 
+          message.channel.send({embeds:
                [
                     {
                          title: `∷ Comandos de Configuración ∷`,
@@ -279,14 +279,14 @@ module.exports = class extends Command {
                          fields: [
                               {
                                    name: `${this.client.emote.kawaiiBunny} Lista de comandos `,
-                                   value: `\`\`\`${this.client.commands.filter(x => x.category === 'Configuration').map(c => c.name).join(", ")}\`\`\``
+                                   value: `\`\`\`${this.client.commands.filter(x => x.category === 'Configuración').map(c => c.name).join(", ")}\`\`\``
                               }
                          ]
                     }
                ]
           })
      } else if(type.toLowerCase() === 'mod'){
-          message.channel.send({embeds: 
+          message.channel.send({embeds:
                [
                     {
                          title: `∷ Comandos de Moderación ∷`,
@@ -296,14 +296,14 @@ module.exports = class extends Command {
                          fields: [
                               {
                                    name: `${this.client.emote.kawaiiBunny} Lista de comandos `,
-                                   value: `\`\`\`${this.client.commands.filter(x => x.category === 'Moderation').map(c => c.name).join(", ")}\`\`\``
+                                   value: `\`\`\`${this.client.commands.filter(x => x.category === 'Moderación').map(c => c.name).join(", ")}\`\`\``
                               }
                          ]
                     }
                ]
           })
      } else if(type.toLowerCase() === 'int'){
-          message.channel.send({embeds: 
+          message.channel.send({embeds:
                [
                     {
                          title: `∷ Comandos de Interacción ∷`,
@@ -313,14 +313,14 @@ module.exports = class extends Command {
                          fields: [
                               {
                                    name: `${this.client.emote.kawaiiBunny} Lista de comandos `,
-                                   value: `\`\`\`${this.client.commands.filter(x => x.category === 'Interaction').map(c => c.name).join(", ")}\`\`\``
+                                   value: `\`\`\`${this.client.commands.filter(x => x.category === 'Interacción').map(c => c.name).join(", ")}\`\`\``
                               }
                          ]
                     }
                ]
           })
      } else if(type.toLowerCase() === 'fun'){
-          message.channel.send({embeds: 
+          message.channel.send({embeds:
                [
                     {
                          title: `∷ Comandos de Diversión ∷`,
@@ -337,7 +337,7 @@ module.exports = class extends Command {
                ]
           })
      } else if(type.toLowerCase() === 'level'){
-          message.channel.send({embeds: 
+          message.channel.send({embeds:
                [
                     {
                          title: `∷ Comandos de Niveles ∷`,
@@ -347,14 +347,14 @@ module.exports = class extends Command {
                          fields: [
                               {
                                    name: `${this.client.emote.kawaiiBunny} Lista de comandos `,
-                                   value: `\`\`\`${this.client.commands.filter(x => x.category === 'Levels').map(c => c.name).join(", ")}\`\`\``
+                                   value: `\`\`\`${this.client.commands.filter(x => x.category === 'Niveles').map(c => c.name).join(", ")}\`\`\``
                               }
                          ]
                     }
                ]
           })
      } else if(type.toLowerCase() === 'util'){
-          message.channel.send({embeds: 
+          message.channel.send({embeds:
                [
                     {
                          title: `∷ Comandos de Utilidad ∷`,
@@ -364,14 +364,14 @@ module.exports = class extends Command {
                          fields: [
                               {
                                    name: `${this.client.emote.kawaiiBunny} Lista de comandos `,
-                                   value: `\`\`\`${this.client.commands.filter(x => x.category === 'Utility').map(c => c.name).join(", ")}\`\`\``
+                                   value: `\`\`\`${this.client.commands.filter(x => x.category === 'Utilidad').map(c => c.name).join(", ")}\`\`\``
                               }
                          ]
                     }
                ]
           })
      } else if(type.toLowerCase() === 'music'){
-          message.channel.send({embeds: 
+          message.channel.send({embeds:
                [
                     {
                          title: `∷ Comandos de Música ∷`,
@@ -381,7 +381,7 @@ module.exports = class extends Command {
                          fields: [
                               {
                                    name: `${this.client.emote.kawaiiBunny} Lista de comandos `,
-                                   value: `\`\`\`${this.client.commands.filter(x => x.category === 'Music').map(c => c.name).join(", ")}\`\`\``
+                                   value: `\`\`\`${this.client.commands.filter(x => x.category === 'Musica').map(c => c.name).join(", ")}\`\`\``
                               }
                          ]
                     }
@@ -391,7 +391,7 @@ module.exports = class extends Command {
           const cmd = this.client.commands.get(args[0]) || this.client.commands.get(this.client.aliases.get(args[0]))
           if (!cmd) return message.channel.send('nao nao');
           if(cmd.category === "Owner") return
-          message.channel.send({embeds: 
+          message.channel.send({embeds:
                [
                     {
                          title: `Comando \`${cmd.name}\` ∷ \`${capitalize(cmd.category)}\``,
@@ -403,7 +403,7 @@ module.exports = class extends Command {
                               },
                               {
                                    name: `<a:Az_starsPink:862889160029372438> ∷ Uso`,
-                                   value: `***\`${settings.prefix}${cmd.usage}\`***`
+                                   value: `***${cmd.usage.map(uso => `\`${settings.prefix}${uso}\``).join('\n') || "`No ha sido proporcionado un uso.`"}***`
                               },
                               {
                                    name: `<a:Az_starsPink:862889160029372438> ∷ Ejemplos`,

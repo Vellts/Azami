@@ -2,12 +2,12 @@ const Command = require('../../structures/Command');
 const Guild = require('../../database/schemas/Guild');
 const { MessageEmbed } = require('discord.js')
 
-module.exports = class extends Command {
+module.exports = class Cowsay extends Command {
     constructor(...args) {
       super(...args, {
         name: 'cowsay',
         description: 'Una vaquita, un poco rara con un mensaje escrito.',
-        category: 'Utility',
+        category: 'Utilidad',
         usage: [ '<mensaje>'],
         examples: ['cowsay Muouou'],
         cooldown: 3,
@@ -22,10 +22,10 @@ module.exports = class extends Command {
     const lang = require(`../../data/language/${settings.language}.js`)
 
     const cowAscii = "\\  ^__^\n \\ (oo)\\_______\n   (__)\\        )\\/\\\n       ||----w |\n       ||     ||"
-    if (!args[0]) return message.lineReplyNoMention(`${this.client.emote.bunnyconfused} ${lang.missArgsCW}`)
+    if (!args[0]) return message.reply({content: `${this.client.emote.bunnyconfused} ${lang.missArgsCW}`, allowedMentions: { repliedUser: false }})
 
     let text = args.join(" ")
-    message.lineReplyNoMention(`\`\`\`${makeSpeech(text, cowAscii)}\`\`\``)
+    message.reply({content: `\`\`\`${makeSpeech(text, cowAscii)}\`\`\``, allowedMentions: { repliedUser: false }})
 
     }
 };

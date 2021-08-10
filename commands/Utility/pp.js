@@ -8,7 +8,7 @@ module.exports = class extends Command {
         name: 'pp',
         aliases: ['penisize'],
         description: 'Calcula el tamaño de tu miembro, o el de alguien más.',
-        category: 'Utility',
+        category: 'Utilidad',
         usage: [ '<usuario opcional>'],
         examples: ['pp @Azami'],
         cooldown: 3,
@@ -28,12 +28,13 @@ module.exports = class extends Command {
     let cantidad = Math.floor(Math.random() * 12)
     let size = "=".repeat(cantidad)
 
-    message.channel.send({embeds: [new MessageEmbed()
+    message.reply({embeds: [new MessageEmbed()
         .setTitle(`${lang.sizePP.replace('{member}', mention.username)} :banana:`)
         .setDescription(`8${size}D`)
         .setFooter(`${message.author.username}`)
         .setTimestamp()
-        ]}
+        ], allowedMentions: { repliedUser: false }
+      }
     )
 
     }

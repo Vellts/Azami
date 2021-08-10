@@ -1,23 +1,22 @@
 const SlashCommand = require('../../structures/SlashCommand');
-const azami = require("../../packages/imageng/src/index.js")
+const azami = require("../../Util/gifInteraction")
 const Discord = require('discord.js')
 
 module.exports = class extends SlashCommand {
   constructor(...args) {
     super(...args, {
       name: 'kiss',
-      description: `cachetada unu`,
+      description: `¡Un dulce beso! Una muestra de amor.`,
       options: [
         {
           name: 'usuario',
-          description: 'Argumento de prueba',
+          description: 'Un besito.',
           type: 'USER',
           required: false,
         },
       ],
       guildOnly: true,
       cooldown: 5,
-      botPermission: ['MANAGE_GUILD'],
     });
   }
 
@@ -25,13 +24,24 @@ module.exports = class extends SlashCommand {
 
     const user = guild.members.cache.get(args.get('usuario')?.value);
     const author = guild.members.cache.get(interaction.user.id)
-    const image = await azami.Kisse()
-    if(user){
+    let img = await azami.interactionGif(this.name)
+    if(!user || user.id === author.id){
       interaction.reply({
         embeds: [
           {
-            description: `**${author.user.username}** ha recibido un dulce beso de **${user.user.username}**. uwu`,
-            image: { url: image }
+            description: `**${author.user.username}** toma un beso de mi parte. uwu`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
+          }
+        ]
+      }) 
+    } else if(user.id === this.client.user.id){
+      interaction.reply({
+        embeds: [
+          {
+            description: `¡Gracias **${author.user.username}**! Creo... u//u`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
           }
         ]
       })
@@ -39,8 +49,9 @@ module.exports = class extends SlashCommand {
       interaction.reply({
         embeds: [
           {
-            description: `**${author.user.username}** toma un beso de mi parte. uwu`,
-            image: { url: image }
+            description: `**${user.user.username}** ha recibido un dulce beso de **${author.user.username}**. uwu`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
           }
         ]
       })

@@ -9,7 +9,7 @@ module.exports = class extends Command {
         name: 'deletecommand',
         aliases: ["dcommand", "dcc"],
         description: `Elimina los comandos personalizados que ya no deseas en el servidor.`,
-        category: 'Configuration',
+        category: 'Configuración',
         examples: ['dcc Neour'],
         userPermission: ['MANAGE_GUILD'],
         cooldown: 3,
@@ -24,16 +24,16 @@ module.exports = class extends Command {
     const lang = require(`../../data/language/${guildDB.language}.js`)
 
     let namee = args[0]
-    if (!namee) return message.channel.send(`${client.emote.bunnyconfused} ${lang.ccmissContent}.`)
+    if (!namee) return message.reply({content: `${this.client.emote.bunnyconfused} ${lang.ccmissContent}.`, allowedMentions: { repliedUser: false }})
     let name = namee.toLowerCase()
-    if (name.length > 30) return message.channel.send(`${client.emote.rabbitMad} ${lang.ccmaxCommandLength}`);
+    if (name.length > 30) return message.reply({content:`${this.client.emote.rabbitMad} ${lang.ccmaxCommandLength}`, allowedMentions: { repliedUser: false }});
 
     let data = customCommand.findOne({ guildId: message.guild.id, name: name})
       if (data) {
         await customCommand.findOneAndDelete({ guildId: message.guild.id, name: name })
-        message.channel.send(`${client.emote.rocketPink} ${lang.ccDeletingCommand.replace('{nombre}', name)}`)
+        message.reply({content:`${this.client.emote.rocketPink} ${lang.ccDeletingCommand.replace('{nombre}', name)}`, allowedMentions: { repliedUser: false }})
       } else {
-        return message.channel.send(`${client.emote.rabbitMad} ${lang.ccNotFound}`)
+        return message.reply({content:`${this.client.emote.rabbitMad} ${lang.ccNotFound}`, allowedMentions: { repliedUser: false }})
       }
   }
 };

@@ -3,7 +3,7 @@ const Guild = require('../../database/schemas/Guild');
 const { MessageEmbed } = require('discord.js')
 const { read24hrFormat }  = require('../../structures/Timer')
 
-module.exports = class extends Command {
+module.exports = class Bassboost extends Command {
     constructor(...args) {
       super(...args, {
         name: 'bassboost',
@@ -19,8 +19,8 @@ module.exports = class extends Command {
 
     const player = this.client.manager.players.get(message.guild.id);
     if (!player) return message.channel.send(`${this.client.emote.badunu} ***No se está reproduciendo ningúna canción en el servidor. u.u***`)
-    if (message.member.voice.channel.id !== player.voiceChannel) return message.channel.send(`${this.client.emote.jumpjump} ***¡Este canal no es el apropiado para manejar mis notas músicales!***`)
-    
+      if(message.channel.id !== player.textChannel || message.member.voice.channel.id !== player.voiceChannel) return message.channel.send(`${this.client.emote.bunnyPoke} ***¡No estás en el mismo canal de voz o este canal no es el apropiado para manejar mis notas músicales!***`)
+
     if (!args[0]) {
       player.setBassboost(!player.bassboost);
       //const msg = await message.channel.send(`bassboost: ${player.bassboost ? 'ON' : 'OFF'}`);

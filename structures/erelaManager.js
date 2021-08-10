@@ -31,7 +31,7 @@ module.exports = (client) => {
 		hook.send(`Lavalink encendido en ${node.options.identifier}.`)
 		console.log(`Lavalink en ${node.options.identifier}.`)
 	})
-	.on('nodeDisconnect', (node, reason) => client.channels.cache.get('856714305029013525').send(`Lavalink node: ${node.options.identifier} fue desconectado.\nRazón: ${(reason.reason) ? reason.reason : 'nosejajaxd'}.`))
+	.on('nodeDisconnect', (node, reason) => client.channels.cache.get('856714305029013525').send(`Lavalink node: ${node.options.identifier} fue desconectado.\nRazón: ${(reason.reason) ? reason.reason : reason.reason}.`))
 	.on('nodeError', (node, error) => client.channels.cache.get('856714305029013525').send(`Lavalink node: '${node.options.identifier}', tuvo un error: '${error.message}'.`))
 	.on('playerCreate', player => {
 		hook.send(`Lavalink player creado en el servidor: ${player.guild}.`);
@@ -58,7 +58,7 @@ module.exports = (client) => {
 		.setColor(15158332)
 		.setDescription(`Se ha producido un error en la reproducción: \`${payload.error}\``);
 		const channel = client.channels.cache.get(player.textChannel);
-		if (channel) channel.send({embeds: [embed]}).then(m => m.delete({ timeout: 15000 }));
+		if (channel) channel.send({embeds: [embed]}).then(m => m.deleteTimed({ timeout: 5000 }));
 	})
 	.on('queueEnd', (player) => {
 		player.timeout = setTimeout(() => { // When the queue has finished

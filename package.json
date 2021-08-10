@@ -1,7 +1,7 @@
 {
-  "name": "reaction-roles",
-  "version": "1.0.0",
-  "description": "A similar bot to the reaction roles discord bot, but free! ",
+  "name": "Azami",
+  "version": "3.0.0-beta",
+  "description": "Bot de discord.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -26,12 +26,7 @@
     "@iamtraction/google-translate": "^1.1.2",
     "aikoapi": "^1.3.9",
     "axios": "^0.21.1",
-    "canvas": "^2.8.0",
-    "discord-buttons": "^2.4.1",
-    "discord-together": "^1.1.14",
-    "discord.js": "^13.0.0-dev.0d0c8f07f2535dd315ca95abe35e848c13d0ddf5",
-    "discord.js-menu": "^2.3.1",
-    "distube": "^3.0.0-beta.30",
+    "discord.js": "^13.0.1",
     "ejs": "^3.1.6",
     "erela.js": "^2.3.3",
     "erela.js-deezer": "^1.0.5",
@@ -40,6 +35,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "ffmpeg-static": "^4.3.0",
+    "genius-lyrics-api": "^3.0.6",
     "gifencoder": "^2.0.1",
     "jikanjs": "^0.7.0",
     "jimp": "^0.16.1",
@@ -53,12 +49,12 @@
     "nodemon": "^2.0.7",
     "passport": "^0.4.1",
     "passport-discord": "^0.1.4",
+    "pm2": "^5.1.0",
     "randostrings": "^0.1.6",
     "shortid": "^2.2.16",
     "tailwindcss": "^2.2.4",
     "twemoji-parser": "^13.1.0",
-    "uninstall": "0.0.0",
-    "weky": "^1.9.3",
-    "wtf_wikipedia": "^9.0.0"
+    "twisted": "^1.44.3",
+    "uninstall": "0.0.0"
   }
 }

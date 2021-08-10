@@ -2,13 +2,13 @@ const Command = require('../../structures/Command');
 const Guild = require('../../database/schemas/Guild');
 const Discord = require('discord.js')
 
-module.exports = class extends Command {
+module.exports = class Confession extends Command {
     constructor(...args) {
       super(...args, {
         name: 'confession',
         aliases: ['cf', 'confesion'],
         description: 'Confiesa tus más oscuros secretos.',
-        category: 'Utility',
+        category: 'Utilidad',
         usage: [ '<mensaje>'],
         examples: [ 'confession ¿Los jugadores de LoL son humanos?' ],
         cooldown: 3,

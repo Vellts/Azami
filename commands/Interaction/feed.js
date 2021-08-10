@@ -7,16 +7,16 @@ module.exports = class extends Command {
       super(...args, {
         name: 'feed',
         description: `Dale un poco de comida a otra persona. :3`,
-        category: 'Interaction',
+        category: 'Interacción',
         usage: ['<Miembro opcional>'],
         examples: ['feed', 'feed @Nero'],
         cooldown: 3,
       });
-    } 
+    }
 
     async run(message, args) {
 
-    
+
 
     let img = await azami.Feed()
 
@@ -24,18 +24,18 @@ module.exports = class extends Command {
     if(miembro === message.author) return
 
     if(!miembro){
-      message.channel.send({embeds: 
-        [{color:'RANDOM', 
-        description: `Ten un poco de comida... **${message.author.username}**. :3`, 
+      message.channel.send({embeds:
+        [{color:'RANDOM',
+        description: `Ten un poco de comida... **${message.author.username}**. :3`,
         image: {url: img}
       }]})
       } else {
         if(miembro.user.bot) return
         const msg = [`**${message.author.username}** le dió de comer a **${miembro.user.username}**. :3`]
         let random = msg[Math.floor(Math.random() * msg.length)]
-        message.channel.send({embeds: 
-        [{color:'RANDOM', 
-        description: random, 
+        message.channel.send({embeds:
+        [{color:'RANDOM',
+        description: random,
         image: {url: img}
       }]})
     }

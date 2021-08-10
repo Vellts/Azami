@@ -8,13 +8,13 @@ module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'setallies',
-        aliases: ['setcf'],
+        aliases: ['allies'],
         description: "Configura las opciones disponibles para el sistema de partners.",
-        category: 'Configuration',
+        category: 'Configuración',
         usage: '<tipo> <parametro>',
         examples: [ 'setallies channel enable #Partners', 'setallies role @PartnerStaff' ],
-        botPermission: ['EMBED_LINKS', 'MANAGE_ROLES', 'ATTACH_FILES'],
-        userPermission: ['MANAGE_NICKNAMES'],
+        userPermission: ['MANAGE_GUILD'],
+        disabled: true,
       });
     }
 

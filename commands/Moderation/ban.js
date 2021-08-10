@@ -7,7 +7,7 @@ module.exports = class extends Command {
       super(...args, {
         name: 'ban',
         description: 'Has que no vuelvan los malechores.',
-        category: 'Moderation',
+        category: 'Moderación',
         userPermission: ['BAN_MEMBERS'],
         botPermission: ['BAN_MEMBERS'],
         usage: ['<miembro>'],
@@ -26,13 +26,13 @@ module.exports = class extends Command {
     const lang = require(`../../data/language/${settings.language}.js`)
 
     const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === args.join(" ").toLowerCase())
-    if(!member) return message.channel.send(`${this.client.emote.bunnyPoke} ***No has introducido algún miembro. u.u***`)
-    if(member.id === message.author.id) return message.channel.send(`${this.client.emote.bunnyHmm} ***¿Por qué te banearías?***`)
-    if(!member.bannable || member.roles.highest.comparePositionTo(message.guild.me.roles.highest) >= 0) return message.channel.send(`${this.client.emote.bunnyPoke} ***Parece que intentas banear a un rango superior. u.u***`)
+    if(!member) return message.reply({content: `${this.client.emote.bunnyPoke} ***No has introducido algún miembro. u.u***`, allowedMentions: { repliedUser: false }})
+    if(member.id === message.author.id) return message.reply({content: `${this.client.emote.bunnyHmm} ***¿Por qué te banearías?***`, allowedMentions: { repliedUser: false }})
+    if(!member.bannable || member.roles.highest.comparePositionTo(message.guild.me.roles.highest) >= 0) return message.reply({content: `${this.client.emote.bunnyPoke} ***Parece que intentas banear a un rango superior. u.u***`, allowedMentions: { repliedUser: false }})
 
     let reason = args.slice(1).join(" ") || "Sin razón"
 
-    let msg = await message.channel.send(`${this.client.emote.puppySlap} ***¿Deseas banear a ${member.user.tag}? Esta desición implicaría que no estará más en el servidor, a menos que lo revoques.***`)
+    let msg = await message.reply({content: `${this.client.emote.puppySlap} ***¿Deseas banear a ${member.user.tag}? Esta desición implicaría que no estará más en el servidor, a menos que lo revoques.***`, allowedMentions: { repliedUser: false }})
     await msg.react('✅')
     await msg.react('❎')
 
@@ -44,7 +44,7 @@ module.exports = class extends Command {
         if(rr.emoji.name === '✅'){
             try{
                 let s = lang.memberSendBan.replace("{servername}", message.guild.name).replace("{reason}", reason)
-                const sembed2 = new Discord.MessageEmbed() 
+                const sembed2 = new Discord.MessageEmbed()
                 .setColor("RED")
                 .setDescription(`${s}`)
                 .setFooter(message.guild.name, message.guild.iconURL())
@@ -58,7 +58,7 @@ module.exports = class extends Command {
                 await msg.edit(`${this.client.emote.bunnyconfused} ***Oops! Algo salió mal. Si el problema consiste envía un reporte. u.u`)
                 await msg.reactions.removeAll()
             }
-            //message.channel.send('xd')
+            //message.reply('xd')
         } else if(rr.emoji.name === '❎') {
             await msg.edit(`${this.client.emote.cuteRabbit} ***Una misteriosa fuerza ha decidio que el miembro no fuera baneado.***`)
             await msg.reactions.removeAll()

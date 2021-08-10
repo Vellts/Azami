@@ -1,23 +1,22 @@
 const SlashCommand = require('../../structures/SlashCommand');
-const azami = require("../../packages/imageng/src/index.js")
+const azami = require("../../Util/gifInteraction")
 const Discord = require('discord.js')
 
-module.exports = class extends SlashCommand {
+module.exports = class Sip extends SlashCommand {
   constructor(...args) {
     super(...args, {
       name: 'sip',
-      description: `cachetada unu`,
+      description: `Toma una tacita de té, con alguien más o en soledad. uwu`,
       options: [
         {
           name: 'usuario',
-          description: 'Argumento de prueba',
+          description: 'Toma una bebida con alguien más.',
           type: 'USER',
           required: false,
         },
       ],
       guildOnly: true,
       cooldown: 5,
-      botPermission: ['MANAGE_GUILD'],
     });
   }
 
@@ -25,13 +24,24 @@ module.exports = class extends SlashCommand {
 
     const user = guild.members.cache.get(args.get('usuario')?.value);
     const author = guild.members.cache.get(interaction.user.id)
-    const image = await azami.Sip()
-    if(user){
+    let img = await azami.interactionGif(this.name)
+    if(!user || user.id === author.id){
       interaction.reply({
         embeds: [
           {
-            description: `**${author.user.username}** bebe una tacita de té con **${user.user.username}**.`,
-            image: { url: image }
+            description: `**${author.user.username}** toma una bebida refrescante. uwu`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
+          }
+        ]
+      }) 
+    } else if(user.id === this.client.user.id){
+      interaction.reply({
+        embeds: [
+          {
+            description: `Parece que disfrutar tomar té en la tarde, **${author.user.username}**.`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
           }
         ]
       })
@@ -39,8 +49,9 @@ module.exports = class extends SlashCommand {
       interaction.reply({
         embeds: [
           {
-            description: `**${author.user.username}** toma una bebida refrescante. uwu`,
-            image: { url: image }
+            description: `**${author.user.username}** bebe una tacita de té con **${user.user.username}**.`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
           }
         ]
       })

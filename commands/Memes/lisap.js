@@ -9,6 +9,7 @@ module.exports = class extends Command {
         aliases: ['lisap'],
         description: `Lisa presentando tus palabras..`,
         category: 'Memes',
+        usage: ['<Texto>'],
         examples: ['lisapresentation Woh', 'lisap Cool'],
         cooldown: 3,
       });
@@ -17,16 +18,16 @@ module.exports = class extends Command {
     async run(message, args, client = message.client) {
 
     const text = args.join("+")
-    if (!text) return message.channel.send(`${client.emote.bunnyconfused} ***¿Se te ha olvido agregar texto sir?***`)
+    if (!text) return message.reply({content: `${client.emote.bunnyconfused} ***¿Se te ha olvido agregar texto sir?***`, allowedMentions: { repliedUser: false }})
 
     let img = await new DIG.LisaPresentation().getImage(text)
-    message.channel.send({
+    message.reply({
       files: [
         {
           attachment: img,
           name: `lisap.png`
         }
-      ]
+      ], allowedMentions: { repliedUser: false }
     })
 
 

@@ -7,16 +7,16 @@ module.exports = class extends Command {
       super(...args, {
         name: 'evil',
         description: `La maldad pura corre por tus venas...`,
-        category: 'Interaction',
+        category: 'Interacción',
         usage: ['<Miembro opcional>'],
         examples: ['evil', 'evil @Nero'],
         cooldown: 3,
       });
-    } 
+    }
 
     async run(message, args) {
 
-    
+
 
     let img = await azami.Evil()
 
@@ -24,18 +24,18 @@ module.exports = class extends Command {
     if(miembro === message.author) return
 
     if(!miembro){
-      message.channel.send({embeds: 
-        [{color:'RANDOM', 
-        description: `**${message.author.username}** tiene un aura peligrosa... owo`, 
+      message.channel.send({embeds:
+        [{color:'RANDOM',
+        description: `**${message.author.username}** tiene un aura peligrosa... owo`,
         image: {url: img}
       }]})
       } else {
         if(miembro.user.bot) return
         const msg = [`¡**${miembro.user.username}**, no te acerques a **${message.author.username}**! Puede ser peligroso.`]
         let random = msg[Math.floor(Math.random() * msg.length)]
-        message.channel.send({embeds: 
-        [{color:'RANDOM', 
-        description: random, 
+        message.channel.send({embeds:
+        [{color:'RANDOM',
+        description: random,
         image: {url: img}
       }]})
     }

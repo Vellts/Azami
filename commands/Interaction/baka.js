@@ -7,7 +7,7 @@ module.exports = class extends Command {
       super(...args, {
         name: 'baka',
         description: `¿Será una... baka?`,
-        category: 'Interaction',
+        category: 'Interacción',
         usage: ['<Miembro opcional>'],
         examples: ['baka', 'baka @Nero'],
         cooldown: 3,
@@ -16,7 +16,7 @@ module.exports = class extends Command {
 
     async run(message, args) {
 
-    
+
 
     let img = await azami.Baka()
 
@@ -24,16 +24,16 @@ module.exports = class extends Command {
     if(miembro === message.author) return
 
     if(!miembro){
-      message.channel.send({embeds: 
-        [{color:'RANDOM', 
-        description:`**${message.author.username}** B-baka! >.<`, 
+      message.channel.send({embeds:
+        [{color:'RANDOM',
+        description:`**${message.author.username}** B-baka! >.<`,
         image: {url: img}
       }]})
       } else {
         if(miembro.user.bot) return
-        message.channel.send({embeds: 
-        [{color:'RANDOM', 
-        description:`**¡${miembro.user.username}** baka, baka baka!**.`, 
+        message.channel.send({embeds:
+        [{color:'RANDOM',
+        description:`**¡${miembro.user.username}** baka, baka baka!**.`,
         image: {url: img}
       }]})
     }

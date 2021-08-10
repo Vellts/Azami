@@ -28,7 +28,7 @@ module.exports = class extends Command {
 
     const member = message.mentions.users.first() || message.author
     let amount = random(1, 100)
-    message.channel.send({embeds:
+    message.reply({embeds:
       [
         {
           title: 'Simprate',
@@ -39,7 +39,7 @@ module.exports = class extends Command {
           },
           timestamp: new Date()
         }
-      ]
+      ], allowedMentions: { repliedUser: false }
     })
   }
 };

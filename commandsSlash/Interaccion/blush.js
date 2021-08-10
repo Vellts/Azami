@@ -1,16 +1,16 @@
 const SlashCommand = require('../../structures/SlashCommand');
-const azami = require("../../packages/imageng/src/index.js")
+const azami = require("../../Util/gifInteraction")
 const Discord = require('discord.js')
 
-module.exports = class extends SlashCommand {
+module.exports = class Blush extends SlashCommand {
   constructor(...args) {
     super(...args, {
       name: 'blush',
-      description: `cachetada unu`,
+      description: `¡Uy! Que ha pasado...`,
       options: [
         {
           name: 'usuario',
-          description: 'Argumento de prueba',
+          description: 'Demuestra tu sonrojo con alguien más. owo',
           type: 'USER',
           required: false,
         },
@@ -25,30 +25,35 @@ module.exports = class extends SlashCommand {
 
     const user = guild.members.cache.get(args.get('usuario')?.value);
     const author = guild.members.cache.get(interaction.user.id)
-    const image = await azami.Blush()
-    if(!user){
+    let img = await azami.interactionGif(this.name)
+
+    if(!user || user.id === author.id){
       interaction.reply({
         embeds: [
           {
             description: `El color rojo inunda el rostro de **${author.user.username}**. >n<`,
-            image: { url: image }
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
+          }
+        ]
+      }) 
+    } else if(user.id === this.client.user.id){
+      interaction.reply({
+        embeds: [
+          {
+            description: `**${author.user.username}** algo rojo ronda por aquí...`,
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
           }
         ]
       })
     } else {
-      /*nteraction.reply({
-        embeds: [
-          {
-            description: `El color rojo inunda el rostro de **${user.user.username}**. >n<`,
-            image: { url: image }
-          }
-        ]
-      })*/
       interaction.reply({
         embeds: [
           {
             description: `**${author.user.username}** se encuentra como un tomate por **${user.user.username}**. >n<`,
-            image: { url: image }
+            image: {url: img.gif },
+            footer: { text: `Anime: ${img.name}` }
           }
         ]
       })
