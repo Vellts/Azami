@@ -1,6 +1,4 @@
 const Event = require('../structures/Event');
-const config = require('../config.json');
-const dash = require('../config.js')
 
 module.exports = class extends Event {
     async run() {
@@ -48,12 +46,6 @@ module.exports = class extends Event {
 
     //this.client.manager.init(this.client.user.id);
 
-    let v;
-    if(config.dashboard === "true"){
-        v = `La dashboard está activa en el puerto ${dash.port}.`
-    } else {
-        v = 'La dashboard no está activa.'
-    }
 
     log([{
         name: "Cliente",
@@ -64,11 +56,6 @@ module.exports = class extends Event {
             `Estoy en ${servers} servidores`,
             `Mirando ${usersCount} usuarios`,
             `${this.client.channels.cache.size} canales`,
-            ] // values
-    }, {
-        name: "Dashboard",
-        value: [
-            v,
             ]
     }, {
         name: "Base de datos",

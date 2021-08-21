@@ -3,7 +3,6 @@ const Guild = require('../../database/schemas/Guild');
 const { MessageEmbed } = require('discord.js');
 
 const ReactionRole = require("../../packages/reactionrole/models/schema")
-const config = require("../../config.json");
 
 
 module.exports = class extends Command {

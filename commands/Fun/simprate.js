@@ -1,6 +1,5 @@
 const Command = require('../../structures/Command');
 const Guild = require('../../database/schemas/Guild')
-const config = require('../../config.json');
 
 module.exports = class extends Command {
     constructor(...args) {

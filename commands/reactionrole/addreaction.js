@@ -1,11 +1,10 @@
 const Command = require('../../structures/Command');
 const Guild = require('../../database/schemas/Guild');
 const { MessageEmbed } = require('discord.js');
-
 const ReactionRole = require("../../packages/reactionrole/index.js")
+const config = require("../../config")
 const react = new ReactionRole()
-const config = require("../../config.json");
-react.setURL(config.mongodb_url)
+react.setURL(config.mongoDB)
 
 module.exports = class extends Command {
   constructor(...args) {

@@ -1,7 +1,7 @@
 const Event = require('../../structures/Event');
 const { Permissions, Collection } = require("discord.js");
 const discord = require("discord.js");
-const config = require('./../../config.json');
+const config = require('./../../config');
 const { MessageEmbed } = require('discord.js');
 const mongoose = require('mongoose');
 const Guild = require('../../database/schemas/Guild');
@@ -50,7 +50,7 @@ module.exports = class extends Event {
         if (!guild) {
           const newGuild = await Guild.create({
             guildId: message.guild.id,
-            prefix: config.prefix || '?',
+            prefix: config.prefix || '-',
           })
         }
       });

@@ -1,7 +1,6 @@
 const Command = require('../../structures/Command');
 const Guild = require('../../database/schemas/Guild');
 const { MessageEmbed, DiscordAPIError } = require('discord.js');
-const config = require('../../config.json');
 const Discord = require('discord.js')
 
 module.exports = class extends Command {

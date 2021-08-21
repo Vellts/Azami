@@ -4,8 +4,7 @@ const { MessageEmbed } = require('discord.js');
 
 const ReactionRole = require("../../packages/reactionrole/index.js")
 const react = new ReactionRole()
-const config = require("../../config.json");
-react.setURL(config.mongodb_url)
+react.setURL(process.env.mongoDB)
 
 module.exports = class extends Command {
     constructor(...args) {

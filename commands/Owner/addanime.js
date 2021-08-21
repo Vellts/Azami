@@ -1,5 +1,4 @@
 const Command = require('../../structures/Command');
-const azami = require('aikoapi')
 const { MessageEmbed } = require('discord.js')
 const animeList = require('../../models/animelist')
 

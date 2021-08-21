@@ -1,12 +1,11 @@
 const Command = require('../../structures/Command');
-const config = require('../../config.json');
 
 module.exports = class extends Command {
     constructor(...args) {
       super(...args, {
         name: 'ping',
         aliases: ["ping", "latency"],
-        description: `Obten la latencia de ${config.bot_name || 'Bot'}.`,
+        description: `Obten la latencia de Azami.`,
         category: 'Information',
         cooldown: 3,
         slash: true,

@@ -1,6 +1,5 @@
 const botclient = require("./bot")
-const config = require("./config.json")
-const bot = new botclient(config)
+const bot = new botclient()
 const fs = require('fs')
 
 bot.emote = require('./assets/emojis.js'); 
@@ -8,12 +7,6 @@ bot.emote = require('./assets/emojis.js');
 require('./Util/LoL/LoLClient')(bot);
 //require('./structures/erelaManager')(bot);
 //bot.on("raw", (d) => bot.manager.updateVoiceState(d));
-
-
-if(config.dashboard === "true"){
-    const Dashboard = require("./dashboard/dashboard");
-    Dashboard(bot); 
-}
 
 bot.on('messageCreate', async message => {
     if(!bot.application?.owner) await bot.application?.fetch()

@@ -1,5 +1,4 @@
 const SlashCommand = require('../../structures/SlashCommand');
-const config = require('../../config.json');
 
 module.exports = class extends SlashCommand {
     constructor(...args) {

@@ -1,5 +1,4 @@
 const Command = require('../../structures/Command');
-const config = require('../../config.json');
 const Canvas = require('canvas')
 const Discord = require('discord.js')
 const path = require('path')

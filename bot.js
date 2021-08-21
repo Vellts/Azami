@@ -1,10 +1,10 @@
 const { Client, Collection, Options, LimitedCollection } = require("discord.js")
-require('./structures');
 const Util = require('./structures/Util');
 const Guild = require('./database/schemas/Guild')
-const config = require('./config.json');
-const token  = config.main_token
+const config = require('./config');
 const mongoose = require('mongoose')
+require("dotenv").config()
+const token = process.env.TOKEN
 
 module.exports = class azamiClient extends Client {
 	constructor(options = {}, sentry) {
@@ -56,7 +56,7 @@ module.exports = class azamiClient extends Client {
     this.events = new Collection();
     this.aliases = new Collection();
     this.utils = new Util(this);
-    this.config = require('./config.json');
+    this.config = require('./config');
 		this.animegif = new Collection()
     this.commandCount = 0
     this.slashCommands = new Collection();
@@ -69,11 +69,6 @@ module.exports = class azamiClient extends Client {
     if (!token) throw new Error('Ingresa un token.');
     this.token = token;
 
-    if(!options.prefix) throw new Error('Ingresa un prefix.');
-    if(typeof options.prefix !== 'string') throw new TypeError('El prefix debe ser un String.');
-    this.prefix = options.prefix;
-
-    if (!options.mongodb_url) throw new Error('No has ingresado una url de Mongo.')
   }
 
   async start(token = this.token) {
@@ -88,9 +83,9 @@ module.exports = class azamiClient extends Client {
       useCreateIndex: true,
     };
 
-    mongoose.connect(config.mongodb_url, connect);
+    mongoose.connect(process.env.mongoDB, connect);
 
-    this.login(config.token);
+    this.login(token);
 
     //console.log('LOADED BOT!');
   }
